@@ -19,7 +19,7 @@ public class TankPawn : Pawn
 
     public override void MoveForward()
     {
-        Debug.Log("Move Forward");
+        Debug.Log("Move Forwards");
     }
 
     public override void MoveBackward()
