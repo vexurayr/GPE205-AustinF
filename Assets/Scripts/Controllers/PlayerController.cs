@@ -9,6 +9,7 @@ public class PlayerController : Controller
     public KeyCode keyBackward = KeyCode.S;
     public KeyCode keyRotateLeft = KeyCode.A;
     public KeyCode keyRotateRight = KeyCode.D;
+    public KeyCode swapCameraView = KeyCode.V;
 
     // Start is called before the first frame update
     public override void Start()
@@ -44,6 +45,10 @@ public class PlayerController : Controller
         if (Input.GetKey(keyRotateRight))
         {
             pawn.RotateClockwise();
+        }
+        if (Input.GetKeyDown(swapCameraView))
+        {
+            pawn.SwitchCamera();
         }
     }
 }

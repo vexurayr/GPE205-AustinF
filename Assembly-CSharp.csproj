@@ -56,11 +56,13 @@
     <Analyzer Include="D:\Visual Studio 2022\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Pawn.cs" />
-    <Compile Include="Assets\Scripts\Health.cs" />
-    <Compile Include="Assets\Scripts\PlayerController.cs" />
-    <Compile Include="Assets\Scripts\Controller.cs" />
-    <Compile Include="Assets\Scripts\TankPawn.cs" />
+    <Compile Include="Assets\Scripts\Pawns\Pawn.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Health.cs" />
+    <Compile Include="Assets\Scripts\Controllers\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Controller.cs" />
+    <Compile Include="Assets\Scripts\Pawns\TankPawn.cs" />
+    <Compile Include="Assets\Scripts\Movement\TankMover.cs" />
+    <Compile Include="Assets\Scripts\Movement\Mover.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
