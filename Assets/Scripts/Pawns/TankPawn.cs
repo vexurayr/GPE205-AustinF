@@ -9,10 +9,22 @@ public class TankPawn : Pawn
     // Ideal turn speed = .25
 
     // Start is called before the first frame update
-    protected override void Start()
+    public override void Start()
     {
         // Use base."Name"(); if you want to call the parent's function
         base.Start();
+    }
+
+    public override void Update()
+    {
+        base.Update();
+
+        if (timeUntilNextEvent >= 0)
+        {
+            timeUntilNextEvent -= Time.deltaTime;
+            timeUntilNextEvent = Mathf.Clamp(timeUntilNextEvent, 0, secondsPerShot);
+        }
+        cooldownText.text = "Shoot Cooldown: " + timeUntilNextEvent.ToString("n2");
     }
 
     // Inherits mover object from Pawn class and gets the component from Pawn's Start()
@@ -37,15 +49,37 @@ public class TankPawn : Pawn
         mover.Rotate(-turnSpeed);
     }
 
+    public override void Shoot()
+    {
+        if (timeUntilNextEvent <= 0)
+        {
+            // Calls a function in Shooter using the reference in Pawn and gives the data saved in Pawn
+            shooter.Shoot(shellPrefab, fireForce, damageDone, shellLifeSpan);
+
+            // Starts the cooldown after the player has shot
+            ShootCooldown();
+        }
+    }
+
+    // A countdown method timer
+    public override void ShootCooldown()
+    {
+        if (timeUntilNextEvent <= 0)
+        {
+            timeUntilNextEvent = secondsPerShot;
+        }
+    }
+
     public override void SwitchCamera()
     {
-        if (firstPersonCamera.enabled)
+        // Makes sure nothing happens if the pawn only has one camera
+        if (firstPersonCamera.enabled && thirdPersonCamera != null)
         {
             // Changes camera to third person
             firstPersonCamera.enabled = false;
             thirdPersonCamera.enabled = true;
         }
-        else
+        else if (thirdPersonCamera.enabled && firstPersonCamera != null)
         {
             // Changes camera to first person
             firstPersonCamera.enabled = true;
