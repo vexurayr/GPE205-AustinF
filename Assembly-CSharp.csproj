@@ -57,20 +57,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Pawns\Pawn.cs" />
-    <Compile Include="Assets\Scripts\Controllers\Health.cs" />
+    <Compile Include="Assets\Scripts\Examples\AreWeThereYet.cs" />
+    <Compile Include="Assets\Scripts\Health\Health.cs" />
     <Compile Include="Assets\Scripts\Controllers\PlayerController.cs" />
-    <Compile Include="Assets\Scripts\Controllers\Shooter.cs" />
-    <Compile Include="Assets\Scripts\Controllers\TankShooter.cs" />
+    <Compile Include="Assets\Scripts\Shooters\Shooter.cs" />
+    <Compile Include="Assets\Scripts\Shooters\TankShooter.cs" />
     <Compile Include="Assets\Scripts\Animations\TankTreadAnimator.cs" />
-    <Compile Include="Assets\Scripts\Controllers\DamageOnHit.cs" />
+    <Compile Include="Assets\Scripts\Health\DamageOnHit.cs" />
     <Compile Include="Assets\Scripts\Controllers\Controller.cs" />
     <Compile Include="Assets\Scripts\Movement\Mover.cs" />
     <Compile Include="Assets\Scripts\Animations\TankWheelAnimator.cs" />
     <Compile Include="Assets\Scripts\Movement\TankMover.cs" />
     <Compile Include="Assets\Scripts\Pawns\TankPawn.cs" />
+    <Compile Include="Assets\Scripts\Examples\Countdown.cs" />
     <Compile Include="Assets\Scripts\Manager\GameManager.cs" />
-    <Compile Include="Assets\Scripts\AreWeThereYet.cs" />
-    <Compile Include="Assets\Scripts\Countdown.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
