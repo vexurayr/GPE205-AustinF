@@ -49,6 +49,19 @@ public class TankPawn : Pawn
         mover.Rotate(-turnSpeed);
     }
 
+    // Method more so for AI tanks
+    public override void RotateTowards(Vector3 targetPosition)
+    {
+        // Find the vector from current position to the target's position
+        Vector3 vectorToTarget = targetPosition - transform.position;
+
+        // Find the rotation necessary to look down the direction of the vector above
+        Quaternion targetRotation = Quaternion.LookRotation(vectorToTarget, Vector3.up);
+
+        // Rotate accordingly, closer to the vector
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
+    }
+
     public override void Shoot()
     {
         if (timeUntilNextEvent <= 0)

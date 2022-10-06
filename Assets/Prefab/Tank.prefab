@@ -77,7 +77,6 @@ GameObject:
   - component: {fileID: 4112967790118705499}
   - component: {fileID: 5693293358338825606}
   - component: {fileID: 4143211231983242780}
-  - component: {fileID: 3836148021881723649}
   m_Layer: 0
   m_Name: Wheel (5)
   m_TagString: Untagged
@@ -3297,20 +3296,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 312023551152463747}
   m_Mesh: {fileID: 0}
---- !u!64 &3836148021881723649
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 312023551152463747}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &1083725963346136233
 GameObject:
   m_ObjectHideFlags: 0
@@ -3458,7 +3443,6 @@ GameObject:
   - component: {fileID: 4239909121102956512}
   - component: {fileID: 9086441960223851599}
   - component: {fileID: 2088334748107603419}
-  - component: {fileID: 2563628178877715647}
   m_Layer: 0
   m_Name: Barrel
   m_TagString: Untagged
@@ -4799,20 +4783,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1840859862804474624}
   m_Mesh: {fileID: 0}
---- !u!64 &2563628178877715647
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1840859862804474624}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &2680657668562896830
 GameObject:
   m_ObjectHideFlags: 0
@@ -4823,6 +4793,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8534418002238257194}
   - component: {fileID: 1018414649253311579}
+  - component: {fileID: 5513960118445285157}
   - component: {fileID: 3489553551411176546}
   - component: {fileID: 2670971585964742785}
   - component: {fileID: 1590837723367580244}
@@ -4870,6 +4841,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!136 &5513960118445285157
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2680657668562896830}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.75
+  m_Height: 6
+  m_Direction: 2
+  m_Center: {x: 0, y: 1.75, z: 0}
 --- !u!114 &3489553551411176546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4889,6 +4874,7 @@ MonoBehaviour:
   damageDone: 10
   shellLifeSpan: 2
   shotsPerSecond: 0.5
+  distanceToSeePlayer: 0
   cooldownText: {fileID: 7258407416344482115}
   firstPersonCamera: {fileID: 1870714003200356308}
   thirdPersonCamera: {fileID: 8199332084974448043}
@@ -4978,7 +4964,6 @@ GameObject:
   - component: {fileID: 7391979620556193711}
   - component: {fileID: 1013796550398423822}
   - component: {fileID: 1688402447417834641}
-  - component: {fileID: 1692132466583729057}
   m_Layer: 0
   m_Name: Wheel (1)
   m_TagString: Untagged
@@ -8198,20 +8183,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3939502069036072393}
   m_Mesh: {fileID: 0}
---- !u!64 &1692132466583729057
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3939502069036072393}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &4359581975054613267
 GameObject:
   m_ObjectHideFlags: 0
@@ -8305,7 +8276,6 @@ GameObject:
   - component: {fileID: 7621764878564830237}
   - component: {fileID: 841670663733306248}
   - component: {fileID: 2856828877826373911}
-  - component: {fileID: 1479157530743343188}
   m_Layer: 0
   m_Name: RightTread
   m_TagString: Untagged
@@ -11217,20 +11187,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5301120218958006690}
   m_Mesh: {fileID: 0}
---- !u!64 &1479157530743343188
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5301120218958006690}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &5948533304511639077
 GameObject:
   m_ObjectHideFlags: 0
@@ -11244,7 +11200,6 @@ GameObject:
   - component: {fileID: 6059007888281058849}
   - component: {fileID: 2925752790735625201}
   - component: {fileID: 852771409915885945}
-  - component: {fileID: 4080360838871184998}
   m_Layer: 0
   m_Name: Wheel (6)
   m_TagString: Untagged
@@ -14464,20 +14419,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5948533304511639077}
   m_Mesh: {fileID: 0}
---- !u!64 &4080360838871184998
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5948533304511639077}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &5960203771633691148
 GameObject:
   m_ObjectHideFlags: 0
@@ -14526,7 +14467,6 @@ GameObject:
   - component: {fileID: 8070865248893880992}
   - component: {fileID: 6442072326014581870}
   - component: {fileID: 6542315625435803861}
-  - component: {fileID: 7001554013482671680}
   m_Layer: 0
   m_Name: Wheel (4)
   m_TagString: Untagged
@@ -17746,20 +17686,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6464127574279657090}
   m_Mesh: {fileID: 0}
---- !u!64 &7001554013482671680
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6464127574279657090}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &7086899343543195435
 GameObject:
   m_ObjectHideFlags: 0
@@ -17805,7 +17731,6 @@ GameObject:
   - component: {fileID: 5543311085694654515}
   - component: {fileID: 7072631527655325548}
   - component: {fileID: 5453968083102985046}
-  - component: {fileID: 1950546536465273708}
   m_Layer: 0
   m_Name: LeftTread
   m_TagString: Untagged
@@ -20717,20 +20642,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7367319573019782439}
   m_Mesh: {fileID: 0}
---- !u!64 &1950546536465273708
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7367319573019782439}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &7394555717739751289
 GameObject:
   m_ObjectHideFlags: 0
@@ -20744,7 +20655,6 @@ GameObject:
   - component: {fileID: 8599743028445625431}
   - component: {fileID: 5026792377756041958}
   - component: {fileID: 7477041406556641056}
-  - component: {fileID: 228371586639984974}
   m_Layer: 0
   m_Name: Hatch Handle
   m_TagString: Untagged
@@ -26662,20 +26572,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7394555717739751289}
   m_Mesh: {fileID: 0}
---- !u!64 &228371586639984974
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7394555717739751289}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &7413496513084100499
 GameObject:
   m_ObjectHideFlags: 0
@@ -26773,7 +26669,6 @@ GameObject:
   - component: {fileID: 1275809840800978483}
   - component: {fileID: 3582041345446744138}
   - component: {fileID: 4300463779533773325}
-  - component: {fileID: 5953121863338096914}
   m_Layer: 0
   m_Name: Hatch
   m_TagString: Untagged
@@ -27745,20 +27640,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7953747905221224941}
   m_Mesh: {fileID: 0}
---- !u!64 &5953121863338096914
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7953747905221224941}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &8019848059070878250
 GameObject:
   m_ObjectHideFlags: 0
@@ -27803,7 +27684,6 @@ GameObject:
   - component: {fileID: 331082219045879686}
   - component: {fileID: 4746469067784179057}
   - component: {fileID: 7428318899533623941}
-  - component: {fileID: 1346474330598352932}
   m_Layer: 0
   m_Name: Wheel (2)
   m_TagString: Untagged
@@ -31023,20 +30903,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8266597154829545298}
   m_Mesh: {fileID: 0}
---- !u!64 &1346474330598352932
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8266597154829545298}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &8452540312790544818
 GameObject:
   m_ObjectHideFlags: 0
@@ -31166,7 +31032,6 @@ GameObject:
   - component: {fileID: 387035953679689688}
   - component: {fileID: 5758575734906152824}
   - component: {fileID: 2186684543165972789}
-  - component: {fileID: 4350421913359320442}
   m_Layer: 0
   m_Name: Wheel (3)
   m_TagString: Untagged
@@ -34386,20 +34251,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8596599136238566699}
   m_Mesh: {fileID: 0}
---- !u!64 &4350421913359320442
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8596599136238566699}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &8723367416601695852
 GameObject:
   m_ObjectHideFlags: 0
@@ -34413,7 +34264,6 @@ GameObject:
   - component: {fileID: 8707930595064332281}
   - component: {fileID: 4400131586335079434}
   - component: {fileID: 6258258112636313293}
-  - component: {fileID: 4217652509548326379}
   m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
@@ -35354,20 +35204,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8723367416601695852}
   m_Mesh: {fileID: 0}
---- !u!64 &4217652509548326379
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8723367416601695852}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &8756240182605060827
 GameObject:
   m_ObjectHideFlags: 0
@@ -35381,7 +35217,6 @@ GameObject:
   - component: {fileID: 1576666392065955458}
   - component: {fileID: 4146935149311601314}
   - component: {fileID: 2287379530561086883}
-  - component: {fileID: 4483375909935878781}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -36524,20 +36359,6 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8756240182605060827}
-  m_Mesh: {fileID: 0}
---- !u!64 &4483375909935878781
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8756240182605060827}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
   m_Mesh: {fileID: 0}
 --- !u!1 &8956785188235996234
 GameObject:

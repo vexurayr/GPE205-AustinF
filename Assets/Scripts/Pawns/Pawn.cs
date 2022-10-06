@@ -23,6 +23,9 @@ public abstract class Pawn : MonoBehaviour
     protected float secondsPerShot;
     protected float timeUntilNextEvent;
 
+    // Variables specifically for AI
+    public float distanceToSeePlayer;
+
     [SerializeField] public Text cooldownText;
 
     // Objects to allow the player to change perspectives
@@ -57,6 +60,7 @@ public abstract class Pawn : MonoBehaviour
     public abstract void MoveBackward();
     public abstract void RotateClockwise();
     public abstract void RotateCounterclockwise();
+    public abstract void RotateTowards(Vector3 targetPosition);
     public abstract void Shoot();
     public abstract void ShootCooldown();
     public abstract void SwitchCamera();

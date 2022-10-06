@@ -17,5 +17,6 @@ public abstract class Controller : MonoBehaviour
     {}
 
     // Used to process player/AI input
-    public abstract void ProcessInputs();
+    public virtual void ProcessInputs()
+    {}
 }
