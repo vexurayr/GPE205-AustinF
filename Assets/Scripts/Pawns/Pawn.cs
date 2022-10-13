@@ -23,9 +23,6 @@ public abstract class Pawn : MonoBehaviour
     protected float secondsPerShot;
     protected float timeUntilNextEvent;
 
-    // Variables specifically for AI
-    public float distanceToSeePlayer;
-
     [SerializeField] public Text cooldownText;
 
     // Objects to allow the player to change perspectives

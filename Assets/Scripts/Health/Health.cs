@@ -13,6 +13,11 @@ public class Health : MonoBehaviour
         currentHealth = maxHealth;
     }
 
+    public float GetHealth()
+    {
+        return currentHealth;
+    }
+
     public void TakeDamage(float amount, Pawn source)
     {
         currentHealth = currentHealth - amount;

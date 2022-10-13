@@ -3343,7 +3343,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1083725963346136233}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
@@ -4753,7 +4753,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3bdb9f17bd6eb744d8e9ab3ecf91f321, type: 2}
+  - {fileID: 2100000, guid: 16259c569e5d68b4fbe51ad2d97b8895, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4801,7 +4801,7 @@ GameObject:
   - component: {fileID: 649848594767494409}
   - component: {fileID: 6014232522753940881}
   m_Layer: 0
-  m_Name: Tank
+  m_Name: AITank
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4867,14 +4867,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b86e632d5d367544e9765527e4a20074, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 12
-  turnSpeed: 0.25
+  moveSpeed: 7
+  turnSpeed: 50
   shellPrefab: {fileID: 5672965515846665023, guid: e03d42eb60b85f24ea9da5fded2f6d65, type: 3}
   fireForce: 1000
-  damageDone: 10
+  damageDone: 5
   shellLifeSpan: 2
-  shotsPerSecond: 0.5
-  distanceToSeePlayer: 0
+  shotsPerSecond: 0.35
   cooldownText: {fileID: 7258407416344482115}
   firstPersonCamera: {fileID: 1870714003200356308}
   thirdPersonCamera: {fileID: 8199332084974448043}
@@ -4902,7 +4901,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1f3d0347fe090d4baa73de219dda247, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 40
 --- !u!114 &6928573893409076601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26655,7 +26654,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7413496513084100499}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!1 &7953747905221224941
 GameObject:
   m_ObjectHideFlags: 0
@@ -36330,7 +36329,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3bdb9f17bd6eb744d8e9ab3ecf91f321, type: 2}
+  - {fileID: 2100000, guid: 16259c569e5d68b4fbe51ad2d97b8895, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
