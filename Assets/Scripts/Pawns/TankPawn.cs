@@ -82,21 +82,4 @@ public class TankPawn : Pawn
             timeUntilNextEvent = secondsPerShot;
         }
     }
-
-    public override void SwitchCamera()
-    {
-        // Makes sure nothing happens if the pawn only has one camera
-        if (firstPersonCamera.enabled && thirdPersonCamera != null)
-        {
-            // Changes camera to third person
-            firstPersonCamera.enabled = false;
-            thirdPersonCamera.enabled = true;
-        }
-        else if (thirdPersonCamera.enabled && firstPersonCamera != null)
-        {
-            // Changes camera to first person
-            firstPersonCamera.enabled = true;
-            thirdPersonCamera.enabled = false;
-        }
-    }
 }

@@ -25,8 +25,7 @@ public abstract class Pawn : MonoBehaviour
 
     [SerializeField] public Text cooldownText;
 
-    // Objects to allow the player to change perspectives
-    [SerializeField] protected Camera firstPersonCamera;
+    // Reference to the camera object
     [SerializeField] protected Camera thirdPersonCamera;
 
     // Start is called before the first frame update
@@ -41,17 +40,13 @@ public abstract class Pawn : MonoBehaviour
         // Takes a reference of the Shooter class or its children to call its functions
         shooter = GetComponent<Shooter>();
 
-        firstPersonCamera.enabled = false;
-
         secondsPerShot = 1 / shotsPerSecond;
 
         timeUntilNextEvent = 0;
     }
 
     public virtual void Update()
-    {
-
-    }
+    {}
 
     public abstract void MoveForward();
     public abstract void MoveBackward();
@@ -60,5 +55,4 @@ public abstract class Pawn : MonoBehaviour
     public abstract void RotateTowards(Vector3 targetPosition);
     public abstract void Shoot();
     public abstract void ShootCooldown();
-    public abstract void SwitchCamera();
 }

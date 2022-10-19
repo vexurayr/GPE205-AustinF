@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     public List<PlayerController> players;
     private GameObject newPawnObject;
 
-    public GameObject aIPlayerControlerPrefab;
+    public GameObject aIPlayerControllerPrefab;
     public GameObject aITankPawnPrefab;
     public Transform aIPlayerSpawnTransform;
     public List<AIController> aIPlayers;
@@ -41,25 +41,27 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         SpawnPlayer();
-        SpawnAI();
+        //SpawnAI();
+        SetAITargeting();
     }
 
     private void SpawnPlayer()
     {
         // Spawns player controller into the scene
-        GameObject newPlayerObject = Instantiate(playerControllerPrefab, Vector3.zero, Quaternion.identity);
+        //GameObject newPlayerObject = Instantiate(playerControllerPrefab, Vector3.zero, Quaternion.identity);
         newPawnObject = Instantiate(tankPawnPrefab, playerSpawnTransform.position, playerSpawnTransform.rotation);
 
-        Controller newController = newPlayerObject.GetComponent<Controller>();
-        Pawn newPawn = newPawnObject.GetComponent<Pawn>();
+        //Controller newController = newPlayerObject.GetComponent<Controller>();
+        //Pawn newPawn = newPawnObject.GetComponent<Pawn>();
 
-        newController.pawn = newPawn;
+        //newController.pawn = newPawn;
     }
 
+    /*
     private void SpawnAI()
     {
         // Spawn AI player into scene
-        GameObject newAIPlayerObject = Instantiate(aIPlayerControlerPrefab, Vector3.zero, Quaternion.identity);
+        GameObject newAIPlayerObject = Instantiate(aIPlayerControllerPrefab, Vector3.zero, Quaternion.identity);
         GameObject newAIPawnObject = Instantiate(aITankPawnPrefab, aIPlayerSpawnTransform.position, aIPlayerSpawnTransform.rotation);
 
         Controller newAIController = newAIPlayerObject.GetComponent<Controller>();
@@ -69,5 +71,14 @@ public class GameManager : MonoBehaviour
 
         // Set AI to target player in scene
         newAIController.GetComponent<AIController>().target = newPawnObject;
+    }
+    */
+
+    public void SetAITargeting()
+    {
+        for (int i = 0; i < aIPlayers.Count; i++)
+        {
+            aIPlayers[i].target = newPawnObject;
+        }
     }
 }

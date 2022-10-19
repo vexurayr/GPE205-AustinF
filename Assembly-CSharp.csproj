@@ -58,7 +58,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Pawns\Pawn.cs" />
     <Compile Include="Assets\Scripts\Examples\AreWeThereYet.cs" />
-    <Compile Include="Assets\Scripts\AI\AIController.cs" />
+    <Compile Include="Assets\Scripts\Controllers\AIController.cs" />
     <Compile Include="Assets\Scripts\Health\Health.cs" />
     <Compile Include="Assets\Scripts\Controllers\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Shooters\Shooter.cs" />
@@ -72,6 +72,10 @@
     <Compile Include="Assets\Scripts\Pawns\TankPawn.cs" />
     <Compile Include="Assets\Scripts\Examples\Countdown.cs" />
     <Compile Include="Assets\Scripts\Manager\GameManager.cs" />
+    <Compile Include="Assets\Scripts\AI Behaviors\SittingDuck.cs" />
+    <Compile Include="Assets\Scripts\AI Behaviors\NoobGamer.cs" />
+    <Compile Include="Assets\Scripts\AI Behaviors\Guard.cs" />
+    <Compile Include="Assets\Scripts\AI Behaviors\SharpEars.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

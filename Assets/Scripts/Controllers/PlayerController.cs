@@ -11,7 +11,6 @@ public class PlayerController : Controller
     public KeyCode keyBackward = KeyCode.S;
     public KeyCode keyRotateLeft = KeyCode.A;
     public KeyCode keyRotateRight = KeyCode.D;
-    public KeyCode swapCameraView = KeyCode.V;
     public KeyCode shootKey = KeyCode.Mouse0; // Left-click
 
     private TankWheelAnimator wheelAnimator;
@@ -85,11 +84,6 @@ public class PlayerController : Controller
         {
             // Calls the Shoot function in the Pawn class
             pawn.Shoot();
-        }
-
-        if (Input.GetKeyDown(swapCameraView))
-        {
-            pawn.SwitchCamera();
         }
     }
 }
