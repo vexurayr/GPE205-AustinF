@@ -30,6 +30,7 @@ public class SittingDuck : AIController
             case AIState.Idle:
                 // Does the actions of the state
                 Idle();
+                Debug.Log("In Idle State.");
                 // Check for transitions
                 if (IsDistanceLessThan(target, chaseDistance))
                 {
@@ -43,6 +44,7 @@ public class SittingDuck : AIController
             case AIState.Chase:
                 // Do state actions
                 Seek(target);
+                Debug.Log("In Chase State.");
                 // Check state transitions
                 if (!IsDistanceLessThan(target, chaseDistance))
                 {
@@ -51,7 +53,7 @@ public class SittingDuck : AIController
                 // AI has been in this state for secondsToAttackPlayer amount of time
                 else if (lastTimeStateChanged <= Time.time - secondsToAttackPlayer)
                 {
-                    ChangeState(AIState.Attack);
+                    ChangeState(AIState.SeekAndAttack);
                 }
                 // AI has low health and is not already far away from the player
                 else if (pawn.GetComponent<Health>().GetHealth() <= healthToFlee && IsDistanceLessThan(target, chaseDistance))
@@ -59,9 +61,9 @@ public class SittingDuck : AIController
                     ChangeState(AIState.Flee);
                 }
                 break;
-            case AIState.Attack:
-                Attack();
-
+            case AIState.SeekAndAttack:
+                SeekAndAttack();
+                Debug.Log("In Seek And Attack State.");
                 if (!IsDistanceLessThan(target, chaseDistance))
                 {
                     ChangeState(AIState.Idle);
@@ -73,7 +75,7 @@ public class SittingDuck : AIController
                 break;
             case AIState.Flee:
                 Flee();
-
+                Debug.Log("In Flee State.");
                 if (!IsDistanceLessThan(target, fleeDistance))
                 {
                     ChangeState(AIState.Idle);

@@ -4796,6 +4796,7 @@ GameObject:
   - component: {fileID: 5513960118445285157}
   - component: {fileID: 3489553551411176546}
   - component: {fileID: 726938372515661049}
+  - component: {fileID: 6127458360187996927}
   - component: {fileID: 1590837723367580244}
   - component: {fileID: 2670971585964742785}
   - component: {fileID: 6928573893409076601}
@@ -4803,7 +4804,7 @@ GameObject:
   - component: {fileID: 6014232522753940881}
   m_Layer: 0
   m_Name: PlayerTank
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4876,7 +4877,6 @@ MonoBehaviour:
   shellLifeSpan: 2
   shotsPerSecond: 0.5
   cooldownText: {fileID: 7258407416344482115}
-  thirdPersonCamera: {fileID: 8199332084974448043}
 --- !u!114 &726938372515661049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4895,6 +4895,21 @@ MonoBehaviour:
   keyRotateLeft: 97
   keyRotateRight: 100
   shootKey: 323
+--- !u!114 &6127458360187996927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2680657668562896830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76a6b9a560320364784f8926ac96e517, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementVolumeDistance: 15
+  shootVolumeDistance: 60
+  timeShootVolumeLingers: 3
 --- !u!114 &1590837723367580244
 MonoBehaviour:
   m_ObjectHideFlags: 0

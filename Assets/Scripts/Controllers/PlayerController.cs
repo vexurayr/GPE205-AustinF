@@ -60,30 +60,41 @@ public class PlayerController : Controller
             pawn.MoveForward();
             wheelAnimator.Forward();
             treadAnimator.Forward();
+            this.GetComponent<NoiseEmitter>().EmitMovementNoise();
         }
         if (Input.GetKey(keyBackward))
         {
             pawn.MoveBackward();
             wheelAnimator.Backwards();
             treadAnimator.Backwards();
+            this.GetComponent<NoiseEmitter>().EmitMovementNoise();
         }
         if (Input.GetKey(keyRotateLeft))
         {
             pawn.RotateCounterclockwise();
             wheelAnimator.Counterclockwise();
             treadAnimator.Counterclockwise();
+            this.GetComponent<NoiseEmitter>().EmitMovementNoise();
         }
         if (Input.GetKey(keyRotateRight))
         {
             pawn.RotateClockwise();
             wheelAnimator.Clockwise();
             treadAnimator.Clockwise();
+            this.GetComponent<NoiseEmitter>().EmitMovementNoise();
         }
 
         if (Input.GetKeyDown(shootKey))
         {
             // Calls the Shoot function in the Pawn class
             pawn.Shoot();
+            this.GetComponent<NoiseEmitter>().EmitShootNoise();
+        }
+
+        // Player will emit no noise that the AI can hear while not doing anything
+        if (Input.anyKey == false)
+        {
+            this.GetComponent<NoiseEmitter>().EmitNoNoise();
         }
     }
 }

@@ -25,9 +25,6 @@ public abstract class Pawn : MonoBehaviour
 
     [SerializeField] public Text cooldownText;
 
-    // Reference to the camera object
-    [SerializeField] protected Camera thirdPersonCamera;
-
     // Start is called before the first frame update
     // Virtual means child classes can override this method
     // Protected keyword is necessary because no access keyword defaults to private

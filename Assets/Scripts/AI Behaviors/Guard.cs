@@ -29,15 +29,48 @@ public class Guard : AIController
         switch (currentState)
         {
             case AIState.Idle:
+                Idle();
+                Debug.Log("In Idle State.");
+                if (waypoints != null)
+                {
+                    ChangeState(AIState.Patrol);
+                }
 
                 break;
             case AIState.Patrol:
+                Patrol();
+                Debug.Log("In Patrol State.");
+                if (CanHearTarget())
+                {
+                    noiseLocation.transform.position = target.transform.position;
+                    ChangeState(AIState.FaceNoise);
+                }
+                else if (waypoints == null)
+                {
+                    ChangeState(AIState.Idle);
+                }
 
                 break;
             case AIState.FaceNoise:
+                FaceNoise();
+                Debug.Log("In Face Noise State.");
+                if (CanSeeTarget())
+                {
+                    ChangeState(AIState.StationaryAttack);
+                }
+                else if (lastTimeStateChanged + 6 <= Time.time)
+                {
+                    ChangeState(AIState.Patrol);
+                }
 
                 break;
             case AIState.StationaryAttack:
+                StationaryAttack();
+                Debug.Log("In Stationary Attack State.");
+                if (!IsDistanceLessThan(target, chaseDistance))
+                {
+                    ChangeState(AIState.Idle);
+                }
 
                 break;
             default:

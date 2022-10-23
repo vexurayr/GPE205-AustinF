@@ -5,9 +5,6 @@ using UnityEngine;
 
 public class TankPawn : Pawn
 {
-    // Ideal move speed = 12
-    // Ideal turn speed = .25
-
     // Start is called before the first frame update
     public override void Start()
     {
@@ -59,7 +56,8 @@ public class TankPawn : Pawn
         Quaternion targetRotation = Quaternion.LookRotation(vectorToTarget, Vector3.up);
 
         // Rotate accordingly, closer to the vector
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
+        // turnSpeed * Time.deltaTime made this move far differently than rotate clockwise/counterclockwise
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turnSpeed);
     }
 
     public override void Shoot()

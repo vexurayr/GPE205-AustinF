@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class AIController : Controller
@@ -9,8 +8,8 @@ public abstract class AIController : Controller
     protected float lastTimeStateChanged;
 
     // All states in finite state machine
-    public enum AIState { Idle, Scanning, Chase, Attack, Flee, RandomMovement, RandomObserve, ShootAndFlee, Patrol, FaceNoise,
-        StationaryAttack, SeekNoise, DistanceAttack, BackwardsAttackFlee };
+    public enum AIState { Idle, Scanning, Chase, SeekAndAttack, Flee, RandomMovement, RandomObserve, AttackThenFlee, Patrol, FaceNoise,
+        StationaryAttack, SeekNoise, DistanceAttack, AttackWhileFleeing };
 
     // State the fsm is currently in
     public AIState currentState;
@@ -22,6 +21,7 @@ public abstract class AIController : Controller
     public float aIFOV;
     public float eyesightDistance;
     public float earshotDistance;
+    public GameObject raycastLocation;
 
     // Time before the AI switches from chasing the player to attacking them
     public float secondsToAttackPlayer;
@@ -45,6 +45,23 @@ public abstract class AIController : Controller
     protected int currentWaypoint = 0;
     protected bool isBacktrackingWaypoints = false;
 
+    // Used for scan method
+    private Vector3 startDirection;
+    private bool isRotatingClockwise = true;
+    private bool isDegreeLargerThan90 = false;
+    private float rotateTimer = 0f;
+
+    // Used for random movement & random observe
+    private Vector3 randomLocation;
+    protected bool hasDoneRandomTask = true;
+    private int randomRotation;
+
+    // Used for shoot and flee
+    protected float currentTime = 0;
+
+    // Used for Face Noise and Seek Noise
+    protected GameObject noiseLocation;
+
     #endregion Variables
 
     #region MonoBehavior
@@ -58,6 +75,10 @@ public abstract class AIController : Controller
         {
             GameManager.instance.aIPlayers.Add(this);
         }
+
+        startDirection = pawn.transform.forward;
+
+        noiseLocation = new GameObject();
     }
 
     // Update is called once per frame
@@ -82,6 +103,83 @@ public abstract class AIController : Controller
         }
     }
 
+    public bool CanHearTarget()
+    {
+        // If the target has no instance of noise emitter, can't continue
+        // because NoiseEmitter holds the necessary data for calculations
+        if (target.GetComponent<NoiseEmitter>() == null)
+        {
+            return false;
+        }
+
+        // Player could still be "heard" in if statement below if earshotDistance alone were greater than distance between self
+        // and target, so must guarentee they can't be heard if they are emitting no noise
+        if (target.GetComponent<NoiseEmitter>().GetCurrentNoiseDistance() == 0)
+        {
+            return false;
+        }
+
+        // If distance between self and target is less than the distance of sound the target is currently emitting
+        // plus the distance self can hear from, AI can hear the sound
+        if (IsDistanceLessThan(target, target.GetComponent<NoiseEmitter>().GetCurrentNoiseDistance() + earshotDistance))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public bool CanSeeTarget()
+    {
+        // Gets the vector between self and target
+        Vector3 selfToTargetVector = target.transform.position - transform.position;
+
+        // Gets angle between that vector and the direction self is facing
+        float angleToTarget = Vector3.Angle(selfToTargetVector, pawn.transform.forward);
+
+        // Angle is less than AI POV and distance to target is less than eyesight distance
+        // meaning the player is within the cone the AI can see
+        if (angleToTarget < aIFOV && IsDistanceLessThan(target, eyesightDistance))
+        {
+            // Now must check if the player is in line of sight
+            // Sends ray from self in direction of target location
+            RaycastHit targetToHit;
+            Ray rayToTarget = new Ray(raycastLocation.transform.position, selfToTargetVector);
+            
+            //targetToHit = ;
+
+            Debug.DrawRay(rayToTarget.origin, rayToTarget.direction);
+
+            // Ray is able to hit something
+            if (Physics.Raycast(rayToTarget, out targetToHit, eyesightDistance))
+            {
+                // Check if ray hit target
+                if (targetToHit.collider == target.GetComponent<Collider>())
+                {
+                    Debug.Log("I can see the player!");
+                    return true;
+                }
+                // Ray didn't hit target
+                else
+                {
+                    return false;
+                }
+            }
+            // Ray didn't hit anything
+            else
+            {
+                return false;
+            }
+        }
+        // Target was not in cone of vision
+        else
+        {
+            return false;
+        }
+    }
+
     // Option to override later for AI tanks with different personalities
     public virtual void ChangeState(AIState newState)
     {
@@ -96,9 +194,7 @@ public abstract class AIController : Controller
 
     #region States
     public void Idle()
-    {
-        Debug.Log(gameObject.name + " is doing nothing.");
-    }
+    {}
 
     // Polymorphism at its finest
     public void Seek(Vector3 targetVector)
@@ -110,8 +206,12 @@ public abstract class AIController : Controller
         {
             pawn.MoveForward();
         }
-        // For cases when AI is trying to flee but it is too close to the player
+        // For cases when AI is trying to flee but it is too close to the player to move
         else if (IsDistanceLessThan(target, nextToPlayerDistance) && currentState == AIState.Flee)
+        {
+            pawn.MoveForward();
+        }
+        else if (IsDistanceLessThan(target, nextToPlayerDistance) && currentState == AIState.AttackThenFlee)
         {
             pawn.MoveForward();
         }
@@ -156,7 +256,7 @@ public abstract class AIController : Controller
     }
 
     // Virtual so that other scripts can override this for AI personalities
-    public virtual void Attack()
+    public virtual void SeekAndAttack()
     {
         // Continually chases and shoots at target
         Seek(target);
@@ -207,6 +307,7 @@ public abstract class AIController : Controller
         else
         {
             isBacktrackingWaypoints = true;
+            currentWaypoint--;
         }
     }
 
@@ -232,6 +333,176 @@ public abstract class AIController : Controller
     public void RestartPatrol()
     {
         currentWaypoint = 0;
+    }
+
+    public void Scan()
+    {
+        Vector3 currentDirection = pawn.transform.forward;
+
+        // This will pause the tank, won't move until enough time has passed
+        if (rotateTimer > 0)
+        {
+            rotateTimer = rotateTimer - Time.deltaTime;
+        }
+        else
+        {
+            // This detects if the tank needs to pause and start rotating the other direction
+            if (Vector3.Angle(startDirection, currentDirection) >= 90 && !isDegreeLargerThan90)
+            {
+                ChangeScanRotation();
+                isDegreeLargerThan90 = true;
+                rotateTimer = 2;
+            }
+
+            if (isRotatingClockwise)
+            {
+                pawn.RotateClockwise();
+            }
+            else
+            {
+                pawn.RotateCounterclockwise();
+            }
+
+            // This resets the variable used to determine if the tank needs to rotate the other way
+            if (Vector3.Angle(startDirection, currentDirection) < 90)
+            {
+                isDegreeLargerThan90 = false;
+            }
+        }
+    }
+
+    public void ChangeScanRotation()
+    {
+        if (isRotatingClockwise)
+        {
+            isRotatingClockwise = false;
+        }
+        else
+        {
+            isRotatingClockwise = true;
+        }
+    }
+
+    public Vector3 GetRandomPositionAroundSelf()
+    {
+        // This will pick a direction away from the player on the x and z axis
+        Vector3 targetPosition = new Vector3(Random.Range(-1, 1), 0, Random.Range(-1, 1));
+
+        // Add those values to the pawn's current position to make a target point centered around the pawn
+        targetPosition.x = targetPosition.x + pawn.transform.position.x;
+        targetPosition.y= targetPosition.y + pawn.transform.position.y;
+        targetPosition.z = targetPosition.z + pawn.transform.position.z;
+
+        return targetPosition;
+    }
+
+    public void RandomMovement()
+    {
+        // This will prevent this tank from constantly looking for a new position to travel to
+        if (hasDoneRandomTask)
+        {
+            Vector3 targetPosition = GetRandomPositionAroundSelf();
+            randomLocation = targetPosition;
+            hasDoneRandomTask = false;
+        }
+        
+        // The pawn must move and is rotating towards a position so close to itself
+        // This usually causes the pawn to drive in circles
+        pawn.RotateTowards(randomLocation);
+
+        pawn.MoveForward();
+    }
+
+    public void RandomObserve()
+    {
+        // Gives this tank a new direction to rotate only on entering the Random Observe state
+        if (hasDoneRandomTask)
+        {
+            randomRotation = Random.Range(0, 1);
+            hasDoneRandomTask = false;
+        }
+
+        if (randomRotation == 0)
+        {
+            pawn.RotateClockwise();
+        }
+        else
+        {
+            pawn.RotateCounterclockwise();
+        }
+    }
+
+    public void AttackThenFlee()
+    {
+        // Gives tank enough time to point barrel at player
+        if (currentTime >= 0 && currentTime < 2)
+        {
+            pawn.RotateTowards(target.transform.position);
+            currentTime = currentTime + Time.deltaTime;
+        }
+        // With cooldown and this time window tank should only shoot once
+        else if (currentTime >=2 && currentTime < 4)
+        {
+            pawn.Shoot();
+            currentTime = currentTime + Time.deltaTime;
+        }
+        // Then the tank will attempt to run away
+        else
+        {
+            Flee();
+        }
+    }
+
+    public void FaceNoise()
+    {
+        // Simply looks towards the source of the noise
+        pawn.RotateTowards(noiseLocation.transform.position);
+    }
+
+    public void StationaryAttack()
+    {
+        // Tank won't move but it will face the target and shoot
+        pawn.RotateTowards(target.transform.position);
+
+        pawn.Shoot();
+    }
+
+    public void SeekNoise()
+    {
+        pawn.RotateTowards(noiseLocation.transform.position);
+
+        // This will prevent the tank from moving when it reaches the source of the noise
+        if (pawn.transform.position != noiseLocation.transform.position)
+        {
+            pawn.MoveForward();
+        }
+    }
+
+    public void DistanceAttack()
+    {
+        pawn.RotateTowards(target.transform.position);
+
+        // This tank will always try to remain Chase Distance away from the player as it shoots
+        if (IsDistanceLessThan(target, chaseDistance))
+        {
+            pawn.MoveBackward();
+        }
+        else if (!IsDistanceLessThan(target, chaseDistance))
+        {
+            pawn.MoveForward();
+        }
+
+        pawn.Shoot();
+    }
+
+    public void AttackWhileFleeing()
+    {
+        // Continues shooting the player while moving backwards
+        pawn.RotateTowards(target.transform.position);
+
+        pawn.MoveBackward();
+
+        pawn.Shoot();
     }
 
     #endregion States
