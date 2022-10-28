@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 // Abstract means an object of this class will never be made or a function will never be called within that class
 public abstract class Pawn : MonoBehaviour
@@ -17,13 +16,10 @@ public abstract class Pawn : MonoBehaviour
 
     public GameObject shellPrefab;
     public float fireForce;
-    public float damageDone;
     public float shellLifeSpan;
     public float shotsPerSecond;
     protected float secondsPerShot;
     protected float timeUntilNextEvent;
-
-    [SerializeField] public Text cooldownText;
 
     // Start is called before the first frame update
     // Virtual means child classes can override this method

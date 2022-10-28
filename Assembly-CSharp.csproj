@@ -58,9 +58,17 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\AI Behaviors\SittingDuck.cs" />
     <Compile Include="Assets\Scripts\Pawns\Pawn.cs" />
+    <Compile Include="Assets\Scripts\Managers\PowerupManager.cs" />
     <Compile Include="Assets\Scripts\Examples\AreWeThereYet.cs" />
     <Compile Include="Assets\Scripts\Controllers\AIController.cs" />
+    <Compile Include="Assets\Scripts\Pickups &amp; Powerups\SpeedPickup.cs" />
+    <Compile Include="Assets\Scripts\Pickups &amp; Powerups\HealthPowerup.cs" />
     <Compile Include="Assets\Scripts\Components\Health.cs" />
+    <Compile Include="Assets\Scripts\Pickups &amp; Powerups\PickupSpawner.cs" />
+    <Compile Include="Assets\Scripts\Pickups &amp; Powerups\Powerup.cs" />
+    <Compile Include="Assets\Scripts\Pickups &amp; Powerups\StunPowerup.cs" />
+    <Compile Include="Assets\Scripts\Components\StunOnHit.cs" />
+    <Compile Include="Assets\Scripts\Pickups &amp; Powerups\StunPickup.cs" />
     <Compile Include="Assets\Scripts\Controllers\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Shooters\Shooter.cs" />
     <Compile Include="Assets\Scripts\Components\NoiseEmitter.cs" />
@@ -69,14 +77,17 @@
     <Compile Include="Assets\Scripts\Animations\TankTreadAnimator.cs" />
     <Compile Include="Assets\Scripts\Components\DamageOnHit.cs" />
     <Compile Include="Assets\Scripts\Controllers\Controller.cs" />
+    <Compile Include="Assets\Scripts\Pickups &amp; Powerups\HealthPickup.cs" />
     <Compile Include="Assets\Scripts\Movement\Mover.cs" />
+    <Compile Include="Assets\Scripts\Pickups &amp; Powerups\SpeedPowerup.cs" />
+    <Compile Include="Assets\Scripts\Pickups &amp; Powerups\Pickup.cs" />
     <Compile Include="Assets\Scripts\Animations\TankWheelAnimator.cs" />
     <Compile Include="Assets\Scripts\AI Behaviors\Guard.cs" />
     <Compile Include="Assets\Scripts\Movement\TankMover.cs" />
     <Compile Include="Assets\Scripts\AI Behaviors\NoobGamer.cs" />
     <Compile Include="Assets\Scripts\Pawns\TankPawn.cs" />
     <Compile Include="Assets\Scripts\Examples\Countdown.cs" />
-    <Compile Include="Assets\Scripts\Manager\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

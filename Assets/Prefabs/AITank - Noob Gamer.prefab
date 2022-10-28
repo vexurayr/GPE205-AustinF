@@ -4793,7 +4793,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8534418002238257194}
   - component: {fileID: 1018414649253311579}
-  - component: {fileID: 5513960118445285157}
+  - component: {fileID: 5084179823878471633}
   - component: {fileID: 3489553551411176546}
   - component: {fileID: -6001989812871058590}
   - component: {fileID: 1590837723367580244}
@@ -4842,8 +4842,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!136 &5513960118445285157
-CapsuleCollider:
+--- !u!65 &5084179823878471633
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -4852,9 +4852,8 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 1.75
-  m_Height: 6
-  m_Direction: 2
+  serializedVersion: 2
+  m_Size: {x: 3.2, y: 3.5, z: 3.5}
   m_Center: {x: 0, y: 1.75, z: 0}
 --- !u!114 &3489553551411176546
 MonoBehaviour:
@@ -4872,10 +4871,10 @@ MonoBehaviour:
   turnSpeed: 0.25
   shellPrefab: {fileID: 5672965515846665023, guid: e03d42eb60b85f24ea9da5fded2f6d65, type: 3}
   fireForce: 1000
-  damageDone: 5
   shellLifeSpan: 2
   shotsPerSecond: 0.35
-  cooldownText: {fileID: 7258407416344482115}
+  cooldownText: {fileID: 0}
+  healthText: {fileID: 0}
 --- !u!114 &-6001989812871058590
 MonoBehaviour:
   m_ObjectHideFlags: 0

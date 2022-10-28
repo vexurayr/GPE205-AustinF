@@ -147,8 +147,6 @@ public abstract class AIController : Controller
             // Sends ray from self in direction of target location
             RaycastHit targetToHit;
             Ray rayToTarget = new Ray(raycastLocation.transform.position, selfToTargetVector);
-            
-            //targetToHit = ;
 
             Debug.DrawRay(rayToTarget.origin, rayToTarget.direction);
 
@@ -483,11 +481,12 @@ public abstract class AIController : Controller
         pawn.RotateTowards(target.transform.position);
 
         // This tank will always try to remain Chase Distance away from the player as it shoots
-        if (IsDistanceLessThan(target, chaseDistance))
+        // +/- 1 so that the tank isn't jittery while trying to remain in one place
+        if (IsDistanceLessThan(target, chaseDistance - 1))
         {
             pawn.MoveBackward();
         }
-        else if (!IsDistanceLessThan(target, chaseDistance))
+        else if (!IsDistanceLessThan(target, chaseDistance + 1))
         {
             pawn.MoveForward();
         }
