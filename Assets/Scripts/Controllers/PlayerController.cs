@@ -11,7 +11,13 @@ public class PlayerController : Controller
     public KeyCode keyBackward = KeyCode.S;
     public KeyCode keyRotateLeft = KeyCode.A;
     public KeyCode keyRotateRight = KeyCode.D;
-    public KeyCode shootKey = KeyCode.Mouse0; // Left-click
+    public KeyCode keyShoot = KeyCode.Mouse0; // Left-click
+
+    // For camera movement
+    public float mouseSensitivityX;
+    public float mouseSensitivityY;
+    [Range(0.0f, 1.0f)] public float mouseSmoothTime;
+    public bool isCursorLocked;
 
     private TankWheelAnimator wheelAnimator;
     private TankTreadAnimator treadAnimator;
@@ -25,6 +31,20 @@ public class PlayerController : Controller
         if (GameManager.instance != null && GameManager.instance.players != null)
         {
             GameManager.instance.players.Add(this);
+        }
+
+        if (isCursorLocked)
+        {
+            // Locks the cursor to the center of the screen
+            Cursor.lockState = CursorLockMode.Locked;
+
+            // Makes the cursor invisible
+            Cursor.visible = false;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
 
         wheelAnimator = pawn.GetComponent<TankWheelAnimator>();
@@ -84,7 +104,7 @@ public class PlayerController : Controller
             this.GetComponent<NoiseEmitter>().EmitMovementNoise();
         }
 
-        if (Input.GetKeyDown(shootKey))
+        if (Input.GetKeyDown(keyShoot))
         {
             // Calls the Shoot function in the Pawn class
             pawn.Shoot();
@@ -96,5 +116,7 @@ public class PlayerController : Controller
         {
             this.GetComponent<NoiseEmitter>().EmitNoNoise();
         }
+
+        pawn.MoveCamera();
     }
 }

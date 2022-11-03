@@ -10,6 +10,17 @@ public class TankPawn : Pawn
     [SerializeField] public Text cooldownText;
     [SerializeField] public Text healthText;
 
+    // For camera movement
+    public Transform tankHead;
+    public GameObject cameraPivotPoint;
+    [Range(0, 90)] public float maxPitchAngleUp;
+    [Range(0, 90)] public float maxPitchAngleDown;
+
+    private Vector3 cameraZoom = new Vector3(1, 1, 1);
+    private float cameraPitch = 0.0f;
+    private Vector2 currentMouseDelta = Vector2.zero;
+    private Vector2 currentMouseDeltaVelocity = Vector2.zero;
+
     // For disabling controls if the pawn is stunned
     private bool isStunned = false;
     private float stunTime = 0f;
@@ -139,5 +150,47 @@ public class TankPawn : Pawn
         {
             timeUntilNextEvent = secondsPerShot;
         }
+    }
+
+    public override void MoveCamera()
+    {
+        // Get data from PlayerController
+        float mouseSensitivityX = GetComponent<PlayerController>().mouseSensitivityX;
+        float mouseSensitivityY = GetComponent<PlayerController>().mouseSensitivityY;
+        float mouseSmoothTime = GetComponent<PlayerController>().mouseSmoothTime;
+
+        // Saves the x and y position of the mouse on the screen
+        Vector2 targetMouseDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+
+        // Smooths camera movement
+        currentMouseDelta = Vector2.SmoothDamp(currentMouseDelta, targetMouseDelta, ref currentMouseDeltaVelocity, mouseSmoothTime);
+
+        // Saves the camera's vertical rotation as the inverse of mouse movement
+        cameraPitch -= currentMouseDelta.y * mouseSensitivityY;
+
+        // Guarentees the camera does not rotate up or down beyond a certain point
+        cameraPitch = Mathf.Clamp(cameraPitch, maxPitchAngleUp, maxPitchAngleDown + maxPitchAngleUp);
+
+        // Rotates the camera vertically
+        cameraPivotPoint.transform.localEulerAngles = Vector3.right * cameraPitch;
+
+        // Rotates the top of the tank left and right based on the mouse's x (horizontal) position
+        tankHead.Rotate(Vector3.up * currentMouseDelta.x * mouseSensitivityX);
+
+        cameraZoom.y += (Input.mouseScrollDelta.y * -1);
+        cameraZoom.z += (Input.mouseScrollDelta.y * -1);
+
+        if (cameraZoom.y <= 1 || cameraZoom.z <= 1)
+        {
+            cameraZoom.y = 1;
+            cameraZoom.z = 1;
+        }
+        else if (cameraZoom.y >= 4 || cameraZoom.z >= 4)
+        {
+            cameraZoom.y = 4;
+            cameraZoom.z = 4;
+        }
+
+        cameraPivotPoint.transform.localScale = cameraZoom;
     }
 }
