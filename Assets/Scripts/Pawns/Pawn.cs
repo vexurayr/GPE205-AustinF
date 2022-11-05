@@ -8,12 +8,25 @@ public abstract class Pawn : MonoBehaviour
     /// <summary>
     /// Variables that will determine how fast an inhereting object will move
     /// </summary>
-    public float moveSpeed = 1;
-    public float turnSpeed = 1;
+    public float moveSpeed;
+    public float turnSpeed;
 
     protected Mover mover;
     protected Shooter shooter;
+    protected Controller playerController;
 
+    // For rotating the tank segments individually
+    public GameObject tankBody;
+    public GameObject tankHead;
+    public GameObject tankBodyHeadConnection;
+    public GameObject tankBodyPivotPoint;
+
+    // For camera movement
+    public GameObject cameraPivotPoint;
+    [Range(0, 90)] public float maxPitchAngleUp;
+    [Range(0, 90)] public float maxPitchAngleDown;
+
+    // For shooting
     public GameObject shellPrefab;
     public float fireForce;
     public float shellLifeSpan;
@@ -45,7 +58,9 @@ public abstract class Pawn : MonoBehaviour
     public abstract void MoveBackward();
     public abstract void RotateClockwise();
     public abstract void RotateCounterclockwise();
-    public abstract void RotateTowards(Vector3 targetPosition);
+    public abstract void RotateBodyClockwise();
+    public abstract void RotateBodyCounterclockwise();
+    public abstract void RotateTowards(Vector3 targetVector);
     public abstract void Shoot();
     public abstract void ShootCooldown();
     public abstract void MoveCamera();

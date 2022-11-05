@@ -35,6 +35,9 @@ public class PickupSpawner : MonoBehaviour
                 // Spawn that pickup and set next time it can spawn
                 spawnedPickup = Instantiate(pickupPrefab, transform.position, pickupPrefab.transform.rotation);
                 nextSpawnTime = Time.time + spawnDelay;
+
+                // Add pickup to pickup list in game manager
+                GameManager.instance.pickups.Add(spawnedPickup);
             }
         }
         else

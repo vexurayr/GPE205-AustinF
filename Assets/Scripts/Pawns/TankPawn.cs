@@ -11,25 +11,40 @@ public class TankPawn : Pawn
     [SerializeField] public Text healthText;
 
     // For camera movement
-    public Transform tankHead;
-    public GameObject cameraPivotPoint;
-    [Range(0, 90)] public float maxPitchAngleUp;
-    [Range(0, 90)] public float maxPitchAngleDown;
+    public float mouseSensitivityX;
+    public float mouseSensitivityY;
+    [Range(0.0f, 1.0f)] public float mouseSmoothTime;
+    public bool isCursorLocked;
 
+    // To track camera data
     private Vector3 cameraZoom = new Vector3(1, 1, 1);
     private float cameraPitch = 0.0f;
     private Vector2 currentMouseDelta = Vector2.zero;
     private Vector2 currentMouseDeltaVelocity = Vector2.zero;
 
     // For disabling controls if the pawn is stunned
-    private bool isStunned = false;
-    private float stunTime = 0f;
+    protected bool isStunned = false;
+    protected float stunTime = 0f;
 
     // Start is called before the first frame update
     public override void Start()
     {
         // Use base."Name"(); if you want to call the parent's function
         base.Start();
+
+        if (isCursorLocked)
+        {
+            // Locks the cursor to the center of the screen
+            Cursor.lockState = CursorLockMode.Locked;
+
+            // Makes the cursor invisible
+            Cursor.visible = false;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
     }
 
     public override void Update()
@@ -78,7 +93,7 @@ public class TankPawn : Pawn
         if (!isStunned)
         {
             // Calls the Move function in the mover class, but the function in TankMover is run because that is the script attached to the pawn
-            mover.Move(transform.forward, moveSpeed);
+            mover.Move(tankBody.transform.forward, moveSpeed);
         }
     }
 
@@ -86,40 +101,46 @@ public class TankPawn : Pawn
     {
         if (!isStunned)
         {
-            mover.Move(transform.forward, -moveSpeed);
+            mover.Move(tankBody.transform.forward, -moveSpeed);
         }
     }
 
     public override void RotateClockwise()
     {
-        if (!isStunned)
-        {
-            mover.Rotate(turnSpeed);
-        }
+        mover.Rotate(turnSpeed);
     }
 
     public override void RotateCounterclockwise()
     {
-        if (!isStunned)
-        {
-            mover.Rotate(-turnSpeed);
-        }
+        mover.Rotate(-turnSpeed);
     }
 
-    // Method more so for AI tanks
-    public override void RotateTowards(Vector3 targetPosition)
+    // These two only work for the player for some reason
+    public override void RotateBodyClockwise()
     {
         if (!isStunned)
         {
-            // Find the vector from current position to the target's position
-            Vector3 vectorToTarget = targetPosition - transform.position;
+            mover.RotateBody(tankBodyPivotPoint, turnSpeed);
+            // Makes sure tank head stays attached to the tank body in the right place
+            tankHead.transform.position = tankBodyHeadConnection.transform.position;
+        }
+    }
 
-            // Find the rotation necessary to look down the direction of the vector above
-            Quaternion targetRotation = Quaternion.LookRotation(vectorToTarget, Vector3.up);
+    public override void RotateBodyCounterclockwise()
+    {
+        if (!isStunned)
+        {
+            mover.RotateBody(tankBodyPivotPoint, -turnSpeed);
+            tankHead.transform.position = tankBodyHeadConnection.transform.position;
+        }
+    }
 
-            // Rotate accordingly, closer to the vector
-            // turnSpeed * Time.deltaTime made this move far differently than rotate clockwise/counterclockwise
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turnSpeed);
+    public override void RotateTowards(Vector3 targetVector)
+    {
+        if (!isStunned)
+        {
+            mover.RotateTowards(targetVector, turnSpeed);
+            tankHead.transform.position = tankBodyHeadConnection.transform.position;
         }
     }
 
@@ -154,11 +175,6 @@ public class TankPawn : Pawn
 
     public override void MoveCamera()
     {
-        // Get data from PlayerController
-        float mouseSensitivityX = GetComponent<PlayerController>().mouseSensitivityX;
-        float mouseSensitivityY = GetComponent<PlayerController>().mouseSensitivityY;
-        float mouseSmoothTime = GetComponent<PlayerController>().mouseSmoothTime;
-
         // Saves the x and y position of the mouse on the screen
         Vector2 targetMouseDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
 
@@ -175,7 +191,7 @@ public class TankPawn : Pawn
         cameraPivotPoint.transform.localEulerAngles = Vector3.right * cameraPitch;
 
         // Rotates the top of the tank left and right based on the mouse's x (horizontal) position
-        tankHead.Rotate(Vector3.up * currentMouseDelta.x * mouseSensitivityX);
+        tankHead.transform.Rotate(Vector3.up * currentMouseDelta.x * mouseSensitivityX);
 
         cameraZoom.y += (Input.mouseScrollDelta.y * -1);
         cameraZoom.z += (Input.mouseScrollDelta.y * -1);

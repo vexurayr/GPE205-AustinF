@@ -31,6 +31,9 @@ public class HealthPickup : Pickup
             // Adds the powerup to the manager for it to be applied to the pawn
             powerupManager.Add(powerup);
 
+            // Remove this pickup from the game manager
+            GameManager.instance.pickups.Remove(obj.gameObject);
+
             // Destroys the pickup when it's collected
             Destroy(gameObject);
         }

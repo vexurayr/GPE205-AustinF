@@ -14,16 +14,22 @@ public class GameManager : MonoBehaviour
     public List<PlayerController> players;
     private GameObject newPawnObject;
 
-    public GameObject aIPlayerControllerPrefab;
     public GameObject aITankPawnPrefab;
     public Transform aIPlayerSpawnTransform;
+    public GameObject sittingDuckBehavior;
+    public GameObject noobGamerBehavior;
+    public GameObject guardBehavior;
+    public GameObject sharpEarsBehavior;
     public List<AIController> aIPlayers;
+
+    public List<GameObject> pickups;
 
     // Runs as soon as this object is enabled, one frame before Start()
     private void Awake()
     {
         players = new List<PlayerController>();
         aIPlayers = new List<AIController>();
+        pickups = new List<GameObject>();
 
         // Only allows for one game manager, one singleton
         if (instance == null)
@@ -48,20 +54,19 @@ public class GameManager : MonoBehaviour
     private void SpawnPlayer()
     {
         // Spawns player controller into the scene
-        //GameObject newPlayerObject = Instantiate(playerControllerPrefab, Vector3.zero, Quaternion.identity);
+        GameObject newPlayerObject = Instantiate(playerControllerPrefab, Vector3.zero, Quaternion.identity);
         newPawnObject = Instantiate(tankPawnPrefab, playerSpawnTransform.position, playerSpawnTransform.rotation);
 
-        //Controller newController = newPlayerObject.GetComponent<Controller>();
-        //Pawn newPawn = newPawnObject.GetComponent<Pawn>();
+        Controller newController = newPlayerObject.GetComponent<Controller>();
+        Pawn newPawn = newPawnObject.GetComponent<Pawn>();
 
-        //newController.pawn = newPawn;
+        newController.pawn = newPawn;
     }
 
-    /*
-    private void SpawnAI()
+    private void SpawnAI(GameObject behavior)
     {
         // Spawn AI player into scene
-        GameObject newAIPlayerObject = Instantiate(aIPlayerControllerPrefab, Vector3.zero, Quaternion.identity);
+        GameObject newAIPlayerObject = Instantiate(behavior, Vector3.zero, Quaternion.identity);
         GameObject newAIPawnObject = Instantiate(aITankPawnPrefab, aIPlayerSpawnTransform.position, aIPlayerSpawnTransform.rotation);
 
         Controller newAIController = newAIPlayerObject.GetComponent<Controller>();
@@ -72,7 +77,6 @@ public class GameManager : MonoBehaviour
         // Set AI to target player in scene
         newAIController.GetComponent<AIController>().target = newPawnObject;
     }
-    */
 
     public void SetAITargeting()
     {

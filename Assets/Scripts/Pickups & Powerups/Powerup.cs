@@ -8,7 +8,7 @@ public abstract class Powerup
 {
     public float powerupDuration;
     public bool isPermanent;
-    protected string name;
+    protected string powerupName;
 
     // This method will be called when the item is picked up
     public virtual void Apply(PowerupManager target)
@@ -20,11 +20,11 @@ public abstract class Powerup
 
     public virtual string GetName()
     {
-        return name;
+        return powerupName;
     }
 
-    public virtual void SetName(string name)
+    public virtual void SetName(string powerupName)
     {
-        this.name = name;
+        this.powerupName = powerupName;
     }
 }

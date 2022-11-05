@@ -13,12 +13,6 @@ public class PlayerController : Controller
     public KeyCode keyRotateRight = KeyCode.D;
     public KeyCode keyShoot = KeyCode.Mouse0; // Left-click
 
-    // For camera movement
-    public float mouseSensitivityX;
-    public float mouseSensitivityY;
-    [Range(0.0f, 1.0f)] public float mouseSmoothTime;
-    public bool isCursorLocked;
-
     private TankWheelAnimator wheelAnimator;
     private TankTreadAnimator treadAnimator;
 
@@ -31,20 +25,6 @@ public class PlayerController : Controller
         if (GameManager.instance != null && GameManager.instance.players != null)
         {
             GameManager.instance.players.Add(this);
-        }
-
-        if (isCursorLocked)
-        {
-            // Locks the cursor to the center of the screen
-            Cursor.lockState = CursorLockMode.Locked;
-
-            // Makes the cursor invisible
-            Cursor.visible = false;
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
         }
 
         wheelAnimator = pawn.GetComponent<TankWheelAnimator>();
@@ -80,41 +60,41 @@ public class PlayerController : Controller
             pawn.MoveForward();
             wheelAnimator.Forward();
             treadAnimator.Forward();
-            this.GetComponent<NoiseEmitter>().EmitMovementNoise();
+            pawn.GetComponent<NoiseEmitter>().EmitMovementNoise();
         }
         if (Input.GetKey(keyBackward))
         {
             pawn.MoveBackward();
             wheelAnimator.Backwards();
             treadAnimator.Backwards();
-            this.GetComponent<NoiseEmitter>().EmitMovementNoise();
+            pawn.GetComponent<NoiseEmitter>().EmitMovementNoise();
         }
         if (Input.GetKey(keyRotateLeft))
         {
-            pawn.RotateCounterclockwise();
+            pawn.RotateBodyCounterclockwise();
             wheelAnimator.Counterclockwise();
             treadAnimator.Counterclockwise();
-            this.GetComponent<NoiseEmitter>().EmitMovementNoise();
+            pawn.GetComponent<NoiseEmitter>().EmitMovementNoise();
         }
         if (Input.GetKey(keyRotateRight))
         {
-            pawn.RotateClockwise();
+            pawn.RotateBodyClockwise();
             wheelAnimator.Clockwise();
             treadAnimator.Clockwise();
-            this.GetComponent<NoiseEmitter>().EmitMovementNoise();
+            pawn.GetComponent<NoiseEmitter>().EmitMovementNoise();
         }
 
         if (Input.GetKeyDown(keyShoot))
         {
             // Calls the Shoot function in the Pawn class
             pawn.Shoot();
-            this.GetComponent<NoiseEmitter>().EmitShootNoise();
+            pawn.GetComponent<NoiseEmitter>().EmitShootNoise();
         }
 
         // Player will emit no noise that the AI can hear while not doing anything
         if (Input.anyKey == false)
         {
-            this.GetComponent<NoiseEmitter>().EmitNoNoise();
+            pawn.GetComponent<NoiseEmitter>().EmitNoNoise();
         }
 
         pawn.MoveCamera();

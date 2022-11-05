@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class AIController : Controller
@@ -131,51 +133,96 @@ public abstract class AIController : Controller
         }
     }
 
-    public bool CanSeeTarget()
+    public bool CanSee(GameObject obj)
     {
         // Gets the vector between self and target
-        Vector3 selfToTargetVector = target.transform.position - transform.position;
+        Vector3 selfToTargetVector = obj.transform.position - transform.position;
 
         // Gets angle between that vector and the direction self is facing
         float angleToTarget = Vector3.Angle(selfToTargetVector, pawn.transform.forward);
 
         // Angle is less than AI POV and distance to target is less than eyesight distance
         // meaning the player is within the cone the AI can see
-        if (angleToTarget < aIFOV && IsDistanceLessThan(target, eyesightDistance))
+        if (angleToTarget < aIFOV && IsDistanceLessThan(obj, eyesightDistance))
         {
             // Now must check if the player is in line of sight
             // Sends ray from self in direction of target location
             RaycastHit targetToHit;
             Ray rayToTarget = new Ray(raycastLocation.transform.position, selfToTargetVector);
 
-            Debug.DrawRay(rayToTarget.origin, rayToTarget.direction);
-
             // Ray is able to hit something
             if (Physics.Raycast(rayToTarget, out targetToHit, eyesightDistance))
             {
                 // Check if ray hit target
-                if (targetToHit.collider == target.GetComponent<Collider>())
+                if (targetToHit.collider == obj.GetComponent<Collider>())
                 {
-                    Debug.Log("I can see the player!");
+                    Debug.Log("I can see the " + obj + "!");
                     return true;
                 }
                 // Ray didn't hit target
                 else
                 {
+                    Debug.Log("Ray didn't hit target");
                     return false;
                 }
             }
             // Ray didn't hit anything
             else
             {
+                Debug.Log("Ray didn't hit anything");
                 return false;
             }
         }
         // Target was not in cone of vision
         else
         {
+            Debug.Log("Target was not in cone of vision");
             return false;
         }
+    }
+
+    public bool CanSeeTarget()
+    {
+        return CanSee(target);
+    }
+
+    // Have to not see pickups that the AI can't pick up
+    public bool CanSeePickup()
+    {
+        List<GameObject> pickups = GameManager.instance.pickups;
+
+        if (pickups != null)
+        {
+            foreach (GameObject pickup in pickups)
+            {
+                if (pickup != null && CanSee(pickup))
+                {
+                    // Will chase health pickup if less than max health
+                    if (pickup.GetComponent<HealthPickup>() != null && 
+                        pawn.GetComponent<Health>().maxHealth != pawn.GetComponent<Health>().GetHealth())
+                    {
+                        Target(pickup);
+                        return true;
+                    }
+                    // Won't target speed pickup if it already has one in its powerup manager
+                    else if (pickup.GetComponent<SpeedPickup>() != null && 
+                        !pawn.GetComponent<PowerupManager>().HasSpeedPowerup())
+                    {
+                        Target(pickup);
+                        return true;
+                    }
+                    // Won't target stun pickup if it already has one in its powerup manager
+                    else if (pickup.GetComponent<StunPickup>() != null &&
+                        !pawn.GetComponent<PowerupManager>().HasStunPowerup())
+                    {
+                        Debug.Log("Why are you doing this?");
+                        Target(pickup);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     // Option to override later for AI tanks with different personalities
@@ -230,6 +277,28 @@ public abstract class AIController : Controller
         Seek(targetPawn.transform);
     }
 
+    public void SeekExactXAndZ(Vector3 targetVector)
+    {
+        targetVector.y = 0;
+        pawn.RotateTowards(targetVector);
+        pawn.MoveForward();
+    }
+
+    public void SeekExactXAndZ(Transform targetTransform)
+    {
+        SeekExactXAndZ(targetTransform.position);
+    }
+
+    public void SeekExactXAndZ(GameObject target)
+    {
+        SeekExactXAndZ(target.transform);
+    }
+
+    public void SeekExactXAndZ(Pawn targetPawn)
+    {
+        SeekExactXAndZ(targetPawn.transform);
+    }
+
     public void Flee()
     {
         // Gets vector to target
@@ -258,8 +327,19 @@ public abstract class AIController : Controller
     {
         // Continually chases and shoots at target
         Seek(target);
-        // AI also limited by shoot timer
-        pawn.Shoot();
+
+        // AI also limited by shoot timer, only shoots if barrel is lined up with the player
+        RaycastHit targetToHit;
+        Ray rayToTarget = new Ray(raycastLocation.transform.position, raycastLocation.transform.forward);
+
+        if (Physics.Raycast(rayToTarget, out targetToHit, eyesightDistance))
+        {
+            // Ray hit the player
+            if (targetToHit.collider == target.GetComponent<Collider>())
+            {
+                pawn.Shoot();
+            }
+        }
     }
 
     public virtual void Patrol()
@@ -462,7 +542,18 @@ public abstract class AIController : Controller
         // Tank won't move but it will face the target and shoot
         pawn.RotateTowards(target.transform.position);
 
-        pawn.Shoot();
+        // AI also limited by shoot timer, only shoots if barrel is lined up with the player
+        RaycastHit targetToHit;
+        Ray rayToTarget = new Ray(raycastLocation.transform.position, raycastLocation.transform.forward);
+
+        if (Physics.Raycast(rayToTarget, out targetToHit, eyesightDistance))
+        {
+            // Ray hit the player
+            if (targetToHit.collider == target.GetComponent<Collider>())
+            {
+                pawn.Shoot();
+            }
+        }
     }
 
     public void SeekNoise()
@@ -491,7 +582,18 @@ public abstract class AIController : Controller
             pawn.MoveForward();
         }
 
-        pawn.Shoot();
+        // AI also limited by shoot timer, only shoots if barrel is lined up with the player
+        RaycastHit targetToHit;
+        Ray rayToTarget = new Ray(raycastLocation.transform.position, raycastLocation.transform.forward);
+
+        if (Physics.Raycast(rayToTarget, out targetToHit, eyesightDistance))
+        {
+            // Ray hit the player
+            if (targetToHit.collider == target.GetComponent<Collider>())
+            {
+                pawn.Shoot();
+            }
+        }
     }
 
     public void AttackWhileFleeing()
@@ -501,12 +603,34 @@ public abstract class AIController : Controller
 
         pawn.MoveBackward();
 
-        pawn.Shoot();
+        // AI also limited by shoot timer, only shoots if barrel is lined up with the player
+        RaycastHit targetToHit;
+        Ray rayToTarget = new Ray(raycastLocation.transform.position, raycastLocation.transform.forward);
+
+        if (Physics.Raycast(rayToTarget, out targetToHit, eyesightDistance))
+        {
+            // Ray hit the player
+            if (targetToHit.collider == target.GetComponent<Collider>())
+            {
+                pawn.Shoot();
+            }
+        }
     }
 
     #endregion States
 
     #region Targeting Options
+    public virtual void Target(GameObject newTarget)
+    {
+        target = newTarget;
+        Debug.Log("Target set to: " + newTarget);
+    }
+
+    public virtual void Target(Object obj)
+    {
+        Target(obj.GetComponent<GameObject>());
+    }
+
     public virtual void TargetPlayerOne()
     {
         // Must be instance of game manager and list of players, and have players in the list
@@ -516,7 +640,7 @@ public abstract class AIController : Controller
             {
                 if (GameManager.instance.players.Count > 0)
                 {
-                    target = GameManager.instance.players[0].pawn.gameObject;
+                    Target(GameManager.instance.players[0].pawn.gameObject);
                 }
             }
         }
@@ -547,15 +671,10 @@ public abstract class AIController : Controller
                         }
                     }
 
-                    target = closestTank.gameObject;
+                    Target(closestTank.gameObject);
                 }
             }
         }
-    }
-
-    public virtual void Target(GameObject newTarget)
-    {
-        target = newTarget;
     }
 
     public bool HasTarget()

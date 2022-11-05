@@ -120,4 +120,28 @@ public class PowerupManager : MonoBehaviour
         // Clear list for next time powerups need to be removed
         removedPowerupQueue.Clear();
     }
+
+    public bool HasSpeedPowerup()
+    {
+        foreach (Powerup powerup in powerups)
+        {
+            if (powerup != null && powerup.GetName() == "Speed")
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool HasStunPowerup()
+    {
+        foreach (Powerup powerup in powerups)
+        {
+            if (powerup != null && powerup.GetName() == "Stun")
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }
