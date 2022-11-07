@@ -13,6 +13,8 @@ public class PlayerController : Controller
     public KeyCode keyRotateRight = KeyCode.D;
     public KeyCode keyShoot = KeyCode.Mouse0; // Left-click
 
+    public bool isCursorLocked;
+
     private TankWheelAnimator wheelAnimator;
     private TankTreadAnimator treadAnimator;
 
@@ -25,6 +27,20 @@ public class PlayerController : Controller
         if (GameManager.instance != null && GameManager.instance.players != null)
         {
             GameManager.instance.players.Add(this);
+        }
+
+        if (isCursorLocked)
+        {
+            // Locks the cursor to the center of the screen
+            Cursor.lockState = CursorLockMode.Locked;
+
+            // Makes the cursor invisible
+            Cursor.visible = false;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
 
         wheelAnimator = pawn.GetComponent<TankWheelAnimator>();

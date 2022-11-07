@@ -14,7 +14,6 @@ public class TankPawn : Pawn
     public float mouseSensitivityX;
     public float mouseSensitivityY;
     [Range(0.0f, 1.0f)] public float mouseSmoothTime;
-    public bool isCursorLocked;
 
     // To track camera data
     private Vector3 cameraZoom = new Vector3(1, 1, 1);
@@ -31,20 +30,6 @@ public class TankPawn : Pawn
     {
         // Use base."Name"(); if you want to call the parent's function
         base.Start();
-
-        if (isCursorLocked)
-        {
-            // Locks the cursor to the center of the screen
-            Cursor.lockState = CursorLockMode.Locked;
-
-            // Makes the cursor invisible
-            Cursor.visible = false;
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
     }
 
     public override void Update()

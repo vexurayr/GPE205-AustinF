@@ -4795,7 +4795,6 @@ GameObject:
   - component: {fileID: 1018414649253311579}
   - component: {fileID: 7567414812900642183}
   - component: {fileID: 3489553551411176546}
-  - component: {fileID: 313989564094808390}
   - component: {fileID: 1590837723367580244}
   - component: {fileID: 2670971585964742785}
   - component: {fileID: 6928573893409076601}
@@ -4869,11 +4868,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 7
-  turnSpeed: 0.25
+  turnSpeed: 0.45
   tankBody: {fileID: 8756240182605060827}
   tankHead: {fileID: 8543622213154647412}
   tankBodyHeadConnection: {fileID: 3869101406960160625}
   tankBodyPivotPoint: {fileID: 0}
+  raycastLocation: {fileID: 7916409114604920818}
   cameraPivotPoint: {fileID: 0}
   maxPitchAngleUp: 0
   maxPitchAngleDown: 0
@@ -4886,34 +4886,6 @@ MonoBehaviour:
   mouseSensitivityX: 0
   mouseSensitivityY: 0
   mouseSmoothTime: 0
-  isCursorLocked: 0
---- !u!114 &313989564094808390
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2680657668562896830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 914aae964d7d2a548a4e227d0b48e3b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pawn: {fileID: 3489553551411176546}
-  currentState: 0
-  target: {fileID: 0}
-  aIFOV: 70
-  eyesightDistance: 45
-  earshotDistance: 60
-  raycastLocation: {fileID: 7916409114604920818}
-  secondsToAttackPlayer: 4
-  healthToFlee: 15
-  nextToPlayerDistance: 15
-  chaseDistance: 40
-  fleeDistance: 80
-  waypoints: []
-  isWaypointPathLooping: 0
-  waypointStopDistance: 8
 --- !u!114 &1590837723367580244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4999,8 +4971,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fb94cc6a3d0fce47991b3c7d99e7183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  powerups: []
-  removedPowerupQueue: []
 --- !u!1 &3852104635650717983
 GameObject:
   m_ObjectHideFlags: 0

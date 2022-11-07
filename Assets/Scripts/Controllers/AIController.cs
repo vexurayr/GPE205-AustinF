@@ -23,7 +23,6 @@ public abstract class AIController : Controller
     public float aIFOV;
     public float eyesightDistance;
     public float earshotDistance;
-    public GameObject raycastLocation;
 
     // Time before the AI switches from chasing the player to attacking them
     public float secondsToAttackPlayer;
@@ -41,7 +40,7 @@ public abstract class AIController : Controller
     public float fleeDistance;
 
     // Used for patrol state
-    public GameObject[] waypoints;
+    public List<GameObject> waypoints;
     public bool isWaypointPathLooping;
     public float waypointStopDistance;
     protected int currentWaypoint = 0;
@@ -81,12 +80,6 @@ public abstract class AIController : Controller
         startDirection = pawn.transform.forward;
 
         noiseLocation = new GameObject();
-    }
-
-    // Update is called once per frame
-    public override void Update()
-    {
-        base.Update();
     }
 
     #endregion MonoBehavior
@@ -148,7 +141,7 @@ public abstract class AIController : Controller
             // Now must check if the player is in line of sight
             // Sends ray from self in direction of target location
             RaycastHit targetToHit;
-            Ray rayToTarget = new Ray(raycastLocation.transform.position, selfToTargetVector);
+            Ray rayToTarget = new Ray(pawn.raycastLocation.transform.position, selfToTargetVector);
 
             // Ray is able to hit something
             if (Physics.Raycast(rayToTarget, out targetToHit, eyesightDistance))
@@ -330,7 +323,7 @@ public abstract class AIController : Controller
 
         // AI also limited by shoot timer, only shoots if barrel is lined up with the player
         RaycastHit targetToHit;
-        Ray rayToTarget = new Ray(raycastLocation.transform.position, raycastLocation.transform.forward);
+        Ray rayToTarget = new Ray(pawn.raycastLocation.transform.position, pawn.raycastLocation.transform.forward);
 
         if (Physics.Raycast(rayToTarget, out targetToHit, eyesightDistance))
         {
@@ -364,7 +357,7 @@ public abstract class AIController : Controller
         }
 
         // Goes to next waypoint in the array of waypoints
-        if (waypoints.Length > currentWaypoint)
+        if (waypoints.Count > currentWaypoint)
         {
             Seek(waypoints[currentWaypoint]);
 
@@ -392,7 +385,7 @@ public abstract class AIController : Controller
     // When reaching final waypoint, go back to first waypoint
     public virtual void PatrolLoop()
     {
-        if (waypoints.Length > currentWaypoint)
+        if (waypoints.Count > currentWaypoint)
         {
             Seek(waypoints[currentWaypoint]);
 
@@ -544,7 +537,7 @@ public abstract class AIController : Controller
 
         // AI also limited by shoot timer, only shoots if barrel is lined up with the player
         RaycastHit targetToHit;
-        Ray rayToTarget = new Ray(raycastLocation.transform.position, raycastLocation.transform.forward);
+        Ray rayToTarget = new Ray(pawn.raycastLocation.transform.position, pawn.raycastLocation.transform.forward);
 
         if (Physics.Raycast(rayToTarget, out targetToHit, eyesightDistance))
         {
@@ -584,7 +577,7 @@ public abstract class AIController : Controller
 
         // AI also limited by shoot timer, only shoots if barrel is lined up with the player
         RaycastHit targetToHit;
-        Ray rayToTarget = new Ray(raycastLocation.transform.position, raycastLocation.transform.forward);
+        Ray rayToTarget = new Ray(pawn.raycastLocation.transform.position, pawn.raycastLocation.transform.forward);
 
         if (Physics.Raycast(rayToTarget, out targetToHit, eyesightDistance))
         {
@@ -605,7 +598,7 @@ public abstract class AIController : Controller
 
         // AI also limited by shoot timer, only shoots if barrel is lined up with the player
         RaycastHit targetToHit;
-        Ray rayToTarget = new Ray(raycastLocation.transform.position, raycastLocation.transform.forward);
+        Ray rayToTarget = new Ray(pawn.raycastLocation.transform.position, pawn.raycastLocation.transform.forward);
 
         if (Physics.Raycast(rayToTarget, out targetToHit, eyesightDistance))
         {

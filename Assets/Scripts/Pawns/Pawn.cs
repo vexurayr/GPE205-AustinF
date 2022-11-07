@@ -21,6 +21,9 @@ public abstract class Pawn : MonoBehaviour
     public GameObject tankBodyHeadConnection;
     public GameObject tankBodyPivotPoint;
 
+    // For AI sight
+    public GameObject raycastLocation;
+
     // For camera movement
     public GameObject cameraPivotPoint;
     [Range(0, 90)] public float maxPitchAngleUp;
