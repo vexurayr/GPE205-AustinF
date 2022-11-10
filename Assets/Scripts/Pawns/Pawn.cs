@@ -45,7 +45,7 @@ public abstract class Pawn : MonoBehaviour
     {
         // Gives pawn objects a reference to the mover class
         mover = GetComponent<Mover>();
-        
+
         // Takes a reference of the Shooter class or its children to call its functions
         shooter = GetComponent<Shooter>();
 
@@ -55,7 +55,7 @@ public abstract class Pawn : MonoBehaviour
     }
 
     public virtual void Update()
-    {}
+    { }
 
     public abstract void MoveForward();
     public abstract void MoveBackward();
@@ -67,4 +67,8 @@ public abstract class Pawn : MonoBehaviour
     public abstract void Shoot();
     public abstract void ShootCooldown();
     public abstract void MoveCamera();
+    public virtual void Die()
+    {
+        Destroy(gameObject);
+    }
 }

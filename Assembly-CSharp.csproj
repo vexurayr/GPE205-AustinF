@@ -62,6 +62,7 @@
     <Compile Include="Assets\Scripts\Examples\AreWeThereYet.cs" />
     <Compile Include="Assets\Scripts\Controllers\AIController.cs" />
     <Compile Include="Assets\Scripts\Pickups &amp; Powerups\SpeedPickup.cs" />
+    <Compile Include="Assets\Scripts\Pickups &amp; Powerups\MaxHealthPowerup.cs" />
     <Compile Include="Assets\Scripts\MapGeneration\Waypoint.cs" />
     <Compile Include="Assets\Scripts\Pickups &amp; Powerups\HealthPowerup.cs" />
     <Compile Include="Assets\Scripts\Components\Health.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Assets\Scripts\Pickups &amp; Powerups\StunPowerup.cs" />
     <Compile Include="Assets\Scripts\Components\StunOnHit.cs" />
     <Compile Include="Assets\Scripts\Pickups &amp; Powerups\StunPickup.cs" />
+    <Compile Include="Assets\Scripts\Pickups &amp; Powerups\MaxHealthPickup.cs" />
     <Compile Include="Assets\Scripts\Controllers\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Shooters\Shooter.cs" />
     <Compile Include="Assets\Scripts\Components\NoiseEmitter.cs" />
@@ -91,6 +93,7 @@
     <Compile Include="Assets\Scripts\Examples\Countdown.cs" />
     <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
     <Compile Include="Assets\Scripts\MapGeneration\MapGenerator.cs" />
+    <Compile Include="Assets\Scripts\Managers\UIManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

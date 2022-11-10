@@ -18,7 +18,7 @@ public class TankShooter : Shooter
         {
             // With multiple projectiles available, best to keep damage numbers with the bullets
             doh.owner = GetComponent<Pawn>();
-            Debug.Log("The owner of the bullet is: " + doh.owner);
+            //Debug.Log("The owner of the bullet is: " + doh.owner);
         }
 
         Rigidbody rb = newShell.GetComponent<Rigidbody>();

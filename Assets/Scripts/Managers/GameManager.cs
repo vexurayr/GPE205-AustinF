@@ -7,8 +7,8 @@ public class GameManager : MonoBehaviour
     // Reference to itself to reach objects anywhere in the heiarchy
     public static GameManager instance;
 
-    [Range(4, 10)] public int maxAISpawned;
-    [Range(1, 20)] public int maxPickupsSpawned;
+    [Range(1, 100)] public int maxAISpawned;
+    [Range(1, 100)] public int maxPickupsSpawned;
 
     // Things the game manager will need to reference
     public GameObject playerControllerPrefab;
@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
     /// Leave Empty
     /// </summary>
     public List<AIController> aIPlayers;
+    private GameObject newAIPawnObject;
 
     /// <summary>
     /// Leave Empty
@@ -159,115 +160,144 @@ public class GameManager : MonoBehaviour
 
     public void SpawnSittingDuck()
     {
-        GameObject newAIPlayerController = Instantiate(sittingDuckBehavior, Vector3.zero, Quaternion.identity);
+        // Can't spawn in a new tank if there are no spawn points left
+        if (remainingAISpawnPoints.Count != 0)
+        {
+            GameObject newAIPlayerController = Instantiate(sittingDuckBehavior, Vector3.zero, Quaternion.identity);
 
-        int randNum = GetRandomNumberInRange(0, remainingAISpawnPoints.Count);
+            int randNum = GetRandomNumberInRange(0, remainingAISpawnPoints.Count);
 
-        GameObject newAIPawnObject = Instantiate(sittingDuckPrefab,
-            remainingAISpawnPoints[randNum].transform.position,
-            remainingAISpawnPoints[randNum].transform.rotation);
+            newAIPawnObject = Instantiate(sittingDuckPrefab,
+                remainingAISpawnPoints[randNum].transform.position,
+                remainingAISpawnPoints[randNum].transform.rotation);
 
-        // Removes the spawn point that was just used so AI don't spawn on top of one another
-        remainingAISpawnPoints.Remove(remainingAISpawnPoints[randNum]);
+            // Removes the spawn point that was just used so AI don't spawn on top of one another
+            remainingAISpawnPoints.Remove(remainingAISpawnPoints[randNum]);
 
-        Controller newAIController = newAIPlayerController.GetComponent<Controller>();
-        Pawn newAIPawn = newAIPawnObject.GetComponent<Pawn>();
+            Controller newAIController = newAIPlayerController.GetComponent<Controller>();
+            Pawn newAIPawn = newAIPawnObject.GetComponent<Pawn>();
 
-        newAIController.pawn = newAIPawn;
+            newAIController.pawn = newAIPawn;
 
-        newAIController.GetComponent<AIController>().target = newPawnObject;
+            newAIController.GetComponent<AIController>().target = newPawnObject;
+        }
     }
 
     public void SpawnNoobGamer()
     {
-        GameObject newAIPlayerController = Instantiate(noobGamerBehavior, Vector3.zero, Quaternion.identity);
+        if (remainingAISpawnPoints.Count != 0)
+        {
+            GameObject newAIPlayerController = Instantiate(noobGamerBehavior, Vector3.zero, Quaternion.identity);
 
-        int randNum = GetRandomNumberInRange(0, remainingAISpawnPoints.Count);
+            int randNum = GetRandomNumberInRange(0, remainingAISpawnPoints.Count);
 
-        GameObject newAIPawnObject = Instantiate(noobGamerPrefab,
+            newAIPawnObject = Instantiate(noobGamerPrefab,
             remainingAISpawnPoints[randNum].transform.position,
             remainingAISpawnPoints[randNum].transform.rotation);
 
-        // Removes the spawn point that was just used so AI don't spawn on top of one another
-        remainingAISpawnPoints.Remove(remainingAISpawnPoints[randNum]);
+            // Removes the spawn point that was just used so AI don't spawn on top of one another
+            remainingAISpawnPoints.Remove(remainingAISpawnPoints[randNum]);
 
-        Controller newAIController = newAIPlayerController.GetComponent<Controller>();
-        Pawn newAIPawn = newAIPawnObject.GetComponent<Pawn>();
+            Controller newAIController = newAIPlayerController.GetComponent<Controller>();
+            Pawn newAIPawn = newAIPawnObject.GetComponent<Pawn>();
 
-        newAIController.pawn = newAIPawn;
+            newAIController.pawn = newAIPawn;
 
-        newAIController.GetComponent<AIController>().target = newPawnObject;
+            newAIController.GetComponent<AIController>().target = newPawnObject;
+        }
     }
 
     public void SpawnGuard()
     {
-        GameObject newAIPlayerController = Instantiate(guardBehavior, Vector3.zero, Quaternion.identity);
-
-        int randNum = GetRandomNumberInRange(0, remainingAISpawnPoints.Count);
-
-        GameObject newAIPawnObject = Instantiate(guardPrefab,
-            remainingAISpawnPoints[randNum].transform.position,
-            remainingAISpawnPoints[randNum].transform.rotation);
-
-        // Removes the spawn point that was just used so AI don't spawn on top of one another
-        remainingAISpawnPoints.Remove(remainingAISpawnPoints[randNum]);
-
-        Controller newAIController = newAIPlayerController.GetComponent<Controller>();
-        Pawn newAIPawn = newAIPawnObject.GetComponent<Pawn>();
-
-        newAIController.pawn = newAIPawn;
-
-        newAIController.GetComponent<AIController>().target = newPawnObject;
-
-        // Gives the Guard a randomly selected pattern of waypoints
-        int randWaypoints = GetRandomNumberInRange(0, aIWaypoints.Count);
-
-        Debug.Log(aIWaypoints.Count);
-
-        // Pulls the waypoint object out of the list of waypoints
-        waypointPattern = aIWaypoints[randWaypoints];
-
-        for (int i = 0; i < waypointPattern.waypoints.Count; i++)
+        if (remainingAISpawnPoints.Count != 0)
         {
-            newAIController.GetComponent<AIController>().waypoints.Add(waypointPattern.waypoints[i]);
+            GameObject newAIPlayerController = Instantiate(guardBehavior, Vector3.zero, Quaternion.identity);
+
+            int randNum = GetRandomNumberInRange(0, remainingAISpawnPoints.Count);
+
+            newAIPawnObject = Instantiate(guardPrefab,
+                remainingAISpawnPoints[randNum].transform.position,
+                remainingAISpawnPoints[randNum].transform.rotation);
+
+            // Removes the spawn point that was just used so AI don't spawn on top of one another
+            remainingAISpawnPoints.Remove(remainingAISpawnPoints[randNum]);
+
+            Controller newAIController = newAIPlayerController.GetComponent<Controller>();
+            Pawn newAIPawn = newAIPawnObject.GetComponent<Pawn>();
+
+            newAIController.pawn = newAIPawn;
+
+            newAIController.GetComponent<AIController>().target = newPawnObject;
+
+            // Will loop the waypoints or travel back and forth at random
+            randNum = GetRandomNumberInRange(0, 1);
+
+            if (randNum == 0)
+            {
+                newAIController.GetComponent<AIController>().isWaypointPathLooping = false;
+            }
+            else
+            {
+                newAIController.GetComponent<AIController>().isWaypointPathLooping = true;
+            }
+
+            // Gives the Guard a randomly selected pattern of waypoints
+            int randWaypoints = GetRandomNumberInRange(0, aIWaypoints.Count);
+
+            // Pulls the waypoint object out of the list of waypoints
+            waypointPattern = aIWaypoints[randWaypoints];
+            //Debug.Log("aIWaypoints[randWaypoints]: " + aIWaypoints[randWaypoints]);
+
+            for (int i = 0; i < waypointPattern.waypoints.Count; i++)
+            {
+                //Debug.Log("WaypointPattern.waypoints[i]: " + waypointPattern.waypoints[i]);
+                newAIController.GetComponent<AIController>().waypoints.Add(waypointPattern.waypoints[i]);
+            }
         }
     }
 
     public void SpawnSharpEars()
     {
-        GameObject newAIPlayerController = Instantiate(sharpEarsBehavior, Vector3.zero, Quaternion.identity);
+        if (remainingAISpawnPoints.Count != 0)
+        {
+            GameObject newAIPlayerController = Instantiate(sharpEarsBehavior, Vector3.zero, Quaternion.identity);
 
-        int randNum = GetRandomNumberInRange(0, remainingAISpawnPoints.Count);
+            int randNum = GetRandomNumberInRange(0, remainingAISpawnPoints.Count);
 
-        GameObject newAIPawnObject = Instantiate(sharpEarsPrefab,
-            remainingAISpawnPoints[randNum].transform.position,
-            remainingAISpawnPoints[randNum].transform.rotation);
+            newAIPawnObject = Instantiate(sharpEarsPrefab,
+                remainingAISpawnPoints[randNum].transform.position,
+                remainingAISpawnPoints[randNum].transform.rotation);
 
-        // Removes the spawn point that was just used so AI don't spawn on top of one another
-        remainingAISpawnPoints.Remove(remainingAISpawnPoints[randNum]);
+            // Removes the spawn point that was just used so AI don't spawn on top of one another
+            remainingAISpawnPoints.Remove(remainingAISpawnPoints[randNum]);
 
-        Controller newAIController = newAIPlayerController.GetComponent<Controller>();
-        Pawn newAIPawn = newAIPawnObject.GetComponent<Pawn>();
+            Controller newAIController = newAIPlayerController.GetComponent<Controller>();
+            Pawn newAIPawn = newAIPawnObject.GetComponent<Pawn>();
 
-        newAIController.pawn = newAIPawn;
+            newAIController.pawn = newAIPawn;
 
-        newAIController.GetComponent<AIController>().target = newPawnObject;
+            newAIController.GetComponent<AIController>().target = newPawnObject;
+        }
     }
 
     public void SpawnPickupSpawners()
     {
         for (int i = 0; i < maxPickupsSpawned; i++)
         {
-            int randNum = GetRandomNumberInRange(0, remainingPickupSpawnerSpawnPoints.Count);
+            // Can't create new pickup spawners if there are no spawn points left
+            if (remainingPickupSpawnerSpawnPoints.Count != 0)
+            {
+                int randNum = GetRandomNumberInRange(0, remainingPickupSpawnerSpawnPoints.Count);
 
-            int randPickup = GetRandomNumberInRange(0, pickupSpawners.Count);
+                int randPickup = GetRandomNumberInRange(0, pickupSpawners.Count);
 
-            // Creates a random pickup spawner in a random pickup spawner spawn point
-            GameObject newPickupSpawnerObject = Instantiate(pickupSpawners[randPickup],
-                remainingPickupSpawnerSpawnPoints[randNum].transform.position,
-                remainingPickupSpawnerSpawnPoints[randNum].transform.rotation);
+                // Creates a random pickup spawner in a random pickup spawner spawn point
+                GameObject newPickupSpawnerObject = Instantiate(pickupSpawners[randPickup],
+                    remainingPickupSpawnerSpawnPoints[randNum].transform.position,
+                    remainingPickupSpawnerSpawnPoints[randNum].transform.rotation);
 
-            remainingPickupSpawnerSpawnPoints.Remove(remainingPickupSpawnerSpawnPoints[randNum]);
+                remainingPickupSpawnerSpawnPoints.Remove(remainingPickupSpawnerSpawnPoints[randNum]);
+            }
         }
     }
 
@@ -291,10 +321,44 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void RemovePlayerFromPlayers(PlayerController controller)
+    {
+        players.Remove(controller);
+    }
+
+    public void RemoveAIPlayerFromAIPlayers(AIController controller)
+    {
+        aIPlayers.Remove(controller);
+    }
+
     public int GetRandomNumberInRange(int low, int high)
     {
         int randNum = Random.Range(low, high);
 
         return randNum;
+    }
+
+    public void SetAITargetToPlayerOne()
+    {
+        foreach(AIController controller in aIPlayers)
+        {
+            controller.target = players[0].pawn.gameObject;
+        }
+    }
+
+    public void RespawnPlayer()
+    {
+        //Debug.Log("Waiting to respawn player.");
+        StartCoroutine(RespawnTimer());
+    }
+
+    IEnumerator RespawnTimer()
+    {
+        yield return new WaitForSeconds(4f);
+
+        SpawnPlayer();
+
+        yield return new WaitForEndOfFrame();
+        SetAITargetToPlayerOne();
     }
 }

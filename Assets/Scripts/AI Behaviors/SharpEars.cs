@@ -15,7 +15,14 @@ public class SharpEars : AIController
     {
         base.Update();
 
-        MakeDecisions();
+        if (target != null)
+        {
+            MakeDecisions();
+        }
+        else
+        {
+            TargetNearestTank();
+        }
     }
 
     public void StartingState()
@@ -41,15 +48,25 @@ public class SharpEars : AIController
                 }
                 else if (CanSeePickup())
                 {
-                    ChangeState(AIState.Chase);
+                    ChangeState(AIState.SeekPowerup);
                 }
 
                 break;
             case AIState.SeekNoise:
-                SeekNoise();
-                Debug.Log("In Seek Noise State.");
+                if (target == null)
+                {
+                    startDirection = pawn.transform.forward;
+                    ChangeState(AIState.Scanning);
+                }
+                else
+                {
+                    SeekNoise();
+                    Debug.Log("In Seek Noise State.");
+                }
+                
                 if (IsDistanceLessThan(noiseLocation, 8) && !CanSeeTarget())
                 {
+                    startDirection = pawn.transform.forward;
                     ChangeState(AIState.Scanning);
                 }
                 else if (CanSeeTarget())
@@ -58,15 +75,25 @@ public class SharpEars : AIController
                 }
                 else if (CanSeePickup())
                 {
-                    ChangeState(AIState.Chase);
+                    ChangeState(AIState.SeekPowerup);
                 }
 
                 break;
             case AIState.DistanceAttack:
-                DistanceAttack();
-                Debug.Log("In Distance Attack State.");
+                if (target == null)
+                {
+                    startDirection = pawn.transform.forward;
+                    ChangeState(AIState.Scanning);
+                }
+                else
+                {
+                    DistanceAttack();
+                    Debug.Log("In Distance Attack State.");
+                }
+                
                 if (!IsDistanceLessThan(target, fleeDistance))
                 {
+                    startDirection = pawn.transform.forward;
                     ChangeState(AIState.Scanning);
                 }
                 else if (lastTimeStateChanged + 20 <= Time.time)
@@ -80,29 +107,38 @@ public class SharpEars : AIController
 
                 break;
             case AIState.AttackWhileFleeing:
-                AttackWhileFleeing();
-                Debug.Log("In Attack While Fleeing State.");
+                if (target == null)
+                {
+                    startDirection = pawn.transform.forward;
+                    ChangeState(AIState.Scanning);
+                }
+                else
+                {
+                    AttackWhileFleeing();
+                    Debug.Log("In Attack While Fleeing State.");
+                }
+                
                 if (!IsDistanceLessThan(target, fleeDistance))
                 {
+                    startDirection = pawn.transform.forward;
                     ChangeState(AIState.Scanning);
                 }
                 else if (CanSeePickup())
                 {
-                    ChangeState(AIState.Chase);
+                    ChangeState(AIState.SeekPowerup);
                 }
 
                 break;
             // In this case, the chase state is used to get the AI to move towards a powerup
-            case AIState.Chase:
-                Debug.Log("Chasing after a powerup.");
-                if (target != null && !IsDistanceLessThan(target, 1))
+            case AIState.SeekPowerup:
+                if (targetPickup != null && !IsDistanceLessThan(targetPickup, .5f))
                 {
-                    SeekExactXAndZ(target);
+                    SeekExactXAndZ(targetPickup);
+                    Debug.Log("In Seek Powerup State.");
                 }
-                else if (target == null || IsDistanceLessThan(target, 1))
+                else
                 {
-                    // Sets target back to a player
-                    TargetNearestTank();
+                    startDirection = pawn.transform.forward;
                     ChangeState(AIState.Scanning);
                 }
 

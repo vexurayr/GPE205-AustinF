@@ -19,4 +19,9 @@ public abstract class Controller : MonoBehaviour
     // Used to process player/AI input
     public virtual void ProcessInputs()
     {}
+
+    public virtual void Die()
+    {
+        Destroy(gameObject);
+    }
 }

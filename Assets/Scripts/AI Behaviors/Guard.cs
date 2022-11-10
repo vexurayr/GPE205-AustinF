@@ -16,7 +16,15 @@ public class Guard : AIController
     {
         base.Update();
 
-        MakeDecisions();
+        if (target != null)
+        {
+            MakeDecisions();
+            Debug.Log("Guard's target is: " + target.name);
+        }
+        else
+        {
+            ChangeState(AIState.Idle);
+        }
     }
 
     public void StartingState()
@@ -38,22 +46,34 @@ public class Guard : AIController
 
                 break;
             case AIState.Patrol:
-                Patrol();
-                Debug.Log("In Patrol State.");
+                if (target == null || waypoints == null)
+                {
+                    ChangeState(AIState.Idle);
+                }
+                else
+                {
+                    Patrol();
+                    Debug.Log("In Patrol State.");
+                }
+                
                 if (CanHearTarget())
                 {
                     noiseLocation.transform.position = target.transform.position;
                     ChangeState(AIState.FaceNoise);
                 }
-                else if (waypoints == null)
-                {
-                    ChangeState(AIState.Idle);
-                }
 
                 break;
             case AIState.FaceNoise:
-                FaceNoise();
-                Debug.Log("In Face Noise State.");
+                if (target == null)
+                {
+                    ChangeState(AIState.Idle);
+                }
+                else
+                {
+                    FaceNoise();
+                    Debug.Log("In Face Noise State.");
+                }
+                
                 if (CanSeeTarget())
                 {
                     ChangeState(AIState.StationaryAttack);
@@ -65,14 +85,23 @@ public class Guard : AIController
 
                 break;
             case AIState.StationaryAttack:
-                StationaryAttack();
-                Debug.Log("In Stationary Attack State.");
+                if (target == null)
+                {
+                    ChangeState(AIState.Idle);
+                }
+                else
+                {
+                    StationaryAttack();
+                    Debug.Log("In Stationary Attack State.");
+                }
+                
                 if (!IsDistanceLessThan(target, chaseDistance))
                 {
                     ChangeState(AIState.Idle);
                 }
 
                 break;
+
             default:
                 Debug.LogError("The switch could not determine the current state.");
                 break;

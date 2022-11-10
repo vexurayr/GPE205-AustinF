@@ -3515,7 +3515,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 7
-  turnSpeed: 0.45
+  turnSpeed: 65
   tankBody: {fileID: 8756240182605060827}
   tankHead: {fileID: 6965930565941657294}
   tankBodyHeadConnection: {fileID: 8231538398052053820}
@@ -3528,6 +3528,7 @@ MonoBehaviour:
   fireForce: 1000
   shellLifeSpan: 2
   shotsPerSecond: 0.35
+  isPlayer: 0
   cooldownText: {fileID: 0}
   healthText: {fileID: 0}
   mouseSensitivityX: 0

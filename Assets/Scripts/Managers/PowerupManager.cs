@@ -43,7 +43,7 @@ public class PowerupManager : MonoBehaviour
         // See if the incoming powerup is already in the powerup manager's list
         foreach (Powerup power in powerups)
         {
-            Debug.Log("Comparing " + powerup.GetName() + " to " + power.GetName() + ".");
+            //Debug.Log("Comparing " + powerup.GetName() + " to " + power.GetName() + ".");
             if (powerup.GetName() == power.GetName())
             {
                 canApply = false;
@@ -58,13 +58,13 @@ public class PowerupManager : MonoBehaviour
             powerup.Apply(this);
             // Add powerup to list
             powerups.Add(powerup);
-            Debug.Log("Applied " + powerup.GetName() + " powerup.");
+            //Debug.Log("Applied " + powerup.GetName() + " powerup.");
         }
         // If it is in the list, reset the time it lasts for
         else
         {
             powerups[indexPowerupExists].powerupDuration = powerup.powerupDuration;
-            Debug.Log("Reset " + powerup.GetName() + " timer.");
+            //Debug.Log("Reset " + powerup.GetName() + " timer.");
         }
     }
 
@@ -77,7 +77,7 @@ public class PowerupManager : MonoBehaviour
         // Add powerup to list of powerups that will be removed after the foreach loop is done
         removedPowerupQueue.Add(powerup);
 
-        Debug.Log(powerup.GetName() + " powerup has expired.");
+        //Debug.Log(powerup.GetName() + " powerup has expired.");
     }
 
     // Stun powerup is permanent until player shoots

@@ -8,6 +8,7 @@ public class SpawnPoint : MonoBehaviour
     public List<GameObject> playerSpawnPoints;
     public List<GameObject> aISpawnPoints;
     public List<GameObject> pickupSpawnPoints;
+    public List<Waypoint> waypointSpawnPoints;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +35,15 @@ public class SpawnPoint : MonoBehaviour
             foreach(GameObject spawnPoint in pickupSpawnPoints)
             {
                 GameManager.instance.pickupSpawnerSpawnPoints.Add(spawnPoint);
+            }
+        }
+
+        if (GameManager.instance != null && GameManager.instance.aIWaypoints != null)
+        {
+            foreach(Waypoint waypoint in waypointSpawnPoints)
+            {
+                //Debug.Log("Adding " + waypoint + " to game manager.");
+                GameManager.instance.aIWaypoints.Add(waypoint);
             }
         }
     }

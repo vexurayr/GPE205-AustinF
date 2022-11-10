@@ -11,13 +11,14 @@ public abstract class AIController : Controller
 
     // All states in finite state machine
     public enum AIState { Idle, Scanning, Chase, SeekAndAttack, Flee, RandomMovement, RandomObserve, AttackThenFlee, Patrol, FaceNoise,
-        StationaryAttack, SeekNoise, DistanceAttack, AttackWhileFleeing };
+        StationaryAttack, SeekNoise, DistanceAttack, AttackWhileFleeing, SeekPowerup };
 
     // State the fsm is currently in
     public AIState currentState;
 
     // AI controller's target, likely the player
     public GameObject target;
+    protected GameObject targetPickup;
 
     // Variables for affecting AI sight and hearing
     public float aIFOV;
@@ -40,20 +41,20 @@ public abstract class AIController : Controller
     public float fleeDistance;
 
     // Used for patrol state
-    public List<GameObject> waypoints;
+    [SerializeField] public List<GameObject> waypoints;
     public bool isWaypointPathLooping;
     public float waypointStopDistance;
     protected int currentWaypoint = 0;
     protected bool isBacktrackingWaypoints = false;
 
     // Used for scan method
-    private Vector3 startDirection;
+    protected Vector3 startDirection;
     private bool isRotatingClockwise = true;
     private bool isDegreeLargerThan90 = false;
     private float rotateTimer = 0f;
 
     // Used for random movement & random observe
-    private Vector3 randomLocation;
+    protected Vector3 randomLocation;
     protected bool hasDoneRandomTask = true;
     private int randomRotation;
 
@@ -85,10 +86,10 @@ public abstract class AIController : Controller
     #endregion MonoBehavior
 
     #region Conditions & Transitions
-    public bool IsDistanceLessThan(GameObject target, float distance)
+    public bool IsDistanceLessThan(Vector3 target, float distance)
     {
         // Checks distance between 2 vectors
-        if (Vector3.Distance(pawn.transform.position, target.transform.position) < distance)
+        if (target != null && Vector3.Distance(pawn.transform.position, target) < distance)
         {
             return true;
         }
@@ -96,6 +97,11 @@ public abstract class AIController : Controller
         {
             return false;
         }
+    }
+
+    public bool IsDistanceLessThan(GameObject target, float distance)
+    {
+        return IsDistanceLessThan(target.transform.position, distance);
     }
 
     public bool CanHearTarget()
@@ -129,7 +135,7 @@ public abstract class AIController : Controller
     public bool CanSee(GameObject obj)
     {
         // Gets the vector between self and target
-        Vector3 selfToTargetVector = obj.transform.position - transform.position;
+        Vector3 selfToTargetVector = obj.transform.position - pawn.transform.position;
 
         // Gets angle between that vector and the direction self is facing
         float angleToTarget = Vector3.Angle(selfToTargetVector, pawn.transform.forward);
@@ -143,40 +149,50 @@ public abstract class AIController : Controller
             RaycastHit targetToHit;
             Ray rayToTarget = new Ray(pawn.raycastLocation.transform.position, selfToTargetVector);
 
+            Debug.DrawRay(rayToTarget.origin, selfToTargetVector);
+
             // Ray is able to hit something
             if (Physics.Raycast(rayToTarget, out targetToHit, eyesightDistance))
             {
                 // Check if ray hit target
                 if (targetToHit.collider == obj.GetComponent<Collider>())
                 {
-                    Debug.Log("I can see the " + obj + "!");
+                    //Debug.Log("I can see the " + obj + "!");
                     return true;
                 }
                 // Ray didn't hit target
                 else
                 {
-                    Debug.Log("Ray didn't hit target");
+                    //Debug.Log("Ray didn't hit target");
                     return false;
                 }
             }
             // Ray didn't hit anything
             else
             {
-                Debug.Log("Ray didn't hit anything");
+                //Debug.Log("Ray didn't hit anything");
                 return false;
             }
         }
         // Target was not in cone of vision
         else
         {
-            Debug.Log("Target was not in cone of vision");
+            //Debug.Log("Target was not in cone of vision");
             return false;
         }
     }
 
     public bool CanSeeTarget()
     {
-        return CanSee(target);
+        if (target != null)
+        {
+            return CanSee(target);
+        }
+        else
+        {
+            Debug.LogError("Target is null, returning false.");
+            return false;
+        }
     }
 
     // Have to not see pickups that the AI can't pick up
@@ -194,22 +210,26 @@ public abstract class AIController : Controller
                     if (pickup.GetComponent<HealthPickup>() != null && 
                         pawn.GetComponent<Health>().maxHealth != pawn.GetComponent<Health>().GetHealth())
                     {
-                        Target(pickup);
+                        targetPickup = pickup;
+                        return true;
+                    }
+                    else if (pickup.GetComponent<MaxHealthPickup>() != null)
+                    {
+                        targetPickup = pickup;
                         return true;
                     }
                     // Won't target speed pickup if it already has one in its powerup manager
                     else if (pickup.GetComponent<SpeedPickup>() != null && 
                         !pawn.GetComponent<PowerupManager>().HasSpeedPowerup())
                     {
-                        Target(pickup);
+                        targetPickup = pickup;
                         return true;
                     }
                     // Won't target stun pickup if it already has one in its powerup manager
                     else if (pickup.GetComponent<StunPickup>() != null &&
                         !pawn.GetComponent<PowerupManager>().HasStunPowerup())
                     {
-                        Debug.Log("Why are you doing this?");
-                        Target(pickup);
+                        targetPickup = pickup;
                         return true;
                     }
                 }
@@ -270,6 +290,27 @@ public abstract class AIController : Controller
         Seek(targetPawn.transform);
     }
 
+    public void SeekWithoutRestrictions(Vector3 targetVector)
+    {
+        pawn.RotateTowards(targetVector);
+        pawn.MoveForward();
+    }
+
+    public void SeekWithoutRestrictions(Transform targetTransform)
+    {
+        SeekWithoutRestrictions(targetTransform.position);
+    }
+
+    public void SeekWithoutRestrictions(GameObject target)
+    {
+        SeekWithoutRestrictions(target.transform);
+    }
+
+    public void SeekWithoutRestrictions(Pawn targetPawn)
+    {
+        SeekWithoutRestrictions(targetPawn.transform);
+    }
+
     public void SeekExactXAndZ(Vector3 targetVector)
     {
         targetVector.y = 0;
@@ -312,7 +353,7 @@ public abstract class AIController : Controller
         Vector3 fleeVector = vectorAwayFromTarget.normalized * flippedPercentOfFleeDistance;
 
         // Seek the point the AI needs to flee to
-        Seek(pawn.transform.position + fleeVector);
+        SeekWithoutRestrictions(pawn.transform.position + fleeVector);
     }
 
     // Virtual so that other scripts can override this for AI personalities
@@ -359,7 +400,9 @@ public abstract class AIController : Controller
         // Goes to next waypoint in the array of waypoints
         if (waypoints.Count > currentWaypoint)
         {
-            Seek(waypoints[currentWaypoint]);
+            //Debug.Log(waypoints.Count);
+            //Debug.Log(waypoints[currentWaypoint]);
+            SeekWithoutRestrictions(waypoints[currentWaypoint]);
 
             // If less than x distance away from the next waypoint, move on to the next waypoint
             if (Vector3.Distance(pawn.transform.position, waypoints[currentWaypoint].transform.position) < waypointStopDistance
@@ -387,7 +430,7 @@ public abstract class AIController : Controller
     {
         if (waypoints.Count > currentWaypoint)
         {
-            Seek(waypoints[currentWaypoint]);
+            SeekWithoutRestrictions(waypoints[currentWaypoint]);
 
             // If less than x distance away from the next waypoint, move on to the next waypoint
             if (Vector3.Distance(pawn.transform.position, waypoints[currentWaypoint].transform.position) < waypointStopDistance)
@@ -454,15 +497,29 @@ public abstract class AIController : Controller
         }
     }
 
-    public Vector3 GetRandomPositionAroundSelf()
+    public Vector3 GetDirectionInFrontOfSelf()
     {
         // This will pick a direction away from the player on the x and z axis
-        Vector3 targetPosition = new Vector3(Random.Range(-1, 1), 0, Random.Range(-1, 1));
+        Vector3 targetPosition = pawn.transform.position;
+        float distance = Random.Range(4, 8);
+        targetPosition = targetPosition + pawn.transform.forward * distance;
 
-        // Add those values to the pawn's current position to make a target point centered around the pawn
-        targetPosition.x = targetPosition.x + pawn.transform.position.x;
-        targetPosition.y= targetPosition.y + pawn.transform.position.y;
-        targetPosition.z = targetPosition.z + pawn.transform.position.z;
+        // To prevent the tank from running into walls
+        RaycastHit targetToHit;
+        Ray rayToTarget = new Ray(pawn.raycastLocation.transform.position, targetPosition);
+
+        Debug.DrawRay(rayToTarget.origin, targetPosition);
+
+        // Did ray hit something
+        if (Physics.Raycast(rayToTarget, out targetToHit, distance + 4))
+        {
+            // If nearly ran into something other than the player, turn around
+            if (targetToHit.collider.GetComponent<TankPawn>() == null)
+            {
+                targetPosition = targetPosition * -1;
+                Debug.Log("Running into wall!");
+            }
+        }
 
         return targetPosition;
     }
@@ -472,16 +529,12 @@ public abstract class AIController : Controller
         // This will prevent this tank from constantly looking for a new position to travel to
         if (hasDoneRandomTask)
         {
-            Vector3 targetPosition = GetRandomPositionAroundSelf();
+            Vector3 targetPosition = GetDirectionInFrontOfSelf();
             randomLocation = targetPosition;
             hasDoneRandomTask = false;
         }
-        
-        // The pawn must move and is rotating towards a position so close to itself
-        // This usually causes the pawn to drive in circles
-        pawn.RotateTowards(randomLocation);
 
-        pawn.MoveForward();
+        SeekWithoutRestrictions(randomLocation);
     }
 
     public void RandomObserve()
@@ -676,4 +729,12 @@ public abstract class AIController : Controller
     }
 
     #endregion Targeting Options
+
+    #region Other Methods
+    public override void Die()
+    {
+        base.Die();
+    }
+
+    #endregion Other Methods
 }

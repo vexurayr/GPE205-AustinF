@@ -15,7 +15,15 @@ public class SittingDuck : AIController
     {
         base.Update();
 
-        MakeDecisions();
+        if (target != null)
+        {
+            MakeDecisions();
+            Debug.Log(target);
+        }
+        else
+        {
+            TargetNearestTank();
+        }
     }
 
     public void StartingState()
@@ -31,24 +39,44 @@ public class SittingDuck : AIController
                 // Does the actions of the state
                 Idle();
                 Debug.Log("In Idle State.");
+
+                TargetNearestTank();
+
                 // Check for transitions
                 if (IsDistanceLessThan(target, chaseDistance))
                 {
                     ChangeState(AIState.Chase);
                 }
+                else if (CanSeePickup())
+                {
+                    ChangeState(AIState.SeekPowerup);
+                }
                 else if (pawn.GetComponent<Health>().GetHealth() <= healthToFlee && IsDistanceLessThan(target, chaseDistance))
                 {
                     ChangeState(AIState.Flee);
                 }
+
                 break;
             case AIState.Chase:
                 // Do state actions
-                Seek(target);
-                Debug.Log("In Chase State.");
+                if (target == null)
+                {
+                    ChangeState(AIState.Idle);
+                }
+                else
+                {
+                    Seek(target);
+                    Debug.Log("In Chase State.");
+                }
+                
                 // Check state transitions
                 if (!IsDistanceLessThan(target, chaseDistance))
                 {
                     ChangeState(AIState.Idle);
+                }
+                else if (CanSeePickup())
+                {
+                    ChangeState(AIState.SeekPowerup);
                 }
                 // AI has been in this state for secondsToAttackPlayer amount of time
                 else if (lastTimeStateChanged <= Time.time - secondsToAttackPlayer)
@@ -60,10 +88,19 @@ public class SittingDuck : AIController
                 {
                     ChangeState(AIState.Flee);
                 }
+
                 break;
             case AIState.SeekAndAttack:
-                SeekAndAttack();
-                Debug.Log("In Seek And Attack State.");
+                if (target == null)
+                {
+                    ChangeState(AIState.Idle);
+                }
+                else
+                {
+                    SeekAndAttack();
+                    Debug.Log("In Seek And Attack State.");
+                }
+                
                 if (!IsDistanceLessThan(target, chaseDistance))
                 {
                     ChangeState(AIState.Idle);
@@ -72,17 +109,44 @@ public class SittingDuck : AIController
                 {
                     ChangeState(AIState.Flee);
                 }
+
                 break;
             case AIState.Flee:
-                Flee();
+                if (target == null)
+                {
+                    ChangeState(AIState.Idle);
+                }
+                else
+                {
+                    Flee();
+                }
+                
                 Debug.Log("In Flee State.");
                 if (!IsDistanceLessThan(target, fleeDistance))
                 {
                     ChangeState(AIState.Idle);
                 }
+                else if (CanSeePickup())
+                {
+                    ChangeState(AIState.SeekPowerup);
+                }
+
+                break;
+            case AIState.SeekPowerup:
+                if (targetPickup != null && !IsDistanceLessThan(targetPickup, .5f))
+                {
+                    SeekExactXAndZ(targetPickup);
+                    Debug.Log("In Seek Powerup State.");
+                }
+                else
+                {
+                    ChangeState(AIState.Idle);
+                }
+
                 break;
             default:
                 Debug.LogError("The switch could not determine the current state.");
+
                 break;
         }
     }

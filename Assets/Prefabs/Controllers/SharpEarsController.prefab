@@ -48,13 +48,13 @@ MonoBehaviour:
   currentState: 0
   target: {fileID: 0}
   aIFOV: 70
-  eyesightDistance: 45
-  earshotDistance: 100
+  eyesightDistance: 25
+  earshotDistance: 80
   secondsToAttackPlayer: 4
   healthToFlee: 15
   nextToPlayerDistance: 15
-  chaseDistance: 40
-  fleeDistance: 80
+  chaseDistance: 25
+  fleeDistance: 30
   waypoints: []
   isWaypointPathLooping: 0
-  waypointStopDistance: 8
+  waypointStopDistance: 2

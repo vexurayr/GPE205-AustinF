@@ -52,6 +52,7 @@ public class PlayerController : Controller
     {
         base.Update();
         ProcessInputs();
+        UpdateUI();
     }
 
     // Built in function runs when objects is destroyed
@@ -114,5 +115,26 @@ public class PlayerController : Controller
         }
 
         pawn.MoveCamera();
+    }
+
+    public void UpdateUI()
+    {
+        if (UIManager.instance.cooldownText != null)
+        {
+            float cooldown = pawn.GetComponent<TankPawn>().GetTimeUntilNextEvent();
+            UIManager.instance.cooldownText.text = "Shoot Cooldown: " + cooldown.ToString("n2");
+        }
+        if (UIManager.instance.healthText != null)
+        {
+            UIManager.instance.healthText.text = "Health: " + pawn.GetComponent<Health>().GetHealth();
+        }
+    }
+
+    public override void Die()
+    {
+        // Calls coroutine in game manager to spawn in a new player
+        GameManager.instance.RespawnPlayer();
+
+        base.Die();
     }
 }

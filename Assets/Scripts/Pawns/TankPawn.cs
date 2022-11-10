@@ -2,13 +2,11 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class TankPawn : Pawn
 {
-    // For UI
-    [SerializeField] public Text cooldownText;
-    [SerializeField] public Text healthText;
+    // Helps determine the right tank to destroy in the game manager
+    public bool isPlayer;
 
     // For camera movement
     public float mouseSensitivityX;
@@ -42,14 +40,6 @@ public class TankPawn : Pawn
         {
             timeUntilNextEvent -= Time.deltaTime;
             timeUntilNextEvent = Mathf.Clamp(timeUntilNextEvent, 0, secondsPerShot);
-        }
-        if (cooldownText != null)
-        {
-            cooldownText.text = "Shoot Cooldown: " + timeUntilNextEvent.ToString("n2");
-        }
-        if (healthText != null)
-        {
-            healthText.text = "Health: " + GetComponent<Health>().GetHealth();
         }
     }
 
@@ -193,5 +183,15 @@ public class TankPawn : Pawn
         }
 
         cameraPivotPoint.transform.localScale = cameraZoom;
+    }
+
+    public float GetTimeUntilNextEvent()
+    {
+        return timeUntilNextEvent;
+    }
+
+    public override void Die()
+    {
+        base.Die();
     }
 }
