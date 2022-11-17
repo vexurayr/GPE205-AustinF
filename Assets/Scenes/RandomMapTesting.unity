@@ -123,65 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &166978148
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 2
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 5753143882607334429, guid: 3cd6d195d7d34a64f8612b13b766e1e4, type: 3}
-      propertyPath: m_Name
-      value: UIManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 5962953525677246422, guid: 3cd6d195d7d34a64f8612b13b766e1e4, type: 3}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5962953525677246422, guid: 3cd6d195d7d34a64f8612b13b766e1e4, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5962953525677246422, guid: 3cd6d195d7d34a64f8612b13b766e1e4, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5962953525677246422, guid: 3cd6d195d7d34a64f8612b13b766e1e4, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5962953525677246422, guid: 3cd6d195d7d34a64f8612b13b766e1e4, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5962953525677246422, guid: 3cd6d195d7d34a64f8612b13b766e1e4, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5962953525677246422, guid: 3cd6d195d7d34a64f8612b13b766e1e4, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5962953525677246422, guid: 3cd6d195d7d34a64f8612b13b766e1e4, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5962953525677246422, guid: 3cd6d195d7d34a64f8612b13b766e1e4, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5962953525677246422, guid: 3cd6d195d7d34a64f8612b13b766e1e4, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5962953525677246422, guid: 3cd6d195d7d34a64f8612b13b766e1e4, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_AddedGameObjects: []
-  m_SourcePrefab: {fileID: 100100000, guid: 3cd6d195d7d34a64f8612b13b766e1e4, type: 3}
 --- !u!1 &831188532
 GameObject:
   m_ObjectHideFlags: 0
@@ -387,7 +328,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03357fb52cea35d44a71ae6c3a515a4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxAISpawned: 10
+  maxAISpawned: 3
   maxPickupsSpawned: 20
   playerControllerPrefab: {fileID: 239099234445147774, guid: 5248d2fd730b7d24f84dccaf2ea080d6, type: 3}
   tankPawnPrefab: {fileID: 2680657668562896830, guid: 04fa4c77d83624b418549d6ba452e871, type: 3}
@@ -426,6 +367,10 @@ PrefabInstance:
     - target: {fileID: 3989865550411695110, guid: 8af61a209ad88284790f2ea23ba31837, type: 3}
       propertyPath: mapColumns
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3989865550411695110, guid: 8af61a209ad88284790f2ea23ba31837, type: 3}
+      propertyPath: isUsingDailySeed
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8079859900192731450, guid: 8af61a209ad88284790f2ea23ba31837, type: 3}
       propertyPath: m_RootOrder
@@ -560,7 +505,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 8, y: 45, z: 0}
 --- !u!850595691 &2145196596
 LightingSettings:

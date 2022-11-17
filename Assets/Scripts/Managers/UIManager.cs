@@ -3,26 +3,88 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+// Anything that needs UI will have a UIManager
 public class UIManager : MonoBehaviour
 {
-    // Reference to itself to reach objects anywhere in the heiarchy
-    public static UIManager instance;
+    public Pawn pawn;
 
-    // For UI
-    [SerializeField] public Text cooldownText;
-    [SerializeField] public Text healthText;
+    // Will change the Y scale 0-1
+    [SerializeField] public Image shootCooldownForeground;
 
-    private void Awake()
+    // Here to change the image that displays the player's ammo
+    [SerializeField] public RawImage shootCooldown;
+
+    // Will change the X scale 0-1
+    [SerializeField] public Image health;
+
+    // Health bar will change width if max health increases
+    [SerializeField] public Image healthBackground;
+
+    // Changes the UI so the player knows what projectile they'll shoot next
+    [SerializeField] public Texture PlayerAmmoBackground;
+    [SerializeField] public Texture StunAmmoBackground;
+
+    private float startMaxHealth;
+    private float startHealthWidth;
+
+    public void Start()
     {
-        // Only allows for one game manager, one singleton
-        if (instance == null)
+        startMaxHealth = pawn.GetComponent<Health>().maxHealth;
+        startHealthWidth = health.rectTransform.rect.width;
+    }
+
+    public void UpdateHealthUI()
+    {
+        // Bail if there is no health component
+        if (pawn.GetComponent<Health>() == null)
         {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
+            return;
         }
-        else
+
+        float currentHealth = pawn.GetComponent<Health>().GetHealth();
+        float maxHealth = pawn.GetComponent<Health>().maxHealth;
+
+        // Calculate new width
+        float currentHealthWidth = startHealthWidth + (maxHealth - startMaxHealth);
+
+        // Set new width
+        health.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, currentHealthWidth);
+        healthBackground.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, currentHealthWidth);
+
+        // Calculate the scale of the health bar
+        float healthScaleX = currentHealth / maxHealth;
+
+        // Set health bar scale
+        health.GetComponent<RectTransform>().localScale = new Vector3(healthScaleX, 1, 1);
+    }
+
+    public void UpdateShootCooldownUI()
+    {
+        // Bail if there is no player tank pawn component
+        if (pawn.GetComponent<PlayerTankPawn>() == null)
         {
-            Destroy(gameObject);
+            return;
+        }
+
+        float secondsPerShot = GetComponentInParent<PlayerTankPawn>().GetSecondsPerShot();
+        float cooldown = GetComponentInParent<PlayerTankPawn>().GetTimeUntilNextEvent();
+        
+        // Calculate the scale of the shoot cooldown foreground
+        float cooldownScaleY = cooldown / secondsPerShot;
+
+        // Set shoot cooldown foreground scale
+        shootCooldownForeground.GetComponent<RectTransform>().localScale = new Vector3(1, cooldownScaleY, 1);
+
+        if (pawn.GetComponent<PowerupManager>() != null)
+        {
+            if (pawn.GetComponent<PowerupManager>().HasStunPowerup())
+            {
+                shootCooldown.GetComponent<RawImage>().texture = StunAmmoBackground;
+            }
+            else
+            {
+                shootCooldown.GetComponent<RawImage>().texture = PlayerAmmoBackground;
+            }
         }
     }
 }

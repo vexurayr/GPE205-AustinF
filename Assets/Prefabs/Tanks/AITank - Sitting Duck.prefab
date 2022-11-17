@@ -4794,8 +4794,8 @@ GameObject:
   - component: {fileID: 8534418002238257194}
   - component: {fileID: 1018414649253311579}
   - component: {fileID: 7567414812900642183}
-  - component: {fileID: 3489553551411176546}
-  - component: {fileID: 1590837723367580244}
+  - component: {fileID: 601303164981061640}
+  - component: {fileID: 8151177044970374647}
   - component: {fileID: 2670971585964742785}
   - component: {fileID: 6928573893409076601}
   - component: {fileID: 649848594767494409}
@@ -4855,7 +4855,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.2, y: 3.5, z: 3.5}
   m_Center: {x: 0, y: 1.75, z: 0}
---- !u!114 &3489553551411176546
+--- !u!114 &601303164981061640
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4864,30 +4864,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 2680657668562896830}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b86e632d5d367544e9765527e4a20074, type: 3}
+  m_Script: {fileID: 11500000, guid: dd55609914dbc5b45825c8d5f64c086c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 7
   turnSpeed: 65
   tankBody: {fileID: 8756240182605060827}
-  tankHead: {fileID: 8543622213154647412}
-  tankBodyHeadConnection: {fileID: 3869101406960160625}
-  tankBodyPivotPoint: {fileID: 0}
-  raycastLocation: {fileID: 7916409114604920818}
-  cameraPivotPoint: {fileID: 0}
-  maxPitchAngleUp: 0
-  maxPitchAngleDown: 0
   shellPrefab: {fileID: 5672965515846665023, guid: e03d42eb60b85f24ea9da5fded2f6d65, type: 3}
   fireForce: 1000
   shellLifeSpan: 2
   shotsPerSecond: 0.35
-  isPlayer: 0
-  cooldownText: {fileID: 0}
-  healthText: {fileID: 0}
-  mouseSensitivityX: 0
-  mouseSensitivityY: 0
-  mouseSmoothTime: 0
---- !u!114 &1590837723367580244
+  raycastLocation: {fileID: 7916409114604920818}
+--- !u!114 &8151177044970374647
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4896,10 +4884,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2680657668562896830}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1f3d0347fe090d4baa73de219dda247, type: 3}
+  m_Script: {fileID: 11500000, guid: 434be9f86709aa745be821c6977d817d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 40
+  maxHealth: 30
 --- !u!114 &2670971585964742785
 MonoBehaviour:
   m_ObjectHideFlags: 0

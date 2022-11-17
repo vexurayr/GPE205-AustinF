@@ -15,13 +15,13 @@ public class StunPowerup : Powerup
     public override void Apply(PowerupManager target)
     {
         // If this wasn't done through the projectile, it would simply stun whoever grabbed the pickup
-        normalShell = target.GetComponent<TankPawn>().shellPrefab;
-        target.GetComponent<TankPawn>().shellPrefab = stunShell;
+        normalShell = target.GetComponent<Pawn>().shellPrefab;
+        target.GetComponent<Pawn>().shellPrefab = stunShell;
     }
 
     // This will remove the ability for the tank pawn to stun
     public override void Remove(PowerupManager target)
     {
-        target.GetComponent<TankPawn>().shellPrefab = normalShell;
+        target.GetComponent<Pawn>().shellPrefab = normalShell;
     }
 }

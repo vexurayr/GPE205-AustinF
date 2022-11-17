@@ -6,6 +6,9 @@ using UnityEngine;
 public abstract class AIController : Controller
 {
     #region Variables
+    // Reference to a pawn object
+    public AITankPawn pawn;
+
     // Last time the AI changed states
     protected float lastTimeStateChanged;
 
@@ -293,6 +296,7 @@ public abstract class AIController : Controller
     public void SeekWithoutRestrictions(Vector3 targetVector)
     {
         pawn.RotateTowards(targetVector);
+
         pawn.MoveForward();
     }
 
@@ -315,6 +319,7 @@ public abstract class AIController : Controller
     {
         targetVector.y = 0;
         pawn.RotateTowards(targetVector);
+
         pawn.MoveForward();
     }
 
@@ -346,6 +351,7 @@ public abstract class AIController : Controller
         // at the end of the flee
         float targetDistance = Vector3.Distance(target.transform.position, pawn.transform.position);
         float percentOfFleeDistance = targetDistance / fleeDistance;
+
         // Clamps it between 0 and 1
         percentOfFleeDistance = Mathf.Clamp01(percentOfFleeDistance);
         float flippedPercentOfFleeDistance = 1 - percentOfFleeDistance;
@@ -402,7 +408,7 @@ public abstract class AIController : Controller
         {
             //Debug.Log(waypoints.Count);
             //Debug.Log(waypoints[currentWaypoint]);
-            SeekWithoutRestrictions(waypoints[currentWaypoint]);
+            SeekExactXAndZ(waypoints[currentWaypoint]);
 
             // If less than x distance away from the next waypoint, move on to the next waypoint
             if (Vector3.Distance(pawn.transform.position, waypoints[currentWaypoint].transform.position) < waypointStopDistance
@@ -430,7 +436,7 @@ public abstract class AIController : Controller
     {
         if (waypoints.Count > currentWaypoint)
         {
-            SeekWithoutRestrictions(waypoints[currentWaypoint]);
+            SeekExactXAndZ(waypoints[currentWaypoint]);
 
             // If less than x distance away from the next waypoint, move on to the next waypoint
             if (Vector3.Distance(pawn.transform.position, waypoints[currentWaypoint].transform.position) < waypointStopDistance)
@@ -514,7 +520,7 @@ public abstract class AIController : Controller
         if (Physics.Raycast(rayToTarget, out targetToHit, distance + 4))
         {
             // If nearly ran into something other than the player, turn around
-            if (targetToHit.collider.GetComponent<TankPawn>() == null)
+            if (targetToHit.collider.GetComponent<PlayerTankPawn>() == null)
             {
                 targetPosition = targetPosition * -1;
                 Debug.Log("Running into wall!");
@@ -534,7 +540,7 @@ public abstract class AIController : Controller
             hasDoneRandomTask = false;
         }
 
-        SeekWithoutRestrictions(randomLocation);
+        SeekExactXAndZ(randomLocation);
     }
 
     public void RandomObserve()

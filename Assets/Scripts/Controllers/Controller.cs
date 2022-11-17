@@ -5,9 +5,6 @@ using UnityEngine;
 [System.Serializable]
 public abstract class Controller : MonoBehaviour
 {
-    // Reference to a pawn object
-    public Pawn pawn;
-
     // Start is called before the first frame update
     public virtual void Start()
     {}

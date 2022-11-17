@@ -13,7 +13,7 @@ public class StunOnHit : DamageOnHit
         {
             // Gets components from colliding object
             Health otherHealth = other.gameObject.GetComponent<Health>();
-            TankPawn tankPawn = other.gameObject.GetComponent<TankPawn>();
+            Pawn tankPawn = other.gameObject.GetComponent<Pawn>();
 
             // Deals damage to that object only if it has a health component
             if (otherHealth != null)
@@ -24,7 +24,7 @@ public class StunOnHit : DamageOnHit
             // Stuns only if that object has a tank pawn
             if (tankPawn != null)
             {
-                other.gameObject.GetComponent<TankPawn>().SetStunnedTrue(stunTime);
+                other.gameObject.GetComponent<Pawn>().SetStunnedTrue(stunTime);
             }
 
             Destroy(gameObject);

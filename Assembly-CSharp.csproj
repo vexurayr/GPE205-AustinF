@@ -78,6 +78,7 @@
     <Compile Include="Assets\Scripts\AI Behaviors\SharpEars.cs" />
     <Compile Include="Assets\Scripts\Shooters\TankShooter.cs" />
     <Compile Include="Assets\Scripts\Animations\TankTreadAnimator.cs" />
+    <Compile Include="Assets\Scripts\Managers\UIManager.cs" />
     <Compile Include="Assets\Scripts\Components\DamageOnHit.cs" />
     <Compile Include="Assets\Scripts\Controllers\Controller.cs" />
     <Compile Include="Assets\Scripts\MapGeneration\SpawnPoint.cs" />
@@ -89,11 +90,13 @@
     <Compile Include="Assets\Scripts\AI Behaviors\Guard.cs" />
     <Compile Include="Assets\Scripts\Movement\TankMover.cs" />
     <Compile Include="Assets\Scripts\AI Behaviors\NoobGamer.cs" />
-    <Compile Include="Assets\Scripts\Pawns\TankPawn.cs" />
+    <Compile Include="Assets\Scripts\Pawns\PlayerTankPawn.cs" />
     <Compile Include="Assets\Scripts\Examples\Countdown.cs" />
     <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
     <Compile Include="Assets\Scripts\MapGeneration\MapGenerator.cs" />
-    <Compile Include="Assets\Scripts\Managers\UIManager.cs" />
+    <Compile Include="Assets\Scripts\Components\PlayerHealth.cs" />
+    <Compile Include="Assets\Scripts\Components\AIHealth.cs" />
+    <Compile Include="Assets\Scripts\Pawns\AITankPawn.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

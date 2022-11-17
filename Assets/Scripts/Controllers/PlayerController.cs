@@ -6,6 +6,9 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerController : Controller
 {
+    // Reference to a pawn object
+    public PlayerTankPawn pawn;
+
     // Creates a new field representing a button that can be set in the editor
     public KeyCode keyForward = KeyCode.W;
     public KeyCode keyBackward = KeyCode.S;
@@ -52,7 +55,6 @@ public class PlayerController : Controller
     {
         base.Update();
         ProcessInputs();
-        UpdateUI();
     }
 
     // Built in function runs when objects is destroyed
@@ -117,16 +119,20 @@ public class PlayerController : Controller
         pawn.MoveCamera();
     }
 
-    public void UpdateUI()
+    // The UI will update when the player's health/max health changes or when they shoot
+    public void UpdateHealthUI()
     {
-        if (UIManager.instance.cooldownText != null)
+        if (pawn.GetComponent<UIManager>() != null)
         {
-            float cooldown = pawn.GetComponent<TankPawn>().GetTimeUntilNextEvent();
-            UIManager.instance.cooldownText.text = "Shoot Cooldown: " + cooldown.ToString("n2");
+            pawn.GetComponent<UIManager>().UpdateHealthUI();
         }
-        if (UIManager.instance.healthText != null)
+    }
+
+    public void UpdateShootCooldownUI()
+    {
+        if (pawn.GetComponent<UIManager>() != null)
         {
-            UIManager.instance.healthText.text = "Health: " + pawn.GetComponent<Health>().GetHealth();
+            pawn.GetComponent<UIManager>().UpdateShootCooldownUI();
         }
     }
 

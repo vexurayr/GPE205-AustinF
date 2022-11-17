@@ -121,8 +121,8 @@ public class GameManager : MonoBehaviour
             playerSpawnPoints[randNum].transform.rotation);
 
         // Grabs the components from the newly instantiated game objects to set the controller to the tank
-        Controller newController = newPlayerController.GetComponent<Controller>();
-        Pawn newPawn = newPawnObject.GetComponent<Pawn>();
+        PlayerController newController = newPlayerController.GetComponent<PlayerController>();
+        PlayerTankPawn newPawn = newPawnObject.GetComponent<PlayerTankPawn>();
 
         // Tank head wouldn't always face the same direction as the tank when it's spawned
         newPawn.tankHead.transform.forward = newPawn.transform.forward;
@@ -174,8 +174,8 @@ public class GameManager : MonoBehaviour
             // Removes the spawn point that was just used so AI don't spawn on top of one another
             remainingAISpawnPoints.Remove(remainingAISpawnPoints[randNum]);
 
-            Controller newAIController = newAIPlayerController.GetComponent<Controller>();
-            Pawn newAIPawn = newAIPawnObject.GetComponent<Pawn>();
+            AIController newAIController = newAIPlayerController.GetComponent<AIController>();
+            AITankPawn newAIPawn = newAIPawnObject.GetComponent<AITankPawn>();
 
             newAIController.pawn = newAIPawn;
 
@@ -198,8 +198,8 @@ public class GameManager : MonoBehaviour
             // Removes the spawn point that was just used so AI don't spawn on top of one another
             remainingAISpawnPoints.Remove(remainingAISpawnPoints[randNum]);
 
-            Controller newAIController = newAIPlayerController.GetComponent<Controller>();
-            Pawn newAIPawn = newAIPawnObject.GetComponent<Pawn>();
+            AIController newAIController = newAIPlayerController.GetComponent<AIController>();
+            AITankPawn newAIPawn = newAIPawnObject.GetComponent<AITankPawn>();
 
             newAIController.pawn = newAIPawn;
 
@@ -222,8 +222,8 @@ public class GameManager : MonoBehaviour
             // Removes the spawn point that was just used so AI don't spawn on top of one another
             remainingAISpawnPoints.Remove(remainingAISpawnPoints[randNum]);
 
-            Controller newAIController = newAIPlayerController.GetComponent<Controller>();
-            Pawn newAIPawn = newAIPawnObject.GetComponent<Pawn>();
+            AIController newAIController = newAIPlayerController.GetComponent<AIController>();
+            AITankPawn newAIPawn = newAIPawnObject.GetComponent<AITankPawn>();
 
             newAIController.pawn = newAIPawn;
 
@@ -271,8 +271,8 @@ public class GameManager : MonoBehaviour
             // Removes the spawn point that was just used so AI don't spawn on top of one another
             remainingAISpawnPoints.Remove(remainingAISpawnPoints[randNum]);
 
-            Controller newAIController = newAIPlayerController.GetComponent<Controller>();
-            Pawn newAIPawn = newAIPawnObject.GetComponent<Pawn>();
+            AIController newAIController = newAIPlayerController.GetComponent<AIController>();
+            AITankPawn newAIPawn = newAIPawnObject.GetComponent<AITankPawn>();
 
             newAIController.pawn = newAIPawn;
 

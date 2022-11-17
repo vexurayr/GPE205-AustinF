@@ -13,21 +13,10 @@ public abstract class Pawn : MonoBehaviour
 
     protected Mover mover;
     protected Shooter shooter;
-    protected Controller playerController;
+    //protected Controller controller;
 
-    // For rotating the tank segments individually
+    // The game object that will be a pawn
     public GameObject tankBody;
-    public GameObject tankHead;
-    public GameObject tankBodyHeadConnection;
-    public GameObject tankBodyPivotPoint;
-
-    // For AI sight
-    public GameObject raycastLocation;
-
-    // For camera movement
-    public GameObject cameraPivotPoint;
-    [Range(0, 90)] public float maxPitchAngleUp;
-    [Range(0, 90)] public float maxPitchAngleDown;
 
     // For shooting
     public GameObject shellPrefab;
@@ -36,6 +25,10 @@ public abstract class Pawn : MonoBehaviour
     public float shotsPerSecond;
     protected float secondsPerShot;
     protected float timeUntilNextEvent;
+
+    // For disabling controls if the pawn is stunned
+    protected bool isStunned = false;
+    protected float stunTime = 0f;
 
     // Start is called before the first frame update
     // Virtual means child classes can override this method
@@ -55,18 +48,101 @@ public abstract class Pawn : MonoBehaviour
     }
 
     public virtual void Update()
-    { }
+    {
+        Stun();
 
-    public abstract void MoveForward();
-    public abstract void MoveBackward();
-    public abstract void RotateClockwise();
-    public abstract void RotateCounterclockwise();
-    public abstract void RotateBodyClockwise();
-    public abstract void RotateBodyCounterclockwise();
-    public abstract void RotateTowards(Vector3 targetVector);
-    public abstract void Shoot();
-    public abstract void ShootCooldown();
-    public abstract void MoveCamera();
+        if (timeUntilNextEvent >= 0)
+        {
+            timeUntilNextEvent -= Time.deltaTime;
+            timeUntilNextEvent = Mathf.Clamp(timeUntilNextEvent, 0, secondsPerShot);
+        }
+    }
+
+    public void SetStunnedTrue(float stunTime)
+    {
+        isStunned = true;
+        this.stunTime = stunTime;
+    }
+
+    public void Stun()
+    {
+        if (isStunned)
+        {
+            // Counts down until tank is no longer stunned
+            stunTime -= Time.deltaTime;
+        }
+        if (stunTime <= 0f)
+        {
+            isStunned = false;
+        }
+    }
+
+    public virtual void MoveForward()
+    {
+        if (!isStunned)
+        {
+            // Calls the Move function in the mover class, but the function in TankMover is run because that is the script attached to the pawn
+            mover.Move(tankBody.transform.forward, moveSpeed);
+        }
+    }
+
+    public virtual void MoveBackward()
+    {
+        if (!isStunned)
+        {
+            mover.Move(tankBody.transform.forward, -moveSpeed);
+        }
+    }
+
+    public virtual void RotateClockwise()
+    {
+        mover.Rotate(turnSpeed);
+    }
+
+    public virtual void RotateCounterclockwise()
+    {
+        mover.Rotate(-turnSpeed);
+    }
+
+    public virtual void Shoot()
+    {
+        if (!isStunned)
+        {
+            if (timeUntilNextEvent <= 0)
+            {
+                // Calls a function in Shooter using the reference in Pawn and gives the data saved in Pawn
+                shooter.Shoot(shellPrefab, fireForce, shellLifeSpan);
+
+                // Starts the cooldown after the player has shot
+                ShootCooldown();
+
+                if (GetComponent<PowerupManager>() != null)
+                {
+                    GetComponent<PowerupManager>().RemoveStunPowerup();
+                }
+            }
+        }
+    }
+
+    // A countdown method timer
+    public virtual void ShootCooldown()
+    {
+        if (timeUntilNextEvent <= 0)
+        {
+            timeUntilNextEvent = secondsPerShot;
+        }
+    }
+
+    public virtual float GetTimeUntilNextEvent()
+    {
+        return timeUntilNextEvent;
+    }
+
+    public virtual float GetSecondsPerShot()
+    {
+        return secondsPerShot;
+    }
+
     public virtual void Die()
     {
         Destroy(gameObject);
