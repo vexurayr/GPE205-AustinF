@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Health : MonoBehaviour
+public class Health : MonoBehaviour
 {
     public float maxHealth;
     private float currentHealth;
@@ -21,17 +21,29 @@ public abstract class Health : MonoBehaviour
     public virtual void TakeDamage(float amount, Pawn source)
     {
         currentHealth = currentHealth - amount;
+
         // Makes sure first value stays somewhere between the second and third value
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         //Debug.Log(source.name + " did " + amount + " damage to " + gameObject.name);
 
-        if (GetComponentInParent<UIManager>() != null)
+        if (gameObject.GetComponent<UIManager>() != null)
         {
-            GetComponentInParent<UIManager>().UpdateHealthUI();
+            gameObject.GetComponent<UIManager>().UpdateHealthUI();
         }
 
         if (currentHealth <= 0)
         {
+            // Gives points to the player that dealt this object the final blow
+            foreach (PlayerController controller in ScoreManager.instance.players)
+            {
+                if (controller.pawn == source && gameObject.GetComponent<PointGiver>() != null)
+                {
+                    controller.pawn.AddPoints(gameObject.GetComponent<PointGiver>().pointsOnDeath);
+
+                    controller.pawn.GetComponent<UIManager>().UpdateScoreUI();
+                }
+            }
+
             Die();
         }
     }
@@ -42,9 +54,9 @@ public abstract class Health : MonoBehaviour
 
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
-        if (GetComponentInParent<UIManager>() != null)
+        if (gameObject.GetComponent<UIManager>() != null)
         {
-            GetComponentInParent<UIManager>().UpdateHealthUI();
+            gameObject.GetComponent<UIManager>().UpdateHealthUI();
         }
     }
 
@@ -52,9 +64,9 @@ public abstract class Health : MonoBehaviour
     {
         maxHealth = maxHealth + amount;
 
-        if (GetComponentInParent<UIManager>() != null)
+        if (gameObject.GetComponent<UIManager>() != null)
         {
-            GetComponentInParent<UIManager>().UpdateHealthUI();
+            gameObject.GetComponent<UIManager>().UpdateHealthUI();
         }
     }
 

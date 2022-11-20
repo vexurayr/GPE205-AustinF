@@ -24,6 +24,9 @@ public class PlayerTankPawn : Pawn
     private Vector2 currentMouseDelta = Vector2.zero;
     private Vector2 currentMouseDeltaVelocity = Vector2.zero;
 
+    // For per-player score tracking and displaying
+    private int score = 0;
+
     // Start is called before the first frame update
     public override void Start()
     {
@@ -96,5 +99,20 @@ public class PlayerTankPawn : Pawn
         }
 
         cameraPivotPoint.transform.localScale = cameraZoom;
+    }
+
+    public void AddPoints(int pointsToAdd)
+    {
+        score = score + pointsToAdd;
+    }
+
+    public int GetScore()
+    {
+        return score;
+    }
+
+    public override void Die()
+    {
+        base.Die();
     }
 }

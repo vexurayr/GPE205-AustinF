@@ -63,14 +63,18 @@
     <Compile Include="Assets\Scripts\Controllers\AIController.cs" />
     <Compile Include="Assets\Scripts\Pickups &amp; Powerups\SpeedPickup.cs" />
     <Compile Include="Assets\Scripts\Pickups &amp; Powerups\MaxHealthPowerup.cs" />
+    <Compile Include="Assets\Scripts\Components\PointGiver.cs" />
+    <Compile Include="Assets\Scripts\Components\AIHealth.cs" />
     <Compile Include="Assets\Scripts\MapGeneration\Waypoint.cs" />
     <Compile Include="Assets\Scripts\Pickups &amp; Powerups\HealthPowerup.cs" />
+    <Compile Include="Assets\Scripts\Managers\ScoreManager.cs" />
     <Compile Include="Assets\Scripts\Components\Health.cs" />
     <Compile Include="Assets\Scripts\Pickups &amp; Powerups\PickupSpawner.cs" />
     <Compile Include="Assets\Scripts\Pickups &amp; Powerups\Powerup.cs" />
     <Compile Include="Assets\Scripts\Pickups &amp; Powerups\StunPowerup.cs" />
     <Compile Include="Assets\Scripts\Components\StunOnHit.cs" />
     <Compile Include="Assets\Scripts\Pickups &amp; Powerups\StunPickup.cs" />
+    <Compile Include="Assets\Scripts\Components\PlayerHealth.cs" />
     <Compile Include="Assets\Scripts\Pickups &amp; Powerups\MaxHealthPickup.cs" />
     <Compile Include="Assets\Scripts\Controllers\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Shooters\Shooter.cs" />
@@ -82,9 +86,12 @@
     <Compile Include="Assets\Scripts\Components\DamageOnHit.cs" />
     <Compile Include="Assets\Scripts\Controllers\Controller.cs" />
     <Compile Include="Assets\Scripts\MapGeneration\SpawnPoint.cs" />
+    <Compile Include="Assets\Scripts\Managers\LivesManager.cs" />
+    <Compile Include="Assets\Scripts\Managers\SettingsManager.cs" />
     <Compile Include="Assets\Scripts\Pickups &amp; Powerups\HealthPickup.cs" />
     <Compile Include="Assets\Scripts\Movement\Mover.cs" />
     <Compile Include="Assets\Scripts\Pickups &amp; Powerups\SpeedPowerup.cs" />
+    <Compile Include="Assets\Scripts\Pawns\AITankPawn.cs" />
     <Compile Include="Assets\Scripts\Pickups &amp; Powerups\Pickup.cs" />
     <Compile Include="Assets\Scripts\Animations\TankWheelAnimator.cs" />
     <Compile Include="Assets\Scripts\AI Behaviors\Guard.cs" />
@@ -94,9 +101,7 @@
     <Compile Include="Assets\Scripts\Examples\Countdown.cs" />
     <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
     <Compile Include="Assets\Scripts\MapGeneration\MapGenerator.cs" />
-    <Compile Include="Assets\Scripts\Components\PlayerHealth.cs" />
-    <Compile Include="Assets\Scripts\Components\AIHealth.cs" />
-    <Compile Include="Assets\Scripts\Pawns\AITankPawn.cs" />
+    <Compile Include="Assets\Scripts\Managers\MenuManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

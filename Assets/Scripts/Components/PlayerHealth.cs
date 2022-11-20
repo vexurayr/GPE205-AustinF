@@ -34,5 +34,11 @@ public class PlayerHealth : Health
                 Destroy(gameObject);
             }
         }
+
+        // Removes itself from the score manager
+        if (ScoreManager.instance != null && ScoreManager.instance.players != null)
+        {
+            ScoreManager.instance.players.Remove(gameObject.GetComponent<PlayerController>());
+        }
     }
 }

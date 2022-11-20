@@ -32,6 +32,12 @@ public class PlayerController : Controller
             GameManager.instance.players.Add(this);
         }
 
+        // Adds itself to the score manager
+        if (ScoreManager.instance != null && ScoreManager.instance.players != null)
+        {
+            ScoreManager.instance.players.Add(this);
+        }
+
         if (isCursorLocked)
         {
             // Locks the cursor to the center of the screen

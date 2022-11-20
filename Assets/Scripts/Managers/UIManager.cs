@@ -6,7 +6,7 @@ using UnityEngine.UI;
 // Anything that needs UI will have a UIManager
 public class UIManager : MonoBehaviour
 {
-    public Pawn pawn;
+    public PlayerTankPawn pawn;
 
     // Will change the Y scale 0-1
     [SerializeField] public Image shootCooldownForeground;
@@ -23,6 +23,14 @@ public class UIManager : MonoBehaviour
     // Changes the UI so the player knows what projectile they'll shoot next
     [SerializeField] public Texture PlayerAmmoBackground;
     [SerializeField] public Texture StunAmmoBackground;
+
+    // Duct Tape are the number of lives the player have, like the number of times they can be repaired
+    [SerializeField] public RawImage ductTape1;
+    [SerializeField] public RawImage ductTape2;
+    [SerializeField] public RawImage ductTape3;
+
+    // Points from destroying tanks and buildings increases the score
+    [SerializeField] public Text score;
 
     private float startMaxHealth;
     private float startHealthWidth;
@@ -86,5 +94,18 @@ public class UIManager : MonoBehaviour
                 shootCooldown.GetComponent<RawImage>().texture = PlayerAmmoBackground;
             }
         }
+    }
+
+    public void UpdateScoreUI()
+    {
+        // Bail if there is no player tank pawn component
+        if (pawn.GetComponent<PlayerTankPawn>() == null)
+        {
+            return;
+        }
+
+        int currentScore = pawn.GetScore();
+
+        score.text = "Score: " + currentScore;
     }
 }
