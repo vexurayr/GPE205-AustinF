@@ -71,6 +71,7 @@
     <Compile Include="Assets\Scripts\Components\Health.cs" />
     <Compile Include="Assets\Scripts\Pickups &amp; Powerups\PickupSpawner.cs" />
     <Compile Include="Assets\Scripts\Pickups &amp; Powerups\Powerup.cs" />
+    <Compile Include="Assets\Scripts\Managers\MenuManager.cs" />
     <Compile Include="Assets\Scripts\Pickups &amp; Powerups\StunPowerup.cs" />
     <Compile Include="Assets\Scripts\Components\StunOnHit.cs" />
     <Compile Include="Assets\Scripts\Pickups &amp; Powerups\StunPickup.cs" />
@@ -101,7 +102,6 @@
     <Compile Include="Assets\Scripts\Examples\Countdown.cs" />
     <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
     <Compile Include="Assets\Scripts\MapGeneration\MapGenerator.cs" />
-    <Compile Include="Assets\Scripts\Managers\MenuManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

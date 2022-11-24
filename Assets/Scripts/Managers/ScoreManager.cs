@@ -28,13 +28,19 @@ public class ScoreManager : MonoBehaviour
 
     public void Update()
     {
-        foreach (PlayerController controller in players)
+        if (players != null)
         {
-            int score = controller.pawn.GetScore();
-
-            if (highScore < score)
+            foreach (PlayerController controller in players)
             {
-                highScore = score;
+                if (controller != null && controller.pawn != null)
+                {
+                    int score = controller.pawn.GetScore();
+
+                    if (highScore < score)
+                    {
+                        highScore = score;
+                    }
+                }
             }
         }
     }

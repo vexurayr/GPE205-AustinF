@@ -54,6 +54,8 @@ public class PlayerController : Controller
 
         wheelAnimator = pawn.GetComponent<TankWheelAnimator>();
         treadAnimator = pawn.GetComponent<TankTreadAnimator>();
+
+        pawn.GetComponent<UIManager>().UpdateLivesUI();
     }
 
     // Update is called once per frame
@@ -144,8 +146,7 @@ public class PlayerController : Controller
 
     public override void Die()
     {
-        // Calls coroutine in game manager to spawn in a new player
-        GameManager.instance.RespawnPlayer();
+        LivesManager.instance.RespawnPlayer();
 
         base.Die();
     }

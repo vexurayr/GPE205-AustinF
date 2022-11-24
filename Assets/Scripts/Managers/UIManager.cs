@@ -108,4 +108,34 @@ public class UIManager : MonoBehaviour
 
         score.text = "Score: " + currentScore;
     }
+
+    public void UpdateLivesUI()
+    {
+        int livesRemaining = LivesManager.instance.lives;
+
+        if (livesRemaining == 0)
+        {
+            ductTape1.enabled = false;
+            ductTape2.enabled = false;
+            ductTape3.enabled = false;
+        }
+        else if (livesRemaining == 1)
+        {
+            ductTape1.enabled = true;
+            ductTape2.enabled = false;
+            ductTape3.enabled = false;
+        }
+        else if (livesRemaining == 2)
+        {
+            ductTape1.enabled = true;
+            ductTape2.enabled = true;
+            ductTape3.enabled = false;
+        }
+        else if (livesRemaining == 3)
+        {
+            ductTape1.enabled = true;
+            ductTape2.enabled = true;
+            ductTape3.enabled = true;
+        }
+    }
 }
