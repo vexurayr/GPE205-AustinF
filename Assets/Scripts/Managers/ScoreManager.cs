@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScoreManager : MonoBehaviour
+public class ScoreManager : MonoBehaviour, IDataPersistence
 {
     public static ScoreManager instance;
 
@@ -43,5 +43,15 @@ public class ScoreManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void LoadData(GameData data)
+    {
+        this.highScore = data.highScore;
+    }
+
+    public void SaveData(GameData data)
+    {
+        data.highScore = this.highScore;
     }
 }

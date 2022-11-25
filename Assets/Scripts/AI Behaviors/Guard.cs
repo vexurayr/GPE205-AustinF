@@ -19,7 +19,7 @@ public class Guard : AIController
         if (target != null)
         {
             MakeDecisions();
-            Debug.Log("Guard's target is: " + target.name);
+            //Debug.Log("Guard's target is: " + target.name);
         }
         else
         {
@@ -38,7 +38,7 @@ public class Guard : AIController
         {
             case AIState.Idle:
                 Idle();
-                Debug.Log("In Idle State.");
+                //Debug.Log("In Idle State.");
                 if (waypoints != null)
                 {
                     ChangeState(AIState.Patrol);
@@ -53,7 +53,7 @@ public class Guard : AIController
                 else
                 {
                     Patrol();
-                    Debug.Log("In Patrol State.");
+                    //Debug.Log("In Patrol State.");
                 }
                 
                 if (CanHearTarget())
@@ -71,7 +71,7 @@ public class Guard : AIController
                 else
                 {
                     FaceNoise();
-                    Debug.Log("In Face Noise State.");
+                    //Debug.Log("In Face Noise State.");
                 }
                 
                 if (CanSeeTarget())
@@ -92,7 +92,7 @@ public class Guard : AIController
                 else
                 {
                     StationaryAttack();
-                    Debug.Log("In Stationary Attack State.");
+                    //Debug.Log("In Stationary Attack State.");
                 }
                 
                 if (!IsDistanceLessThan(target, chaseDistance))

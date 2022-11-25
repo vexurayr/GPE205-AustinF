@@ -102,6 +102,11 @@
     <Compile Include="Assets\Scripts\Examples\Countdown.cs" />
     <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
     <Compile Include="Assets\Scripts\MapGeneration\MapGenerator.cs" />
+    <Compile Include="Assets\Scripts\DataPersistence\GameData.cs" />
+    <Compile Include="Assets\Scripts\DataPersistence\DataPersistenceManager.cs" />
+    <Compile Include="Assets\Scripts\DataPersistence\IDataPersistence.cs" />
+    <Compile Include="Assets\Scripts\DataPersistence\FileDataHandler.cs" />
+    <Compile Include="Assets\Scripts\DataPersistence\SerializableDictionary.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

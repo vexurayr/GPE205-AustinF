@@ -37,7 +37,7 @@ public class NoobGamer : AIController
         {
             case AIState.Scanning:
                 Scan();
-                Debug.Log("In Scanning State.");
+                //Debug.Log("In Scanning State.");
                 if (lastTimeStateChanged + 6 <= Time.time)
                 {
                     hasDoneRandomTask = true;
@@ -64,9 +64,9 @@ public class NoobGamer : AIController
                 else
                 {
                     RandomMovement();
-                    Debug.Log("In Random Movement State.");
+                    //Debug.Log("In Random Movement State.");
                 }
-                
+
                 if (CanHearTarget())
                 {
                     hasDoneRandomTask = true;
@@ -95,9 +95,9 @@ public class NoobGamer : AIController
                 else
                 {
                     RandomObserve();
-                    Debug.Log("In Random Observe State.");
+                    //Debug.Log("In Random Observe State.");
                 }
-                
+
                 if (CanSeeTarget())
                 {
                     hasDoneRandomTask = true;
@@ -119,9 +119,9 @@ public class NoobGamer : AIController
                 else
                 {
                     AttackThenFlee();
-                    Debug.Log("In Attack Then Flee State.");
+                    //Debug.Log("In Attack Then Flee State.");
                 }
-                
+
                 if (!IsDistanceLessThan(target, fleeDistance))
                 {
                     hasDoneRandomTask = true;
@@ -148,7 +148,7 @@ public class NoobGamer : AIController
                 if (targetPickup != null && !IsDistanceLessThan(targetPickup, .5f))
                 {
                     SeekExactXAndZ(targetPickup);
-                    Debug.Log("In Seek Powerup State.");
+                    //Debug.Log("In Seek Powerup State.");
                 }
                 else
                 {

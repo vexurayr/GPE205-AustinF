@@ -36,7 +36,7 @@ public class SharpEars : AIController
         {
             case AIState.Scanning:
                 Scan();
-                Debug.Log("In Scanning State.");
+                //Debug.Log("In Scanning State.");
                 if (CanHearTarget())
                 {
                     noiseLocation.transform.position = target.transform.position;
@@ -61,9 +61,9 @@ public class SharpEars : AIController
                 else
                 {
                     SeekNoise();
-                    Debug.Log("In Seek Noise State.");
+                    //Debug.Log("In Seek Noise State.");
                 }
-                
+
                 if (IsDistanceLessThan(noiseLocation, 8) && !CanSeeTarget())
                 {
                     startDirection = pawn.transform.forward;
@@ -88,9 +88,9 @@ public class SharpEars : AIController
                 else
                 {
                     DistanceAttack();
-                    Debug.Log("In Distance Attack State.");
+                    //Debug.Log("In Distance Attack State.");
                 }
-                
+
                 if (!IsDistanceLessThan(target, fleeDistance))
                 {
                     startDirection = pawn.transform.forward;
@@ -115,9 +115,9 @@ public class SharpEars : AIController
                 else
                 {
                     AttackWhileFleeing();
-                    Debug.Log("In Attack While Fleeing State.");
+                    //Debug.Log("In Attack While Fleeing State.");
                 }
-                
+
                 if (!IsDistanceLessThan(target, fleeDistance))
                 {
                     startDirection = pawn.transform.forward;
@@ -134,7 +134,7 @@ public class SharpEars : AIController
                 if (targetPickup != null && !IsDistanceLessThan(targetPickup, .5f))
                 {
                     SeekExactXAndZ(targetPickup);
-                    Debug.Log("In Seek Powerup State.");
+                    //Debug.Log("In Seek Powerup State.");
                 }
                 else
                 {

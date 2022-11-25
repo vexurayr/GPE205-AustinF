@@ -18,7 +18,7 @@ public class SittingDuck : AIController
         if (target != null)
         {
             MakeDecisions();
-            Debug.Log(target);
+            //Debug.Log(target);
         }
         else
         {
@@ -38,7 +38,7 @@ public class SittingDuck : AIController
             case AIState.Idle:
                 // Does the actions of the state
                 Idle();
-                Debug.Log("In Idle State.");
+                //Debug.Log("In Idle State.");
 
                 TargetNearestTank();
 
@@ -66,9 +66,9 @@ public class SittingDuck : AIController
                 else
                 {
                     Seek(target);
-                    Debug.Log("In Chase State.");
+                    //Debug.Log("In Chase State.");
                 }
-                
+
                 // Check state transitions
                 if (!IsDistanceLessThan(target, chaseDistance))
                 {
@@ -98,9 +98,9 @@ public class SittingDuck : AIController
                 else
                 {
                     SeekAndAttack();
-                    Debug.Log("In Seek And Attack State.");
+                    //Debug.Log("In Seek And Attack State.");
                 }
-                
+
                 if (!IsDistanceLessThan(target, chaseDistance))
                 {
                     ChangeState(AIState.Idle);
@@ -120,8 +120,8 @@ public class SittingDuck : AIController
                 {
                     Flee();
                 }
-                
-                Debug.Log("In Flee State.");
+
+                //Debug.Log("In Flee State.");
                 if (!IsDistanceLessThan(target, fleeDistance))
                 {
                     ChangeState(AIState.Idle);
@@ -136,7 +136,7 @@ public class SittingDuck : AIController
                 if (targetPickup != null && !IsDistanceLessThan(targetPickup, .5f))
                 {
                     SeekExactXAndZ(targetPickup);
-                    Debug.Log("In Seek Powerup State.");
+                    //Debug.Log("In Seek Powerup State.");
                 }
                 else
                 {
