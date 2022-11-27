@@ -6,11 +6,18 @@ public class StunOnHit : DamageOnHit
 {
     public int stunTime;
 
+    public override void Start()
+    {
+        base.Start();
+    }
+
     public override void OnTriggerEnter(Collider other)
     {
         // Makes sure bullet didn't collide with tank that fired it
         if (other != owner)
         {
+            AudioManager.instance.PlaySound("All Bullet Hit", gameObject.transform);
+
             // Gets components from colliding object
             Health otherHealth = other.gameObject.GetComponent<Health>();
             Pawn tankPawn = other.gameObject.GetComponent<Pawn>();

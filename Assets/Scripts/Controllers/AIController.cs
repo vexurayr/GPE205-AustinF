@@ -255,11 +255,17 @@ public abstract class AIController : Controller
 
     #region States
     public void Idle()
-    {}
+    {
+        AudioManager.instance.StopSoundIfItsPlaying("AI Tank Idle High");
+        AudioManager.instance.PlayLoopingSound("AI Tank Idle", pawn.transform);
+    }
 
     // Polymorphism at its finest
     public void Seek(Vector3 targetVector)
     {
+        AudioManager.instance.StopSoundIfItsPlaying("AI Tank Idle");
+        AudioManager.instance.PlayLoopingSound("AI Tank Idle High", pawn.transform);
+
         pawn.RotateTowards(targetVector);
 
         // Keeps the AI from getting too close to the player
@@ -295,6 +301,9 @@ public abstract class AIController : Controller
 
     public void SeekWithoutRestrictions(Vector3 targetVector)
     {
+        AudioManager.instance.StopSoundIfItsPlaying("AI Tank Idle");
+        AudioManager.instance.PlayLoopingSound("AI Tank Idle High", pawn.transform);
+
         pawn.RotateTowards(targetVector);
 
         pawn.MoveForward();
@@ -317,6 +326,9 @@ public abstract class AIController : Controller
 
     public void SeekExactXAndZ(Vector3 targetVector)
     {
+        AudioManager.instance.StopSoundIfItsPlaying("AI Tank Idle");
+        AudioManager.instance.PlayLoopingSound("AI Tank Idle High", pawn.transform);
+
         targetVector.y = 0;
         pawn.RotateTowards(targetVector);
 
@@ -340,6 +352,9 @@ public abstract class AIController : Controller
 
     public void Flee()
     {
+        AudioManager.instance.StopSoundIfItsPlaying("AI Tank Idle");
+        AudioManager.instance.PlayLoopingSound("AI Tank Idle High", pawn.transform);
+
         // Gets vector to target
         Vector3 vectorToTarget = target.transform.position - pawn.transform.position;
 
@@ -457,6 +472,9 @@ public abstract class AIController : Controller
 
     public void Scan()
     {
+        AudioManager.instance.StopSoundIfItsPlaying("AI Tank Idle");
+        AudioManager.instance.PlayLoopingSound("AI Tank Idle High", pawn.transform);
+
         Vector3 currentDirection = pawn.transform.forward;
 
         // This will pause the tank, won't move until enough time has passed
@@ -523,7 +541,7 @@ public abstract class AIController : Controller
             if (targetToHit.collider.GetComponent<PlayerTankPawn>() == null)
             {
                 targetPosition = targetPosition * -1;
-                Debug.Log("Running into wall!");
+                //Debug.Log("Running into wall!");
             }
         }
 
@@ -545,6 +563,9 @@ public abstract class AIController : Controller
 
     public void RandomObserve()
     {
+        AudioManager.instance.StopSoundIfItsPlaying("AI Tank Idle");
+        AudioManager.instance.PlayLoopingSound("AI Tank Idle High", pawn.transform);
+
         // Gives this tank a new direction to rotate only on entering the Random Observe state
         if (hasDoneRandomTask)
         {
@@ -585,12 +606,18 @@ public abstract class AIController : Controller
 
     public void FaceNoise()
     {
+        AudioManager.instance.StopSoundIfItsPlaying("AI Tank Idle");
+        AudioManager.instance.PlayLoopingSound("AI Tank Idle High", pawn.transform);
+
         // Simply looks towards the source of the noise
         pawn.RotateTowards(noiseLocation.transform.position);
     }
 
     public void StationaryAttack()
     {
+        AudioManager.instance.StopSoundIfItsPlaying("AI Tank Idle");
+        AudioManager.instance.PlayLoopingSound("AI Tank Idle High", pawn.transform);
+
         // Tank won't move but it will face the target and shoot
         pawn.RotateTowards(target.transform.position);
 
@@ -610,6 +637,9 @@ public abstract class AIController : Controller
 
     public void SeekNoise()
     {
+        AudioManager.instance.StopSoundIfItsPlaying("AI Tank Idle");
+        AudioManager.instance.PlayLoopingSound("AI Tank Idle High", pawn.transform);
+
         pawn.RotateTowards(noiseLocation.transform.position);
 
         // This will prevent the tank from moving when it reaches the source of the noise
@@ -621,6 +651,9 @@ public abstract class AIController : Controller
 
     public void DistanceAttack()
     {
+        AudioManager.instance.StopSoundIfItsPlaying("AI Tank Idle");
+        AudioManager.instance.PlayLoopingSound("AI Tank Idle High", pawn.transform);
+
         pawn.RotateTowards(target.transform.position);
 
         // This tank will always try to remain Chase Distance away from the player as it shoots
@@ -650,6 +683,9 @@ public abstract class AIController : Controller
 
     public void AttackWhileFleeing()
     {
+        AudioManager.instance.StopSoundIfItsPlaying("AI Tank Idle");
+        AudioManager.instance.PlayLoopingSound("AI Tank Idle High", pawn.transform);
+
         // Continues shooting the player while moving backwards
         pawn.RotateTowards(target.transform.position);
 
@@ -675,7 +711,7 @@ public abstract class AIController : Controller
     public virtual void Target(GameObject newTarget)
     {
         target = newTarget;
-        Debug.Log("Target set to: " + newTarget);
+        //Debug.Log("Target set to: " + newTarget);
     }
 
     public virtual void Target(Object obj)

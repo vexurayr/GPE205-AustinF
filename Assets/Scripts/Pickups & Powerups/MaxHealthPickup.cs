@@ -19,8 +19,10 @@ public class MaxHealthPickup : Pickup
         base.Update();
     }
 
-    public virtual void OnTriggerEnter(Collider obj)
+    public override void OnTriggerEnter(Collider obj)
     {
+        base.OnTriggerEnter(obj);
+
         // Variable stores colliding object's PowerupManager
         PowerupManager powerupManager = obj.GetComponent<PowerupManager>();
 

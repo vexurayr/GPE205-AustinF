@@ -58,13 +58,15 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\AI Behaviors\SittingDuck.cs" />
     <Compile Include="Assets\Scripts\Pawns\Pawn.cs" />
+    <Compile Include="Assets\Scripts\DataPersistence\IDataPersistence.cs" />
     <Compile Include="Assets\Scripts\Managers\PowerupManager.cs" />
-    <Compile Include="Assets\Scripts\Examples\AreWeThereYet.cs" />
+    <Compile Include="Assets\Scripts\Timer Examples\AreWeThereYet.cs" />
     <Compile Include="Assets\Scripts\Controllers\AIController.cs" />
     <Compile Include="Assets\Scripts\Pickups &amp; Powerups\SpeedPickup.cs" />
     <Compile Include="Assets\Scripts\Pickups &amp; Powerups\MaxHealthPowerup.cs" />
     <Compile Include="Assets\Scripts\Components\PointGiver.cs" />
     <Compile Include="Assets\Scripts\Components\AIHealth.cs" />
+    <Compile Include="Assets\Scripts\DataPersistence\SerializableDictionary.cs" />
     <Compile Include="Assets\Scripts\MapGeneration\Waypoint.cs" />
     <Compile Include="Assets\Scripts\Pickups &amp; Powerups\HealthPowerup.cs" />
     <Compile Include="Assets\Scripts\Managers\ScoreManager.cs" />
@@ -82,6 +84,8 @@
     <Compile Include="Assets\Scripts\Components\NoiseEmitter.cs" />
     <Compile Include="Assets\Scripts\AI Behaviors\SharpEars.cs" />
     <Compile Include="Assets\Scripts\Shooters\TankShooter.cs" />
+    <Compile Include="Assets\Scripts\DataPersistence\DataPersistenceManager.cs" />
+    <Compile Include="Assets\Scripts\DataPersistence\FileDataHandler.cs" />
     <Compile Include="Assets\Scripts\Animations\TankTreadAnimator.cs" />
     <Compile Include="Assets\Scripts\Managers\UIManager.cs" />
     <Compile Include="Assets\Scripts\Components\DamageOnHit.cs" />
@@ -97,16 +101,14 @@
     <Compile Include="Assets\Scripts\Animations\TankWheelAnimator.cs" />
     <Compile Include="Assets\Scripts\AI Behaviors\Guard.cs" />
     <Compile Include="Assets\Scripts\Movement\TankMover.cs" />
+    <Compile Include="Assets\Scripts\DataPersistence\GameData.cs" />
     <Compile Include="Assets\Scripts\AI Behaviors\NoobGamer.cs" />
     <Compile Include="Assets\Scripts\Pawns\PlayerTankPawn.cs" />
-    <Compile Include="Assets\Scripts\Examples\Countdown.cs" />
+    <Compile Include="Assets\Scripts\Timer Examples\Countdown.cs" />
     <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
     <Compile Include="Assets\Scripts\MapGeneration\MapGenerator.cs" />
-    <Compile Include="Assets\Scripts\DataPersistence\GameData.cs" />
-    <Compile Include="Assets\Scripts\DataPersistence\DataPersistenceManager.cs" />
-    <Compile Include="Assets\Scripts\DataPersistence\IDataPersistence.cs" />
-    <Compile Include="Assets\Scripts\DataPersistence\FileDataHandler.cs" />
-    <Compile Include="Assets\Scripts\DataPersistence\SerializableDictionary.cs" />
+    <Compile Include="Assets\Scripts\Managers\AudioManager.cs" />
+    <Compile Include="Assets\Scripts\Audio\Sound.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

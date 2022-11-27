@@ -27,9 +27,16 @@ public class PlayerHealth : Health
             // Removes this object from its list in the game manager
             if (playerToDelete != null)
             {
+                AudioManager.instance.PlaySound("Player Tank Death", gameObject.transform);
+
                 GameManager.instance.RemovePlayerFromPlayers(playerToDelete);
 
                 playerToDelete.Die();
+
+                if (GameManager.instance.players.Count <= 0)
+                {
+                    Camera.main.GetComponent<AudioListener>().enabled = true;
+                }
 
                 Destroy(gameObject);
             }

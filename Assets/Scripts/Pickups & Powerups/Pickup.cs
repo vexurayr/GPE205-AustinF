@@ -58,4 +58,9 @@ public abstract class Pickup : MonoBehaviour
             this.transform.position = new Vector3(xPos, yPos - inverseBounceSpeed, zPos);
         }
     }
+
+    public virtual void OnTriggerEnter(Collider obj)
+    {
+        AudioManager.instance.PlaySound("All Pickup Taken", gameObject.transform);
+    }
 }

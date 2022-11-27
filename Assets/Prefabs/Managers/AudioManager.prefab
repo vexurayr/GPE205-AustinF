@@ -1,0 +1,167 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4843360163644654438
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3261462144409438285}
+  - component: {fileID: 70297109472946010}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3261462144409438285
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4843360163644654438}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &70297109472946010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4843360163644654438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68434725ee9c20f4ab241757db733ffd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - clip: {fileID: 8300000, guid: d7f88800c24495945a8e01ff9e469d50, type: 3}
+    audioName: All Main Menu Music
+    isAudioMuted: 0
+    volume: 0.2
+    pitch: 1
+    spacialBlend: 0
+    isLooping: 1
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 6aeebaa8bea172f49b1107adcb9d6293, type: 3}
+    audioName: All Background Music
+    isAudioMuted: 0
+    volume: 0.2
+    pitch: 1
+    spacialBlend: 0
+    isLooping: 1
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: b586158b0434ab04e849a18aa712d8e8, type: 3}
+    audioName: All Button Pressed
+    isAudioMuted: 0
+    volume: 0.6
+    pitch: 1
+    spacialBlend: 0
+    isLooping: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 1d1caa218fbe0344fbd49b13d527bea2, type: 3}
+    audioName: All Button Released
+    isAudioMuted: 0
+    volume: 0.6
+    pitch: 1
+    spacialBlend: 0
+    isLooping: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: f224b7f590147224984636bf21f322d8, type: 3}
+    audioName: Player Tank Creation
+    isAudioMuted: 0
+    volume: 10
+    pitch: 1
+    spacialBlend: 0
+    isLooping: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 5a23fbbef6d0b00428360d89e3447124, type: 3}
+    audioName: Player Tank Idle
+    isAudioMuted: 0
+    volume: 0.05
+    pitch: 1
+    spacialBlend: 0
+    isLooping: 1
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 5a23fbbef6d0b00428360d89e3447124, type: 3}
+    audioName: AI Tank Idle
+    isAudioMuted: 0
+    volume: 20
+    pitch: 1
+    spacialBlend: 1
+    isLooping: 1
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 543e5d78dc9f84349b8ac42d499e1740, type: 3}
+    audioName: All Bullet Hit
+    isAudioMuted: 0
+    volume: 100
+    pitch: 1
+    spacialBlend: 1
+    isLooping: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 9548fd888a07623498c2830b66c5055f, type: 3}
+    audioName: All Pickup Taken
+    isAudioMuted: 0
+    volume: 100
+    pitch: 1
+    spacialBlend: 1
+    isLooping: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 6ff3ae47f13bbb949b0316846c158ede, type: 3}
+    audioName: AI Tank Death
+    isAudioMuted: 0
+    volume: 100
+    pitch: 1
+    spacialBlend: 1
+    isLooping: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 6ff3ae47f13bbb949b0316846c158ede, type: 3}
+    audioName: Player Tank Death
+    isAudioMuted: 0
+    volume: 10
+    pitch: 1
+    spacialBlend: 1
+    isLooping: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 2d245aa2c9de724438a3e414aea757e4, type: 3}
+    audioName: Player Tank Reload
+    isAudioMuted: 0
+    volume: 100
+    pitch: 1
+    spacialBlend: 1
+    isLooping: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: b8d8ffea16c1ab84cae1a5de22877f1d, type: 3}
+    audioName: All Tank Shoot
+    isAudioMuted: 0
+    volume: 100
+    pitch: 1
+    spacialBlend: 1
+    isLooping: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 5a23fbbef6d0b00428360d89e3447124, type: 3}
+    audioName: Player Tank Idle High
+    isAudioMuted: 0
+    volume: 0.05
+    pitch: 1.5
+    spacialBlend: 0
+    isLooping: 1
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 5a23fbbef6d0b00428360d89e3447124, type: 3}
+    audioName: AI Tank Idle High
+    isAudioMuted: 0
+    volume: 20
+    pitch: 1.5
+    spacialBlend: 1
+    isLooping: 1
+    source: {fileID: 0}

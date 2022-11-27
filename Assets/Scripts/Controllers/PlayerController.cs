@@ -26,6 +26,8 @@ public class PlayerController : Controller
     {
         base.Start();
 
+        AudioManager.instance.PlaySound("Player Tank Creation", pawn.transform);
+
         // Adds itself to the game manager
         if (GameManager.instance != null && GameManager.instance.players != null)
         {
@@ -83,6 +85,9 @@ public class PlayerController : Controller
         // Get Key runs as long as it's held, Get Key Down runs once on being pressed, Get Key Up runs once on being released
         if (Input.GetKey(keyForward))
         {
+            AudioManager.instance.StopSoundIfItsPlaying("Player Tank Idle");
+            AudioManager.instance.PlayLoopingSound("Player Tank Idle High", pawn.transform);
+
             // Tells the given pawn to move forward, whatever pawn this script is attached to
             pawn.MoveForward();
             wheelAnimator.Forward();
@@ -91,6 +96,9 @@ public class PlayerController : Controller
         }
         if (Input.GetKey(keyBackward))
         {
+            AudioManager.instance.StopSoundIfItsPlaying("Player Tank Idle");
+            AudioManager.instance.PlayLoopingSound("Player Tank Idle High", pawn.transform);
+
             pawn.MoveBackward();
             wheelAnimator.Backwards();
             treadAnimator.Backwards();
@@ -98,6 +106,9 @@ public class PlayerController : Controller
         }
         if (Input.GetKey(keyRotateLeft))
         {
+            AudioManager.instance.StopSoundIfItsPlaying("Player Tank Idle");
+            AudioManager.instance.PlayLoopingSound("Player Tank Idle High", pawn.transform);
+
             pawn.RotateBodyCounterclockwise();
             wheelAnimator.Counterclockwise();
             treadAnimator.Counterclockwise();
@@ -105,6 +116,9 @@ public class PlayerController : Controller
         }
         if (Input.GetKey(keyRotateRight))
         {
+            AudioManager.instance.StopSoundIfItsPlaying("Player Tank Idle");
+            AudioManager.instance.PlayLoopingSound("Player Tank Idle High", pawn.transform);
+
             pawn.RotateBodyClockwise();
             wheelAnimator.Clockwise();
             treadAnimator.Clockwise();
@@ -121,6 +135,9 @@ public class PlayerController : Controller
         // Player will emit no noise that the AI can hear while not doing anything
         if (Input.anyKey == false)
         {
+            AudioManager.instance.StopSoundIfItsPlaying("Player Tank Idle High");
+            AudioManager.instance.PlayLoopingSound("Player Tank Idle", pawn.transform);
+
             pawn.GetComponent<NoiseEmitter>().EmitNoNoise();
         }
 

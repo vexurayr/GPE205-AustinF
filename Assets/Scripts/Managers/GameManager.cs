@@ -111,6 +111,8 @@ public class GameManager : MonoBehaviour
 
     public void SpawnPlayer()
     {
+        Camera.main.GetComponent<AudioListener>().enabled = false;
+
         // Spawns player controller into the scene
         GameObject newPlayerController = Instantiate(playerControllerPrefab, Vector3.zero, Quaternion.identity);
 
@@ -352,7 +354,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(RespawnTimer());
     }
 
-    IEnumerator RespawnTimer()
+    private IEnumerator RespawnTimer()
     {
         yield return new WaitForSeconds(4f);
 

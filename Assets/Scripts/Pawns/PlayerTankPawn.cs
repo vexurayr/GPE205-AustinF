@@ -27,6 +27,9 @@ public class PlayerTankPawn : Pawn
     // For per-player score tracking and displaying
     private int score = 0;
 
+    // To only play reload sound once per shot
+    private bool isReloadSoundReadyToPlay = false;
+
     // Start is called before the first frame update
     public override void Start()
     {
@@ -41,6 +44,13 @@ public class PlayerTankPawn : Pawn
         if (GetComponentInParent<UIManager>() != null)
         {
             GetComponentInParent<UIManager>().UpdateShootCooldownUI();
+        }
+
+        if (timeUntilNextEvent <= 0 && isReloadSoundReadyToPlay)
+        {
+            isReloadSoundReadyToPlay = false;
+
+            AudioManager.instance.PlaySound("Player Tank Reload", gameObject.transform);
         }
     }
 
@@ -61,6 +71,37 @@ public class PlayerTankPawn : Pawn
         {
             mover.RotateBody(tankBodyPivotPoint, -turnSpeed);
             tankHead.transform.position = tankBodyHeadConnection.transform.position;
+        }
+    }
+
+    public override void Shoot()
+    {
+        if (!isStunned)
+        {
+            if (timeUntilNextEvent <= 0)
+            {
+                // Calls a function in Shooter using the reference in Pawn and gives the data saved in Pawn
+                shooter.Shoot(shellPrefab, fireForce, shellLifeSpan);
+
+                // Starts the cooldown after the player has shot
+                ShootCooldown();
+
+                if (GetComponent<PowerupManager>() != null)
+                {
+                    GetComponent<PowerupManager>().RemoveStunPowerup();
+                }
+            }
+        }
+    }
+
+    // A countdown method timer
+    public override void ShootCooldown()
+    {
+        if (timeUntilNextEvent <= 0)
+        {
+            timeUntilNextEvent = secondsPerShot;
+
+            isReloadSoundReadyToPlay = true;
         }
     }
 

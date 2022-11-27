@@ -29,6 +29,8 @@ public class AIHealth : Health
 
             if (aIToDelete != null)
             {
+                AudioManager.instance.PlaySound("AI Tank Death", gameObject.transform);
+
                 GameManager.instance.RemoveAIPlayerFromAIPlayers(aIToDelete);
                 aIToDelete.Die();
                 Destroy(gameObject);
