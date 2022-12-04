@@ -41,6 +41,8 @@ public class Health : MonoBehaviour
                     controller.pawn.AddPoints(gameObject.GetComponent<PointGiver>().pointsOnDeath);
 
                     controller.pawn.GetComponent<UIManager>().UpdateScoreUI();
+
+                    ScoreManager.instance.UpdateCurrentScore();
                 }
             }
 

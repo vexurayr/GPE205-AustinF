@@ -24,7 +24,7 @@ public class MapGenerator : MonoBehaviour
     private Quaternion spawnRotation;
 
     // Start is called before the first frame update
-    void Awake()
+    public void Awake()
     {
         // Don't generate new List<GameObject>() if designer feeds it GameObjects
 
@@ -33,6 +33,8 @@ public class MapGenerator : MonoBehaviour
 
     public void GenerateMap()
     {
+        isUsingDailySeed = SettingsManager.instance.GetIsDailyMapSelected();
+
         if (isUsingDailySeed)
         {
             GetDailySeed();
@@ -114,7 +116,7 @@ public class MapGenerator : MonoBehaviour
     public void MoveUpRow()
     {
         currentRow++;
-
+        
         if (currentRow < mapRows)
         {
             GenerateRow();

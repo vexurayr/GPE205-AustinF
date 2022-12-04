@@ -16,11 +16,22 @@ public class GameData
     /// Use SerializableDictionary<string, bool> if a dictionary is needed
     /// </summary>
     
+    // From Score Manager
     public int highScore;
+
+    // From Settings Manager
+    public bool isDailyMapSelected;
+    public float masterVolumeLevel;
+    public float musicVolumeLevel;
+    public float sFXVolumeLevel;
 
     // The values in the constructor are the default values assigned on creating a new game with no previous data
     public GameData()
     {
         this.highScore = 0;
+        this.isDailyMapSelected = false;
+        this.masterVolumeLevel = 1f;
+        this.musicVolumeLevel = 1f;
+        this.sFXVolumeLevel = 1f;
     }
 }

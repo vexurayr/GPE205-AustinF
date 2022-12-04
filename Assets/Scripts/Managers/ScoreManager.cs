@@ -8,7 +8,9 @@ public class ScoreManager : MonoBehaviour, IDataPersistence
 
     public List<PlayerController> players;
 
-    public int highScore;
+    private int highScore;
+
+    private int currentScore;
 
     private void Awake()
     {
@@ -28,21 +30,33 @@ public class ScoreManager : MonoBehaviour, IDataPersistence
 
     public void Update()
     {
-        if (players != null)
+        if (highScore < currentScore)
         {
-            foreach (PlayerController controller in players)
-            {
-                if (controller != null && controller.pawn != null)
-                {
-                    int score = controller.pawn.GetScore();
-
-                    if (highScore < score)
-                    {
-                        highScore = score;
-                    }
-                }
-            }
+            highScore = currentScore;
         }
+    }
+
+    public void UpdateCurrentScore()
+    {
+        foreach (PlayerController controller in players)
+        {
+            currentScore = controller.pawn.GetScore();
+        }
+    }
+
+    public int GetCurrentScore()
+    {
+        return currentScore;
+    }
+
+    public int GetHighScore()
+    {
+        return highScore;
+    }
+
+    public void ResetCurrentScore()
+    {
+        currentScore = 0;
     }
 
     public void LoadData(GameData data)

@@ -6,7 +6,7 @@ public class LivesManager : MonoBehaviour
 {
     public static LivesManager instance;
 
-    public int lives;
+    [Range(1, 3)] public int lives;
 
     private void Awake()
     {

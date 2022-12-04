@@ -21,9 +21,11 @@ public class AITankPawn : Pawn
 
     public void RotateTowards(Vector3 targetVector)
     {
-        if (!isStunned)
+        if (isStunned || isGamePaused)
         {
-            mover.RotateTowards(targetVector, turnSpeed);
+            return;
         }
+
+        mover.RotateTowards(targetVector, turnSpeed);
     }
 }

@@ -35,6 +35,10 @@ public class PlayerTankPawn : Pawn
     {
         // Use base."Name"(); if you want to call the parent's function
         base.Start();
+
+        score = ScoreManager.instance.GetCurrentScore();
+
+        GetComponent<UIManager>().UpdateScoreUI();
     }
 
     public override void Update()
@@ -57,39 +61,45 @@ public class PlayerTankPawn : Pawn
     // These two only work for the player for some reason
     public void RotateBodyClockwise()
     {
-        if (!isStunned)
+        if (isStunned || isGamePaused)
         {
-            mover.RotateBody(tankBodyPivotPoint, turnSpeed);
-            // Makes sure tank head stays attached to the tank body in the right place
-            tankHead.transform.position = tankBodyHeadConnection.transform.position;
+            return;
         }
+
+        mover.RotateBody(tankBodyPivotPoint, turnSpeed);
+        // Makes sure tank head stays attached to the tank body in the right place
+        tankHead.transform.position = tankBodyHeadConnection.transform.position;
     }
 
     public void RotateBodyCounterclockwise()
     {
-        if (!isStunned)
+        if (isStunned || isGamePaused)
         {
-            mover.RotateBody(tankBodyPivotPoint, -turnSpeed);
-            tankHead.transform.position = tankBodyHeadConnection.transform.position;
+            return;
         }
+
+        mover.RotateBody(tankBodyPivotPoint, -turnSpeed);
+        tankHead.transform.position = tankBodyHeadConnection.transform.position;
     }
 
     public override void Shoot()
     {
-        if (!isStunned)
+        if (isStunned || isGamePaused)
         {
-            if (timeUntilNextEvent <= 0)
+            return;
+        }
+
+        if (timeUntilNextEvent <= 0)
+        {
+            // Calls a function in Shooter using the reference in Pawn and gives the data saved in Pawn
+            shooter.Shoot(shellPrefab, fireForce, shellLifeSpan);
+
+            // Starts the cooldown after the player has shot
+            ShootCooldown();
+
+            if (GetComponent<PowerupManager>() != null)
             {
-                // Calls a function in Shooter using the reference in Pawn and gives the data saved in Pawn
-                shooter.Shoot(shellPrefab, fireForce, shellLifeSpan);
-
-                // Starts the cooldown after the player has shot
-                ShootCooldown();
-
-                if (GetComponent<PowerupManager>() != null)
-                {
-                    GetComponent<PowerupManager>().RemoveStunPowerup();
-                }
+                GetComponent<PowerupManager>().RemoveStunPowerup();
             }
         }
     }
@@ -107,6 +117,11 @@ public class PlayerTankPawn : Pawn
 
     public void MoveCamera()
     {
+        if (isStunned || isGamePaused)
+        {
+            return;
+        }
+
         // Saves the x and y position of the mouse on the screen
         Vector2 targetMouseDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
 

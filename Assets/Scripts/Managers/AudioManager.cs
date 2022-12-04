@@ -10,6 +10,8 @@ public class AudioManager : MonoBehaviour
     // practically inaudible no matter how much the volume is raised, and I can't figure out why
     public Sound[] sounds;
 
+    public float masterVolume;
+
     private void Awake()
     {
         // Singleton
@@ -46,6 +48,7 @@ public class AudioManager : MonoBehaviour
             // Without updating the transform, every source in 3D space would be (0, 0, 0)
             sound.source.transform.position = soundTransform.position;
             sound.source.Play();
+            Debug.Log("Playing sound at location: " + soundTransform.position);
         }
         catch (Exception e)
         {
@@ -117,5 +120,11 @@ public class AudioManager : MonoBehaviour
         {
             Debug.LogError("Couldn't find audio with name (" + audioName + ")\n" + e);
         }
+    }
+
+    public void Update()
+    {
+        masterVolume = SettingsManager.instance.GetMasterVolumeLevel();
+        AudioListener.volume = masterVolume;
     }
 }

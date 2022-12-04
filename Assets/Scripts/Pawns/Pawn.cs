@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 // Abstract means an object of this class will never be made or a function will never be called within that class
@@ -29,6 +30,9 @@ public abstract class Pawn : MonoBehaviour
     // For disabling controls if the pawn is stunned
     protected bool isStunned = false;
     protected float stunTime = 0f;
+
+    // For disabling controls if the game is paused
+    protected bool isGamePaused = false;
 
     // Start is called before the first frame update
     // Virtual means child classes can override this method
@@ -79,47 +83,63 @@ public abstract class Pawn : MonoBehaviour
 
     public virtual void MoveForward()
     {
-        if (!isStunned)
+        if (isStunned || isGamePaused)
         {
-            // Calls the Move function in the mover class, but the function in TankMover is run because that is the script attached to the pawn
-            mover.Move(tankBody.transform.forward, moveSpeed);
+            return;
         }
+
+        // Calls the Move function in the mover class, but the function in TankMover is run because that is the script attached to the pawn
+        mover.Move(tankBody.transform.forward, moveSpeed);
     }
 
     public virtual void MoveBackward()
     {
-        if (!isStunned)
+        if (isStunned || isGamePaused)
         {
-            mover.Move(tankBody.transform.forward, -moveSpeed);
+            return;
         }
-    }
 
+        mover.Move(tankBody.transform.forward, -moveSpeed);
+    }
+    
     public virtual void RotateClockwise()
     {
+        if (isStunned || isGamePaused)
+        {
+            return;
+        }
+
         mover.Rotate(turnSpeed);
     }
 
     public virtual void RotateCounterclockwise()
     {
+        if (isStunned || isGamePaused)
+        {
+            return;
+        }
+
         mover.Rotate(-turnSpeed);
     }
 
     public virtual void Shoot()
     {
-        if (!isStunned)
+        if (isStunned || isGamePaused)
         {
-            if (timeUntilNextEvent <= 0)
+            return;
+        }
+
+        if (timeUntilNextEvent <= 0)
+        {
+            // Calls a function in Shooter using the reference in Pawn and gives the data saved in Pawn
+            shooter.Shoot(shellPrefab, fireForce, shellLifeSpan);
+
+            // Starts the cooldown after the player has shot
+            ShootCooldown();
+
+            if (GetComponent<PowerupManager>() != null)
             {
-                // Calls a function in Shooter using the reference in Pawn and gives the data saved in Pawn
-                shooter.Shoot(shellPrefab, fireForce, shellLifeSpan);
-
-                // Starts the cooldown after the player has shot
-                ShootCooldown();
-
-                if (GetComponent<PowerupManager>() != null)
-                {
-                    GetComponent<PowerupManager>().RemoveStunPowerup();
-                }
+                GetComponent<PowerupManager>().RemoveStunPowerup();
             }
         }
     }
@@ -143,8 +163,21 @@ public abstract class Pawn : MonoBehaviour
         return secondsPerShot;
     }
 
+    public virtual void ToggleIsGamePaused()
+    {
+        isGamePaused = !isGamePaused;
+    }
+
     public virtual void Die()
     {
         Destroy(gameObject);
+    }
+
+    public virtual void OnDestroy()
+    {
+        AudioManager.instance.StopSoundIfItsPlaying("Player Tank Idle");
+        AudioManager.instance.StopSoundIfItsPlaying("Player Tank Idle High");
+        AudioManager.instance.StopSoundIfItsPlaying("AI Tank Idle");
+        AudioManager.instance.StopSoundIfItsPlaying("AI Tank Idle High");
     }
 }

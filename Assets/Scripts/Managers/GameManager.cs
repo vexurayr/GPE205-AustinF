@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         for (int i = 0; i < aISpawnPoints.Count; i++)
         {
@@ -103,7 +103,7 @@ public class GameManager : MonoBehaviour
         {
             remainingPickupSpawnerSpawnPoints.Add(pickupSpawnerSpawnPoints[i]);
         }
-
+        
         SpawnPlayer();
         SpawnAI();
         SpawnPickupSpawners();
@@ -362,5 +362,10 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForEndOfFrame();
         SetAITargetToPlayerOne();
+    }
+
+    public void DestoryGameManager()
+    {
+        Destroy(gameObject);
     }
 }
