@@ -116,7 +116,7 @@ public class PlayerGamepadController : Controller
 
         // Tells the given pawn to move forward, whatever pawn this script is attached to
         pawn.MoveForward(forward);
-        
+
         pawn.GetComponent<NoiseEmitter>().EmitMovementNoise();
     }
 
@@ -126,7 +126,7 @@ public class PlayerGamepadController : Controller
         AudioManager.instance.PlayLoopingSound("Player Tank Idle High", pawn.transform);
 
         pawn.MoveBackward(backward);
-        
+
         pawn.GetComponent<NoiseEmitter>().EmitMovementNoise();
     }
 
@@ -136,7 +136,7 @@ public class PlayerGamepadController : Controller
         AudioManager.instance.PlayLoopingSound("Player Tank Idle High", pawn.transform);
 
         pawn.RotateBodyCounterclockwise(left);
-        
+
         pawn.GetComponent<NoiseEmitter>().EmitMovementNoise();
     }
 
@@ -146,7 +146,7 @@ public class PlayerGamepadController : Controller
         AudioManager.instance.PlayLoopingSound("Player Tank Idle High", pawn.transform);
 
         pawn.RotateBodyClockwise(right);
-        
+
         pawn.GetComponent<NoiseEmitter>().EmitMovementNoise();
     }
 
