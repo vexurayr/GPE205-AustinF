@@ -8,6 +8,8 @@ public class LivesManager : MonoBehaviour
 
     [Range(1, 3)] public int lives;
 
+    private int startingLives;
+
     private void Awake()
     {
         // Singleton
@@ -20,6 +22,8 @@ public class LivesManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        startingLives = lives;
     }
 
     public void DeincrementLives()
@@ -31,6 +35,11 @@ public class LivesManager : MonoBehaviour
     {
         DeincrementLives();
 
+        if (GameManager.instance == null)
+        {
+            return;
+        }
+
         if (lives > 0)
         {
             // Calls coroutine in game manager to spawn in a new player
@@ -40,5 +49,22 @@ public class LivesManager : MonoBehaviour
         {
             MenuManager.instance.ShowDeathScreen();
         }
+    }
+
+    public void ResetLives()
+    {
+        lives = startingLives;
+    }
+
+    public void SetStartingLivesTo1()
+    {
+        startingLives = 1;
+        lives = startingLives;
+    }
+
+    public void SetStartingLivesTo3()
+    {
+        startingLives = 3;
+        lives = startingLives;
     }
 }

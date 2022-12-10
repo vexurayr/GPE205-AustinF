@@ -18,9 +18,6 @@ public class PlayerController : Controller
 
     public bool isCursorLocked;
 
-    private TankWheelAnimator wheelAnimator;
-    private TankTreadAnimator treadAnimator;
-
     // Start is called before the first frame update
     public override void Start()
     {
@@ -54,9 +51,6 @@ public class PlayerController : Controller
             Cursor.visible = true;
         }
 
-        wheelAnimator = pawn.GetComponent<TankWheelAnimator>();
-        treadAnimator = pawn.GetComponent<TankTreadAnimator>();
-
         pawn.GetComponent<UIManager>().UpdateLivesUI();
     }
 
@@ -68,13 +62,22 @@ public class PlayerController : Controller
     }
 
     // Built in function runs when objects is destroyed
-
     public void OnDestroy()
     {
         // Instance of player controller in list already exists
         if (GameManager.instance != null && GameManager.instance.players != null)
         {
             GameManager.instance.players.Remove(this);
+        }
+
+        if (ScoreManager.instance != null && ScoreManager.instance.players != null)
+        {
+            ScoreManager.instance.players.Remove(this);
+        }
+
+        if (LivesManager.instance != null && GameManager.instance != null)
+        {
+            LivesManager.instance.RespawnPlayer();
         }
     }
 
@@ -90,8 +93,7 @@ public class PlayerController : Controller
 
             // Tells the given pawn to move forward, whatever pawn this script is attached to
             pawn.MoveForward();
-            wheelAnimator.Forward();
-            treadAnimator.Forward();
+            
             pawn.GetComponent<NoiseEmitter>().EmitMovementNoise();
         }
         if (Input.GetKey(keyBackward))
@@ -100,8 +102,7 @@ public class PlayerController : Controller
             AudioManager.instance.PlayLoopingSound("Player Tank Idle High", pawn.transform);
 
             pawn.MoveBackward();
-            wheelAnimator.Backwards();
-            treadAnimator.Backwards();
+            
             pawn.GetComponent<NoiseEmitter>().EmitMovementNoise();
         }
         if (Input.GetKey(keyRotateLeft))
@@ -110,8 +111,7 @@ public class PlayerController : Controller
             AudioManager.instance.PlayLoopingSound("Player Tank Idle High", pawn.transform);
 
             pawn.RotateBodyCounterclockwise();
-            wheelAnimator.Counterclockwise();
-            treadAnimator.Counterclockwise();
+            
             pawn.GetComponent<NoiseEmitter>().EmitMovementNoise();
         }
         if (Input.GetKey(keyRotateRight))
@@ -120,8 +120,7 @@ public class PlayerController : Controller
             AudioManager.instance.PlayLoopingSound("Player Tank Idle High", pawn.transform);
 
             pawn.RotateBodyClockwise();
-            wheelAnimator.Clockwise();
-            treadAnimator.Clockwise();
+            
             pawn.GetComponent<NoiseEmitter>().EmitMovementNoise();
         }
 
@@ -163,8 +162,6 @@ public class PlayerController : Controller
 
     public override void Die()
     {
-        LivesManager.instance.RespawnPlayer();
-
         base.Die();
     }
 }

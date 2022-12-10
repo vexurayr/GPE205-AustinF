@@ -6,11 +6,8 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance;
 
-    // Audio is at times buggy, cutting in and out, refusing to play even when it's 2D,
-    // practically inaudible no matter how much the volume is raised, and I can't figure out why
+    // Audio is at times buggy
     public Sound[] sounds;
-
-    public float masterVolume;
 
     private void Awake()
     {
@@ -28,7 +25,11 @@ public class AudioManager : MonoBehaviour
         // Initialize each sound and its settings
         foreach (Sound sound in sounds)
         {
-            sound.source = gameObject.AddComponent<AudioSource>();
+            GameObject audioSource = new GameObject();
+            audioSource.name = sound.audioName;
+            audioSource.transform.parent = transform;
+
+            sound.source = audioSource.AddComponent<AudioSource>();
             sound.source.clip = sound.clip;
 
             sound.source.mute = sound.isAudioMuted;
@@ -36,24 +37,28 @@ public class AudioManager : MonoBehaviour
             sound.source.pitch = sound.pitch;
             sound.source.spatialBlend = sound.spacialBlend;
             sound.source.loop = sound.isLooping;
+            sound.source.outputAudioMixerGroup = sound.mixerGroup;
         }
     }
 
     public void PlaySound(string audioName, Transform soundTransform)
     {
         Sound sound = Array.Find(sounds, sound => sound.audioName == audioName);
-
+        
         try
         {
-            // Without updating the transform, every source in 3D space would be (0, 0, 0)
-            sound.source.transform.position = soundTransform.position;
-            sound.source.Play();
-            Debug.Log("Playing sound at location: " + soundTransform.position);
+            if (sound.source.loop)
+            {
+                PlayLoopingSound(audioName, soundTransform);
+            }
+            else
+            {
+                // Without updating the transform, every source in 3D space would be (0, 0, 0)
+                AudioSource.PlayClipAtPoint(sound.clip, soundTransform.position);
+            }
         }
-        catch (Exception e)
-        {
-            Debug.LogError("Couldn't find audio with name (" + audioName + ")\n" + e);
-        }
+        catch (Exception)
+        {}
     }
 
     public void PlayLoopingSound(string audioName, Transform soundTransform)
@@ -69,10 +74,8 @@ public class AudioManager : MonoBehaviour
                 sound.source.Play();
             }
         }
-        catch (Exception e)
-        {
-            Debug.LogError("Couldn't find audio with name (" + audioName + ")\n" + e);
-        }
+        catch (Exception)
+        {}
     }
 
     public void StopSound(string audioName)
@@ -83,10 +86,8 @@ public class AudioManager : MonoBehaviour
         {
             sound.source.Stop();
         }
-        catch (Exception e)
-        {
-            Debug.LogError("Couldn't find audio with name (" + audioName + ")\n" + e);
-        }
+        catch (Exception)
+        {}
     }
 
     // To handle looping sounds
@@ -98,9 +99,8 @@ public class AudioManager : MonoBehaviour
         {
             return sound.source.isPlaying;
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            Debug.LogError("Couldn't find audio with name (" + audioName + ")\n" + e);
             return false;
         }
     }
@@ -116,15 +116,7 @@ public class AudioManager : MonoBehaviour
                 sound.source.Stop();
             }
         }
-        catch (Exception e)
-        {
-            Debug.LogError("Couldn't find audio with name (" + audioName + ")\n" + e);
-        }
-    }
-
-    public void Update()
-    {
-        masterVolume = SettingsManager.instance.GetMasterVolumeLevel();
-        AudioListener.volume = masterVolume;
+        catch (Exception)
+        {}
     }
 }

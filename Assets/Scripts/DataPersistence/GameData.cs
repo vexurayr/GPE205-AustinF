@@ -20,18 +20,26 @@ public class GameData
     public int highScore;
 
     // From Settings Manager
+    public bool isGameOnePlayer;
     public bool isDailyMapSelected;
     public float masterVolumeLevel;
     public float musicVolumeLevel;
     public float sFXVolumeLevel;
+    public float masterSliderValue;
+    public float musicSliderValue;
+    public float sFXSliderValue;
 
     // The values in the constructor are the default values assigned on creating a new game with no previous data
     public GameData()
     {
         this.highScore = 0;
+        this.isGameOnePlayer = true;
         this.isDailyMapSelected = false;
-        this.masterVolumeLevel = 1f;
-        this.musicVolumeLevel = 1f;
-        this.sFXVolumeLevel = 1f;
+        this.masterVolumeLevel = 0f;
+        this.musicVolumeLevel = 0f;
+        this.sFXVolumeLevel = 0f;
+        this.masterSliderValue = 1f;
+        this.musicSliderValue = 1f;
+        this.sFXSliderValue = 1f;
     }
 }

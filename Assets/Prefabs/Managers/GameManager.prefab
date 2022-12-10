@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4413511105039017904
 MonoBehaviour:
@@ -46,9 +46,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxAISpawned: 3
   maxPickupsSpawned: 20
-  playerControllerPrefab: {fileID: 239099234445147774, guid: 5248d2fd730b7d24f84dccaf2ea080d6, type: 3}
-  tankPawnPrefab: {fileID: 2680657668562896830, guid: 04fa4c77d83624b418549d6ba452e871, type: 3}
+  playerKeyboardController: {fileID: 239099234445147774, guid: 5248d2fd730b7d24f84dccaf2ea080d6, type: 3}
+  playerGamepadController: {fileID: 3630287048810914147, guid: 72f9e603f1a108949a0fa6c968b48fae, type: 3}
+  tankPawnKeyboard: {fileID: 2680657668562896830, guid: 04fa4c77d83624b418549d6ba452e871, type: 3}
+  tankPawnGamepad: {fileID: 2680657668562896830, guid: 173dce4c44691f9459bb8c4b6a5397a0, type: 3}
   players: []
+  gamepadPlayers: []
   sittingDuckPrefab: {fileID: 2680657668562896830, guid: 28406842d4f440a49a3a70b77e671254, type: 3}
   noobGamerPrefab: {fileID: 2680657668562896830, guid: cd282c632b290dd4a914c0762a017492, type: 3}
   guardPrefab: {fileID: 2680657668562896830, guid: cbae9f81dde36ff4c871c141478cc587, type: 3}

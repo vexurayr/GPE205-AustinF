@@ -14,8 +14,11 @@ public class MenuManager : MonoBehaviour
     public Slider inGameMusicVolumeLevel;
     public Slider inGameSFXVolumeLevel;
     public GameObject deathScreen;
-    public Text highScoreNumber;
+    public Text deathText;
+    public Text finalScoreText;
     public Text finalScoreNumber;
+    public Text highScoreText;
+    public Text highScoreNumber;
 
     // For start screen menus
     public GameObject startScreenBackground;
@@ -47,6 +50,11 @@ public class MenuManager : MonoBehaviour
 
     public void Start()
     {
+        if (SettingsManager.instance != null)
+        {
+            UpdateAllAudioSliderValues();
+        }
+
         if (instance.startScreenBackground.activeInHierarchy == true)
         {
             PlayMainMenuMusic();
@@ -68,6 +76,8 @@ public class MenuManager : MonoBehaviour
     public void PlayGame()
     {
         SceneManager.LoadScene("RandomMapTesting");
+
+        deathScreen.SetActive(false);
     }
 
     public void QuitGame()
@@ -85,9 +95,7 @@ public class MenuManager : MonoBehaviour
 
         ToggleGamePaused();
 
-        inGameMasterVolumeLevel.value = SettingsManager.instance.GetMasterVolumeLevel();
-        inGameMusicVolumeLevel.value = SettingsManager.instance.GetMusicVolumeLevel();
-        inGameSFXVolumeLevel.value = SettingsManager.instance.GetSFXVolumeLevel();
+        UpdateAllAudioSliderValues();
 
         // The settings menu is currently visible
         if (isSettingsMenuActive)
@@ -111,18 +119,36 @@ public class MenuManager : MonoBehaviour
 
     public void UpdateStartScreenSettings()
     {
-        startScreenMasterVolumeLevel.value = SettingsManager.instance.GetMasterVolumeLevel();
-        startScreenMusicVolumeLevel.value = SettingsManager.instance.GetMusicVolumeLevel();
-        startScreenSFXVolumeLevel.value = SettingsManager.instance.GetSFXVolumeLevel();
+        UpdateAllAudioSliderValues();
 
-        if (!SettingsManager.instance.GetIsDailyMapSelected())
-        {
-            useDailyMapButton.text = "No";
-        }
-        else if (SettingsManager.instance.GetIsDailyMapSelected())
+        if (SettingsManager.instance.GetIsDailyMapSelected())
         {
             useDailyMapButton.text = "Yes";
         }
+        else if (!SettingsManager.instance.GetIsDailyMapSelected())
+        {
+            useDailyMapButton.text = "No";
+        }
+
+        if (SettingsManager.instance.GetIsGameOnePlayer())
+        {
+            toggleOneOrTwoPlayersButton.text = "One";
+        }
+        else if (!SettingsManager.instance.GetIsGameOnePlayer())
+        {
+            toggleOneOrTwoPlayersButton.text = "Two";
+        }
+    }
+
+    public void UpdateAllAudioSliderValues()
+    {
+        startScreenMasterVolumeLevel.value = SettingsManager.instance.GetMasterVolumeSliderValue();
+        startScreenMusicVolumeLevel.value = SettingsManager.instance.GetMusicVolumeSliderValue();
+        startScreenSFXVolumeLevel.value = SettingsManager.instance.GetSFXVolumeSliderValue();
+
+        inGameMasterVolumeLevel.value = SettingsManager.instance.GetMasterVolumeSliderValue();
+        inGameMusicVolumeLevel.value = SettingsManager.instance.GetMusicVolumeSliderValue();
+        inGameSFXVolumeLevel.value = SettingsManager.instance.GetSFXVolumeSliderValue();
     }
 
     public void ShowCursor()
@@ -148,6 +174,8 @@ public class MenuManager : MonoBehaviour
 
     private void NowGoBackToMainMenu()
     {
+        DestroyGameManager();
+
         SceneManager.LoadScene("StartScreen");
 
         startScreenBackground.SetActive(true);
@@ -161,11 +189,37 @@ public class MenuManager : MonoBehaviour
     {
         ShowCursor();
 
-        finalScoreNumber.text = "" + ScoreManager.instance.GetCurrentScore();
-        highScoreNumber.text = "" + ScoreManager.instance.GetHighScore();
+        ToggleGamePaused();
+
+        if (SettingsManager.instance.GetIsGameOnePlayer())
+        {
+            deathText.text = "You Died";
+            finalScoreText.text = "Final Score:";
+            highScoreText.text = "High Score:";
+            finalScoreNumber.text = "" + ScoreManager.instance.GetCurrentScore();
+            highScoreNumber.text = "" + ScoreManager.instance.GetHighScore();
+        }
+        // Show different death screen if there are two players
+        else
+        {
+            deathText.text = "Game Over";
+            finalScoreText.text = "Player One:";
+            highScoreText.text = "Player Two:";
+
+            // Player 1 died, player 2 won
+            if (GameManager.instance.players.Count <= 0)
+            {
+                finalScoreNumber.text = "Loss";
+                highScoreNumber.text = "Victory";
+            }
+            else
+            {
+                finalScoreNumber.text = "Victory";
+                highScoreNumber.text = "Loss";
+            }
+        }
 
         deathScreen.SetActive(true);
-
         ScoreManager.instance.ResetCurrentScore();
     }
 
@@ -208,7 +262,7 @@ public class MenuManager : MonoBehaviour
         }
         if (!AudioManager.instance.IsSoundAlreadyPlaying("All Main Menu Music"))
         {
-            AudioManager.instance.PlaySound("All Main Menu Music", gameObject.transform);
+            AudioManager.instance.PlayLoopingSound("All Main Menu Music", gameObject.transform);
         }
     }
 
@@ -220,18 +274,24 @@ public class MenuManager : MonoBehaviour
         }
         if (!AudioManager.instance.IsSoundAlreadyPlaying("All Background Music"))
         {
-            AudioManager.instance.PlaySound("All Background Music", gameObject.transform);
+            AudioManager.instance.PlayLoopingSound("All Background Music", gameObject.transform);
         }
     }
 
     public void ToggleGamePaused()
     {
         List<PlayerController> playerControllers = GameManager.instance.players;
+        List<PlayerGamepadController> playerGamepadControllers = GameManager.instance.gamepadPlayers;
         List<AIController> aIControllers = GameManager.instance.aIPlayers;
 
         foreach (PlayerController playerController in playerControllers)
         {
             playerController.pawn.ToggleIsGamePaused();
+        }
+
+        foreach (PlayerGamepadController gamepadController in playerGamepadControllers)
+        {
+            gamepadController.pawn.ToggleIsGamePaused();
         }
 
         foreach (AIController aIController in aIControllers)
@@ -240,15 +300,18 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    public void ToggleOneOrTwoPlayersButtonText()
+    public void ToggleOneOrTwoPlayersText()
     {
-        if (toggleOneOrTwoPlayersButton.text == "One")
+        // One Player is not selected, make it selected
+        if (!SettingsManager.instance.GetIsGameOnePlayer())
         {
-            toggleOneOrTwoPlayersButton.text = "Two";
-        }
-        else if (toggleOneOrTwoPlayersButton.text == "Two")
-        {
+            SettingsManager.instance.ToggleIsGameOnePlayer();
             toggleOneOrTwoPlayersButton.text = "One";
+        }
+        else if (SettingsManager.instance.GetIsGameOnePlayer())
+        {
+            SettingsManager.instance.ToggleIsGameOnePlayer();
+            toggleOneOrTwoPlayersButton.text = "Two";
         }
     }
 

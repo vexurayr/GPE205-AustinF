@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -88,8 +89,13 @@ public abstract class Pawn : MonoBehaviour
             return;
         }
 
-        // Calls the Move function in the mover class, but the function in TankMover is run because that is the script attached to the pawn
-        mover.Move(tankBody.transform.forward, moveSpeed);
+        try
+        {
+            // Calls the Move function in the mover class, but the function in TankMover is run because that is the script attached to the pawn
+            mover.Move(tankBody.transform.forward, moveSpeed);
+        }
+        catch (Exception)
+        {}
     }
 
     public virtual void MoveBackward()
@@ -99,7 +105,12 @@ public abstract class Pawn : MonoBehaviour
             return;
         }
 
-        mover.Move(tankBody.transform.forward, -moveSpeed);
+        try
+        {
+            mover.Move(tankBody.transform.forward, -moveSpeed);
+        }
+        catch (Exception)
+        {}
     }
     
     public virtual void RotateClockwise()
@@ -109,7 +120,12 @@ public abstract class Pawn : MonoBehaviour
             return;
         }
 
-        mover.Rotate(turnSpeed);
+        try
+        {
+            mover.Rotate(turnSpeed);
+        }
+        catch (Exception)
+        {}
     }
 
     public virtual void RotateCounterclockwise()
@@ -119,7 +135,12 @@ public abstract class Pawn : MonoBehaviour
             return;
         }
 
-        mover.Rotate(-turnSpeed);
+        try
+        {
+            mover.Rotate(-turnSpeed);
+        }
+        catch (Exception)
+        {}
     }
 
     public virtual void Shoot()

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PlayerHealth : Health
 {
-    private PlayerController playerToDelete;
+    private PlayerController controllerToDelete;
+    private PlayerGamepadController gamepadToDelete;
 
     // Start is called before the first frame update
     public override void Start()
@@ -20,18 +21,41 @@ public class PlayerHealth : Health
             {
                 if (controller.pawn == gameObject.GetComponent<PlayerTankPawn>())
                 {
-                    playerToDelete = controller;
+                    controllerToDelete = controller;
+                }
+            }
+
+            foreach (PlayerGamepadController controller in GameManager.instance.gamepadPlayers)
+            {
+                if (controller.pawn == gameObject.GetComponent<PlayerTankPawn>())
+                {
+                    gamepadToDelete = controller;
                 }
             }
 
             // Removes this object from its list in the game manager
-            if (playerToDelete != null)
+            if (controllerToDelete != null)
             {
                 AudioManager.instance.PlaySound("Player Tank Death", gameObject.transform);
 
-                GameManager.instance.RemovePlayerFromPlayers(playerToDelete);
+                GameManager.instance.RemovePlayerFromPlayers(controllerToDelete);
 
-                playerToDelete.Die();
+                controllerToDelete.Die();
+
+                if (GameManager.instance.players.Count <= 0)
+                {
+                    Camera.main.GetComponent<AudioListener>().enabled = true;
+                }
+
+                Destroy(gameObject);
+            }
+            else if (gamepadToDelete != null)
+            {
+                AudioManager.instance.PlaySound("Player Tank Death", gameObject.transform);
+
+                GameManager.instance.RemovePlayerFromGamepadPlayers(gamepadToDelete);
+
+                gamepadToDelete.Die();
 
                 if (GameManager.instance.players.Count <= 0)
                 {

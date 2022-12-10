@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -135,13 +136,20 @@ public class PowerupManager : MonoBehaviour
 
     public bool HasStunPowerup()
     {
-        foreach (Powerup powerup in powerups)
+        try
         {
-            if (powerup != null && powerup.GetName() == "Stun")
+            foreach (Powerup powerup in powerups)
             {
-                return true;
+                if (powerup != null && powerup.GetName() == "Stun")
+                {
+                    return true;
+                }
             }
+            return false;
         }
-        return false;
+        catch (Exception)
+        {
+            return false;
+        }
     }
 }

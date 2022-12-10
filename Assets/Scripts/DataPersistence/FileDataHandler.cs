@@ -9,7 +9,7 @@ public class FileDataHandler
     // Directory of where the data will be saved
     private string dataDirPath = "";
 
-    // Name of the file it will save to
+    // Name of the file it will save as
     private string dataFileName = "";
 
     private bool isUsingEncryption = false;

@@ -3431,11 +3431,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 0
+  m_IgnoreReversedGraphics: 1
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 2147483647
+    m_Bits: 0
 --- !u!1 &1534182565928512209
 GameObject:
   m_ObjectHideFlags: 0
@@ -4972,7 +4972,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3bdb9f17bd6eb744d8e9ab3ecf91f321, type: 2}
+  - {fileID: 2100000, guid: c7d9b88dd54e4a949808d58c4abacc23, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5023,7 +5023,7 @@ GameObject:
   - component: {fileID: 6014232522753940881}
   - component: {fileID: 8581487717975335925}
   m_Layer: 0
-  m_Name: PlayerTank
+  m_Name: PlayerTankGamepad
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5094,16 +5094,16 @@ MonoBehaviour:
   shellPrefab: {fileID: 5672965515846665023, guid: fe94715b540bba04785e6559ae175539, type: 3}
   fireForce: 1000
   shellLifeSpan: 2
-  shotsPerSecond: 0.5
+  shotsPerSecond: 0.6
   tankHead: {fileID: 8192988298198665216}
   tankBodyHeadConnection: {fileID: 70883805919735930}
   tankBodyPivotPoint: {fileID: 6052066861867810272}
-  camera: {fileID: 8199332084974448043}
+  camera: {fileID: 0}
   cameraPivotPoint: {fileID: 9215286447330560780}
   maxPitchAngleUp: 80
   maxPitchAngleDown: 15
-  mouseSensitivityX: 1
-  mouseSensitivityY: 0.6
+  mouseSensitivityX: 85
+  mouseSensitivityY: 45
   mouseSmoothTime: 0.02
 --- !u!114 &6127458360187996927
 MonoBehaviour:
@@ -27171,7 +27171,7 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.5
+    y: 0
     width: 1
     height: 0.5
   near clip plane: 0.01
@@ -27179,7 +27179,7 @@ Camera:
   field of view: 75
   orthographic: 0
   orthographic size: 5
-  m_Depth: 5
+  m_Depth: 10
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -29461,7 +29461,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8192988298198665216}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!1 &8197917396898660667
 GameObject:
   m_ObjectHideFlags: 0
@@ -37158,7 +37158,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3bdb9f17bd6eb744d8e9ab3ecf91f321, type: 2}
+  - {fileID: 2100000, guid: c7d9b88dd54e4a949808d58c4abacc23, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

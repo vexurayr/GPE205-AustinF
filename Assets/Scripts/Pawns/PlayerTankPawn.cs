@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,7 @@ public class PlayerTankPawn : Pawn
     public GameObject tankBodyPivotPoint;
 
     // For camera movement
+    public new Camera camera;
     public GameObject cameraPivotPoint;
     [Range(0, 90)] public float maxPitchAngleUp;
     [Range(0, 90)] public float maxPitchAngleDown;
@@ -30,6 +32,9 @@ public class PlayerTankPawn : Pawn
     // To only play reload sound once per shot
     private bool isReloadSoundReadyToPlay = false;
 
+    private TankWheelAnimator wheelAnimator;
+    private TankTreadAnimator treadAnimator;
+
     // Start is called before the first frame update
     public override void Start()
     {
@@ -39,6 +44,9 @@ public class PlayerTankPawn : Pawn
         score = ScoreManager.instance.GetCurrentScore();
 
         GetComponent<UIManager>().UpdateScoreUI();
+
+        wheelAnimator = GetComponent<TankWheelAnimator>();
+        treadAnimator = GetComponent<TankTreadAnimator>();
     }
 
     public override void Update()
@@ -58,7 +66,80 @@ public class PlayerTankPawn : Pawn
         }
     }
 
-    // These two only work for the player for some reason
+    public override void MoveForward()
+    {
+        if (isStunned || isGamePaused)
+        {
+            return;
+        }
+
+        try
+        {
+            // Calls the Move function in the mover class, but the function in TankMover is run because that is the script attached to the pawn
+            mover.Move(tankBody.transform.forward, moveSpeed);
+
+            wheelAnimator.Forward();
+            treadAnimator.Forward();
+        }
+        catch(Exception)
+        {}
+    }
+
+    public void MoveForward(float delta)
+    {
+        if (isStunned || isGamePaused)
+        {
+            return;
+        }
+
+        try
+        {
+            // Calls the Move function in the mover class, but the function in TankMover is run because that is the script attached to the pawn
+            mover.Move(tankBody.transform.forward, delta * moveSpeed);
+
+            wheelAnimator.Forward();
+            treadAnimator.Forward();
+        }
+        catch (Exception)
+        {}
+    }
+
+    public override void MoveBackward()
+    {
+        if (isStunned || isGamePaused)
+        {
+            return;
+        }
+
+        try
+        {
+            mover.Move(tankBody.transform.forward, -moveSpeed);
+
+            wheelAnimator.Backwards();
+            treadAnimator.Backwards();
+        }
+        catch (Exception)
+        {}
+    }
+
+    public void MoveBackward(float delta)
+    {
+        if (isStunned || isGamePaused)
+        {
+            return;
+        }
+
+        try
+        {
+            mover.Move(tankBody.transform.forward, delta * -moveSpeed);
+
+            wheelAnimator.Backwards();
+            treadAnimator.Backwards();
+        }
+        catch (Exception)
+        {}
+    }
+
     public void RotateBodyClockwise()
     {
         if (isStunned || isGamePaused)
@@ -66,9 +147,37 @@ public class PlayerTankPawn : Pawn
             return;
         }
 
-        mover.RotateBody(tankBodyPivotPoint, turnSpeed);
-        // Makes sure tank head stays attached to the tank body in the right place
-        tankHead.transform.position = tankBodyHeadConnection.transform.position;
+        try
+        {
+            mover.RotateBody(tankBodyPivotPoint, turnSpeed);
+            // Makes sure tank head stays attached to the tank body in the right place
+            tankHead.transform.position = tankBodyHeadConnection.transform.position;
+
+            wheelAnimator.Clockwise();
+            treadAnimator.Clockwise();
+        }
+        catch (Exception)
+        {}
+    }
+
+    public void RotateBodyClockwise(float delta)
+    {
+        if (isStunned || isGamePaused)
+        {
+            return;
+        }
+
+        try
+        {
+            mover.RotateBody(tankBodyPivotPoint, delta * turnSpeed);
+            // Makes sure tank head stays attached to the tank body in the right place
+            tankHead.transform.position = tankBodyHeadConnection.transform.position;
+
+            wheelAnimator.Clockwise();
+            treadAnimator.Clockwise();
+        }
+        catch(Exception)
+        {}
     }
 
     public void RotateBodyCounterclockwise()
@@ -78,8 +187,35 @@ public class PlayerTankPawn : Pawn
             return;
         }
 
-        mover.RotateBody(tankBodyPivotPoint, -turnSpeed);
-        tankHead.transform.position = tankBodyHeadConnection.transform.position;
+        try
+        {
+            mover.RotateBody(tankBodyPivotPoint, -turnSpeed);
+            tankHead.transform.position = tankBodyHeadConnection.transform.position;
+
+            wheelAnimator.Counterclockwise();
+            treadAnimator.Counterclockwise();
+        }
+        catch (Exception)
+        {}
+    }
+
+    public void RotateBodyCounterclockwise(float delta)
+    {
+        if (isStunned || isGamePaused)
+        {
+            return;
+        }
+
+        try
+        {
+            mover.RotateBody(tankBodyPivotPoint, delta * -turnSpeed);
+            tankHead.transform.position = tankBodyHeadConnection.transform.position;
+
+            wheelAnimator.Counterclockwise();
+            treadAnimator.Counterclockwise();
+        }
+        catch (Exception)
+        {}
     }
 
     public override void Shoot()
@@ -115,6 +251,7 @@ public class PlayerTankPawn : Pawn
         }
     }
 
+    // Used by PlayerController
     public void MoveCamera()
     {
         if (isStunned || isGamePaused)
@@ -149,6 +286,73 @@ public class PlayerTankPawn : Pawn
             cameraZoom.z = 1;
         }
         else if (cameraZoom.y >= 4 || cameraZoom.z >= 4)
+        {
+            cameraZoom.y = 4;
+            cameraZoom.z = 4;
+        }
+
+        cameraPivotPoint.transform.localScale = cameraZoom;
+    }
+
+    // Following camera move functions used by PlayerGamepadController
+    public void MoveCameraVertically(float direction)
+    {
+        if (isStunned || isGamePaused)
+        {
+            return;
+        }
+
+        // Saves the camera's vertical rotation as the inverse of mouse movement
+        cameraPitch -= direction * mouseSensitivityY;
+
+        // Guarentees the camera does not rotate up or down beyond a certain point
+        cameraPitch = Mathf.Clamp(cameraPitch, maxPitchAngleUp, maxPitchAngleDown + maxPitchAngleUp);
+
+        // Rotates the camera vertically
+        cameraPivotPoint.transform.localEulerAngles = Vector3.right * cameraPitch;
+    }
+
+    public void MoveCameraHorizontally(float direction)
+    {
+        if (isStunned || isGamePaused)
+        {
+            return;
+        }
+
+        // Rotates the top of the tank left and right based on the mouse's x (horizontal) position
+        tankHead.transform.Rotate(Vector3.up * direction * mouseSensitivityX);
+    }
+
+    public void ZoomCameraIn()
+    {
+        if (isStunned || isGamePaused)
+        {
+            return;
+        }
+
+        cameraZoom.y -= 1;
+        cameraZoom.z -= 1;
+
+        if (cameraZoom.y <= 1 || cameraZoom.z <= 1)
+        {
+            cameraZoom.y = 1;
+            cameraZoom.z = 1;
+        }
+
+        cameraPivotPoint.transform.localScale = cameraZoom;
+    }
+
+    public void ZoomCameraOut()
+    {
+        if (isStunned || isGamePaused)
+        {
+            return;
+        }
+
+        cameraZoom.y += 1;
+        cameraZoom.z += 1;
+
+        if (cameraZoom.y >= 4 || cameraZoom.z >= 4)
         {
             cameraZoom.y = 4;
             cameraZoom.z = 4;

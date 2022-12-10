@@ -59,7 +59,7 @@ public abstract class Pickup : MonoBehaviour
         }
     }
 
-    public virtual void OnTriggerEnter(Collider obj)
+    public void PlayPickupSound()
     {
         AudioManager.instance.PlaySound("All Pickup Taken", gameObject.transform);
     }

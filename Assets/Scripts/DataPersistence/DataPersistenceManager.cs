@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 public class DataPersistenceManager : MonoBehaviour
 {
@@ -67,14 +68,21 @@ public class DataPersistenceManager : MonoBehaviour
 
     public void SaveGame()
     {
-        // Give data to other scripts so they can update it
-        foreach (IDataPersistence dataPersistenceObj in dataPersistenceObjects)
+        try
         {
-            dataPersistenceObj.SaveData(gameData);
-        }
+            // Give data to other scripts so they can update it
+            foreach (IDataPersistence dataPersistenceObj in dataPersistenceObjects)
+            {
+                dataPersistenceObj.SaveData(gameData);
+            }
 
-        // Save that data to a file using the data handler
-        dataHandler.Save(gameData);
+            // Save that data to a file using the data handler
+            dataHandler.Save(gameData);
+        }
+        catch (Exception)
+        {
+            Debug.LogWarning("Failed to save. Likely do to changing code while the game was running.");
+        }
     }
 
     private void OnApplicationQuit()

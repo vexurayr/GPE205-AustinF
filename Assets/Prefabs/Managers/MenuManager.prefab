@@ -653,8 +653,11 @@ MonoBehaviour:
   inGameMusicVolumeLevel: {fileID: 5128629859566427079}
   inGameSFXVolumeLevel: {fileID: 2489844222199989328}
   deathScreen: {fileID: 5989987630261160939}
-  highScoreNumber: {fileID: 8109780992317118356}
+  deathText: {fileID: 6410089847725460034}
+  finalScoreText: {fileID: 5694937267523523571}
   finalScoreNumber: {fileID: 78048493028985504}
+  highScoreText: {fileID: 2580732185314536342}
+  highScoreNumber: {fileID: 8109780992317118356}
   startScreenBackground: {fileID: 7888302813327507038}
   redTankImage: {fileID: 846292001844425531}
   gameNameText: {fileID: 9076938072241436819}
@@ -2842,18 +2845,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 5002026131921206614}
-        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
-        m_MethodName: DestroyGameManager
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &2105676558173637387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3444,6 +3435,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5002026131921206614}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: DestroyMenuManager
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1707683604484610184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3588,18 +3591,6 @@ MonoBehaviour:
       - m_Target: {fileID: 5002026131921206614}
         m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
         m_MethodName: PlayButtonPressedSound
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 4711397224672098567, guid: 0f554728b96f9694dbdd82460fe991df, type: 3}
-        m_TargetAssemblyTypeName: SettingsManager, Assembly-CSharp
-        m_MethodName: SetMasterVolumeLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3788,7 +3779,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -20}
-  m_SizeDelta: {x: 220, y: 60}
+  m_SizeDelta: {x: 350, y: 60}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &6344454613476381352
 CanvasRenderer:
@@ -3987,7 +3978,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 5002026131921206614}
         m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
-        m_MethodName: ToggleOneOrTwoPlayersButtonText
+        m_MethodName: ToggleOneOrTwoPlayersText
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4053,7 +4044,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 150}
-  m_SizeDelta: {x: 400, y: 300}
+  m_SizeDelta: {x: 450, y: 350}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &5990734891755459025
 GameObject:

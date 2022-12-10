@@ -20,5 +20,7 @@ public class Sound
 
     public bool isLooping;
 
+    public AudioMixerGroup mixerGroup;
+
     [HideInInspector] public AudioSource source;
 }

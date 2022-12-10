@@ -52,6 +52,7 @@ MonoBehaviour:
     pitch: 1
     spacialBlend: 0
     isLooping: 1
+    mixerGroup: {fileID: -6567185558255739561, guid: 61f82faf76c3a614f941b6bcf4738099, type: 2}
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: 6aeebaa8bea172f49b1107adcb9d6293, type: 3}
     audioName: All Background Music
@@ -60,6 +61,7 @@ MonoBehaviour:
     pitch: 1
     spacialBlend: 0
     isLooping: 1
+    mixerGroup: {fileID: -6567185558255739561, guid: 61f82faf76c3a614f941b6bcf4738099, type: 2}
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: b586158b0434ab04e849a18aa712d8e8, type: 3}
     audioName: All Button Pressed
@@ -68,6 +70,7 @@ MonoBehaviour:
     pitch: 1
     spacialBlend: 0
     isLooping: 0
+    mixerGroup: {fileID: -4301351605127873137, guid: 61f82faf76c3a614f941b6bcf4738099, type: 2}
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: 1d1caa218fbe0344fbd49b13d527bea2, type: 3}
     audioName: All Button Released
@@ -76,6 +79,7 @@ MonoBehaviour:
     pitch: 1
     spacialBlend: 0
     isLooping: 0
+    mixerGroup: {fileID: -4301351605127873137, guid: 61f82faf76c3a614f941b6bcf4738099, type: 2}
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: f224b7f590147224984636bf21f322d8, type: 3}
     audioName: Player Tank Creation
@@ -84,6 +88,7 @@ MonoBehaviour:
     pitch: 1
     spacialBlend: 0
     isLooping: 0
+    mixerGroup: {fileID: -4301351605127873137, guid: 61f82faf76c3a614f941b6bcf4738099, type: 2}
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: 5a23fbbef6d0b00428360d89e3447124, type: 3}
     audioName: Player Tank Idle
@@ -92,6 +97,7 @@ MonoBehaviour:
     pitch: 1
     spacialBlend: 0
     isLooping: 1
+    mixerGroup: {fileID: -4301351605127873137, guid: 61f82faf76c3a614f941b6bcf4738099, type: 2}
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: 5a23fbbef6d0b00428360d89e3447124, type: 3}
     audioName: AI Tank Idle
@@ -100,6 +106,7 @@ MonoBehaviour:
     pitch: 1
     spacialBlend: 1
     isLooping: 1
+    mixerGroup: {fileID: -4301351605127873137, guid: 61f82faf76c3a614f941b6bcf4738099, type: 2}
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: 543e5d78dc9f84349b8ac42d499e1740, type: 3}
     audioName: All Bullet Hit
@@ -108,6 +115,7 @@ MonoBehaviour:
     pitch: 1
     spacialBlend: 1
     isLooping: 0
+    mixerGroup: {fileID: -4301351605127873137, guid: 61f82faf76c3a614f941b6bcf4738099, type: 2}
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: 9548fd888a07623498c2830b66c5055f, type: 3}
     audioName: All Pickup Taken
@@ -116,6 +124,7 @@ MonoBehaviour:
     pitch: 1
     spacialBlend: 1
     isLooping: 0
+    mixerGroup: {fileID: -4301351605127873137, guid: 61f82faf76c3a614f941b6bcf4738099, type: 2}
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: 6ff3ae47f13bbb949b0316846c158ede, type: 3}
     audioName: AI Tank Death
@@ -124,6 +133,7 @@ MonoBehaviour:
     pitch: 1
     spacialBlend: 1
     isLooping: 0
+    mixerGroup: {fileID: -4301351605127873137, guid: 61f82faf76c3a614f941b6bcf4738099, type: 2}
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: 6ff3ae47f13bbb949b0316846c158ede, type: 3}
     audioName: Player Tank Death
@@ -132,6 +142,7 @@ MonoBehaviour:
     pitch: 1
     spacialBlend: 1
     isLooping: 0
+    mixerGroup: {fileID: -4301351605127873137, guid: 61f82faf76c3a614f941b6bcf4738099, type: 2}
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: 2d245aa2c9de724438a3e414aea757e4, type: 3}
     audioName: Player Tank Reload
@@ -140,6 +151,7 @@ MonoBehaviour:
     pitch: 1
     spacialBlend: 1
     isLooping: 0
+    mixerGroup: {fileID: -4301351605127873137, guid: 61f82faf76c3a614f941b6bcf4738099, type: 2}
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: b8d8ffea16c1ab84cae1a5de22877f1d, type: 3}
     audioName: All Tank Shoot
@@ -148,6 +160,7 @@ MonoBehaviour:
     pitch: 1
     spacialBlend: 1
     isLooping: 0
+    mixerGroup: {fileID: -4301351605127873137, guid: 61f82faf76c3a614f941b6bcf4738099, type: 2}
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: 5a23fbbef6d0b00428360d89e3447124, type: 3}
     audioName: Player Tank Idle High
@@ -156,6 +169,7 @@ MonoBehaviour:
     pitch: 1.5
     spacialBlend: 0
     isLooping: 1
+    mixerGroup: {fileID: -4301351605127873137, guid: 61f82faf76c3a614f941b6bcf4738099, type: 2}
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: 5a23fbbef6d0b00428360d89e3447124, type: 3}
     audioName: AI Tank Idle High
@@ -164,4 +178,5 @@ MonoBehaviour:
     pitch: 1.5
     spacialBlend: 1
     isLooping: 1
+    mixerGroup: {fileID: -4301351605127873137, guid: 61f82faf76c3a614f941b6bcf4738099, type: 2}
     source: {fileID: 0}

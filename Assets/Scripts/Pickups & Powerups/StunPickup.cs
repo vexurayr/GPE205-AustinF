@@ -19,10 +19,8 @@ public class StunPickup : Pickup
         base.Update();
     }
 
-    public override void OnTriggerEnter(Collider obj)
+    public void OnTriggerEnter(Collider obj)
     {
-        base.OnTriggerEnter(obj);
-
         // Variable stores colliding object's PowerupManager
         PowerupManager powerupManager = obj.GetComponent<PowerupManager>();
         bool hasStunBullet = false;
@@ -41,6 +39,8 @@ public class StunPickup : Pickup
             // Won't collect pickup if it's still in object's powerup manager
             if (!hasStunBullet)
             {
+                PlayPickupSound();
+
                 // Adds the powerup to the manager for it to be applied to the pawn
                 powerupManager.Add(powerup);
 

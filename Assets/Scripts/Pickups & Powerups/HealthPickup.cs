@@ -19,10 +19,8 @@ public class HealthPickup : Pickup
         base.Update();
     }
 
-    public override void OnTriggerEnter(Collider obj)
+    public void OnTriggerEnter(Collider obj)
     {
-        base.OnTriggerEnter(obj);
-
         // Variable stores colliding object's PowerupManager
         PowerupManager powerupManager = obj.GetComponent<PowerupManager>();
 
@@ -30,6 +28,8 @@ public class HealthPickup : Pickup
         if (powerupManager != null && powerupManager.GetComponent<Health>().GetHealth() != 
             powerupManager.GetComponent<Health>().maxHealth)
         {
+            PlayPickupSound();
+
             // Adds the powerup to the manager for it to be applied to the pawn
             powerupManager.Add(powerup);
 

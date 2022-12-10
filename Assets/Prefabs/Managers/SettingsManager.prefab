@@ -44,3 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84a540c071dc73a4c940e0db20faeb12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDailyMapSelected: 0
+  masterVolumeLevel: 0
+  musicVolumeLevel: 0
+  sFXVolumeLevel: 0
+  mixer: {fileID: 24100000, guid: 61f82faf76c3a614f941b6bcf4738099, type: 2}

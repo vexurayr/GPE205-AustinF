@@ -11,13 +11,16 @@ public class GameManager : MonoBehaviour
     [Range(1, 100)] public int maxPickupsSpawned;
 
     // Things the game manager will need to reference
-    public GameObject playerControllerPrefab;
-    public GameObject tankPawnPrefab;
+    public GameObject playerKeyboardController;
+    public GameObject playerGamepadController;
+    public GameObject tankPawnKeyboard;
+    public GameObject tankPawnGamepad;
 
     /// <summary>
     /// Leave Empty
     /// </summary>
     public List<PlayerController> players;
+    public List<PlayerGamepadController> gamepadPlayers;
     private GameObject newPawnObject;
 
     // AI tank prefabs
@@ -72,6 +75,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         players = new List<PlayerController>();
+        gamepadPlayers= new List<PlayerGamepadController>();
         aIPlayers = new List<AIController>();
         playerSpawnPoints = new List<GameObject>();
         aISpawnPoints = new List<GameObject>();
@@ -103,9 +107,28 @@ public class GameManager : MonoBehaviour
         {
             remainingPickupSpawnerSpawnPoints.Add(pickupSpawnerSpawnPoints[i]);
         }
+
+        ScoreManager.instance.ResetCurrentScore();
+        LivesManager.instance.ResetLives();
+        SpawnEverythingByPlayerCount();
+    }
+
+    public void SpawnEverythingByPlayerCount()
+    {
+        // The players will fight each other
+        if (SettingsManager.instance != null && !SettingsManager.instance.GetIsGameOnePlayer())
+        {
+            SpawnPlayer();
+            LivesManager.instance.SetStartingLivesTo1();
+        }
+        // The player will fight AI
+        else
+        {
+            SpawnPlayer();
+            SpawnAI();
+            LivesManager.instance.SetStartingLivesTo3();
+        }
         
-        SpawnPlayer();
-        SpawnAI();
         SpawnPickupSpawners();
     }
 
@@ -113,17 +136,67 @@ public class GameManager : MonoBehaviour
     {
         Camera.main.GetComponent<AudioListener>().enabled = false;
 
+        // Game is set to two players
+        if (SettingsManager.instance != null && !SettingsManager.instance.GetIsGameOnePlayer())
+        {
+            if (players.Count <= 0)
+            {
+                SpawnKeyboardPlayer();
+            }
+            if (gamepadPlayers.Count <= 0)
+            {
+                SpawnGamepadPlayer();
+            }
+        }
+        // Game set to/defaults to one player
+        else
+        {
+            SpawnKeyboardPlayer();
+        }
+    }
+
+    public void SpawnKeyboardPlayer()
+    {
         // Spawns player controller into the scene
-        GameObject newPlayerController = Instantiate(playerControllerPrefab, Vector3.zero, Quaternion.identity);
+        GameObject newPlayerController = Instantiate(playerKeyboardController, Vector3.zero, Quaternion.identity);
 
         int randNum = GetRandomNumberInRange(0, playerSpawnPoints.Count);
 
-        newPawnObject = Instantiate(tankPawnPrefab,
+        newPawnObject = Instantiate(tankPawnKeyboard,
             playerSpawnPoints[randNum].transform.position,
             playerSpawnPoints[randNum].transform.rotation);
 
         // Grabs the components from the newly instantiated game objects to set the controller to the tank
         PlayerController newController = newPlayerController.GetComponent<PlayerController>();
+        PlayerTankPawn newPawn = newPawnObject.GetComponent<PlayerTankPawn>();
+
+        // Tank head wouldn't always face the same direction as the tank when it's spawned
+        newPawn.tankHead.transform.forward = newPawn.transform.forward;
+
+        // Sets the controller's pawn variable to the player
+        newController.pawn = newPawn;
+
+        // Give player one full screen if they are the only one playing
+        if (SettingsManager.instance.GetIsGameOnePlayer())
+        {
+            Rect rect = new Rect(0, 0, 1, 1);
+            newPawn.camera.rect = rect;
+        }
+    }
+
+    public void SpawnGamepadPlayer()
+    {
+        // Spawns player controller into the scene
+        GameObject newPlayerController = Instantiate(playerGamepadController, Vector3.zero, Quaternion.identity);
+
+        int randNum = GetRandomNumberInRange(0, playerSpawnPoints.Count);
+
+        newPawnObject = Instantiate(tankPawnGamepad,
+            playerSpawnPoints[randNum].transform.position,
+            playerSpawnPoints[randNum].transform.rotation);
+
+        // Grabs the components from the newly instantiated game objects to set the controller to the tank
+        PlayerGamepadController newController = newPlayerController.GetComponent<PlayerGamepadController>();
         PlayerTankPawn newPawn = newPawnObject.GetComponent<PlayerTankPawn>();
 
         // Tank head wouldn't always face the same direction as the tank when it's spawned
@@ -137,7 +210,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < maxAISpawned; i++)
         {
-            int randNum = GetRandomNumberInRange(0, 3);
+            int randNum = GetRandomNumberInRange(0, 4);
 
             switch (randNum)
             {
@@ -232,13 +305,13 @@ public class GameManager : MonoBehaviour
             newAIController.GetComponent<AIController>().target = newPawnObject;
 
             // Will loop the waypoints or travel back and forth at random
-            randNum = GetRandomNumberInRange(0, 1);
+            randNum = GetRandomNumberInRange(0, 2);
 
             if (randNum == 0)
             {
                 newAIController.GetComponent<AIController>().isWaypointPathLooping = false;
             }
-            else
+            else if (randNum == 1)
             {
                 newAIController.GetComponent<AIController>().isWaypointPathLooping = true;
             }
@@ -328,6 +401,11 @@ public class GameManager : MonoBehaviour
         players.Remove(controller);
     }
 
+    public void RemovePlayerFromGamepadPlayers(PlayerGamepadController controller)
+    {
+        gamepadPlayers.Remove(controller);
+    }
+
     public void RemoveAIPlayerFromAIPlayers(AIController controller)
     {
         aIPlayers.Remove(controller);
@@ -367,5 +445,10 @@ public class GameManager : MonoBehaviour
     public void DestoryGameManager()
     {
         Destroy(gameObject);
+    }
+
+    public void OnDestroy()
+    {
+        StopAllCoroutines();
     }
 }
