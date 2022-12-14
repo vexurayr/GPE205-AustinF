@@ -8,7 +8,7 @@ public class ScoreManager : MonoBehaviour, IDataPersistence
 
     public List<PlayerController> players;
 
-    private int highScore;
+    public int highScore;
 
     private int currentScore;
 

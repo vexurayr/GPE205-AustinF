@@ -111,6 +111,7 @@
     <Compile Include="Assets\Scripts\Controllers\PlayerGamepadController.cs" />
     <Compile Include="Assets\Scripts\Timer Examples\Countdown.cs" />
     <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Managers\DifficultyManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

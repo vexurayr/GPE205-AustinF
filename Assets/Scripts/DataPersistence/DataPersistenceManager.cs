@@ -90,6 +90,12 @@ public class DataPersistenceManager : MonoBehaviour
         SaveGame();
     }
 
+    // Useful for scenarios where not all objects with persisting data are in the scene on start
+    public void UpdateNuberOfDataPersistenceObjects()
+    {
+        this.dataPersistenceObjects = FindAllDataPersistenceObjects();
+    }
+
     // Finds and returns all scripts that implement the IDataPersistence interface
     private List<IDataPersistence> FindAllDataPersistenceObjects()
     {

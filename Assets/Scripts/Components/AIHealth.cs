@@ -32,6 +32,13 @@ public class AIHealth : Health
                 AudioManager.instance.PlaySound("AI Tank Death", gameObject.transform);
 
                 GameManager.instance.RemoveAIPlayerFromAIPlayers(aIToDelete);
+
+                // Last AI on the map, spawn the next wave
+                if (GameManager.instance.aIPlayers.Count <= 0)
+                {
+                    GameManager.instance.SpawnNewAIWave();
+                }
+
                 aIToDelete.Die();
                 Destroy(gameObject);
             }

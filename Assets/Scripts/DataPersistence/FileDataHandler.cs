@@ -6,13 +6,13 @@ using System.IO;
 
 public class FileDataHandler
 {
-    // Directory of where the data will be saved
+    // Directory where the data will be saved
     private string dataDirPath = "";
 
     // Name of the file it will save as
     private string dataFileName = "";
 
-    private bool isUsingEncryption = false;
+    private bool isUsingEncryption;
 
     private readonly string encryptionCodeWord = "LookAway";
 
@@ -58,7 +58,7 @@ public class FileDataHandler
                 Debug.LogError("Error occured attempting to load data from file: " + fullPath + "\n" + e);
             }
         }
-
+        
         return loadedData;
     }
 

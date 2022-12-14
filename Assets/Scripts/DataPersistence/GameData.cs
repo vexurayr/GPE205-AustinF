@@ -29,6 +29,9 @@ public class GameData
     public float musicSliderValue;
     public float sFXSliderValue;
 
+    // From Difficulty Manager
+    public int currentDifficulty;
+
     // The values in the constructor are the default values assigned on creating a new game with no previous data
     public GameData()
     {
@@ -41,5 +44,6 @@ public class GameData
         this.masterSliderValue = 1f;
         this.musicSliderValue = 1f;
         this.sFXSliderValue = 1f;
+        this.currentDifficulty = 2;
     }
 }

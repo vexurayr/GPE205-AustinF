@@ -108,6 +108,7 @@ public class GameManager : MonoBehaviour
             remainingPickupSpawnerSpawnPoints.Add(pickupSpawnerSpawnPoints[i]);
         }
 
+        DifficultyManager.instance.ResetVariables();
         ScoreManager.instance.ResetCurrentScore();
         LivesManager.instance.ResetLives();
         SpawnEverythingByPlayerCount();
@@ -148,7 +149,7 @@ public class GameManager : MonoBehaviour
                 SpawnGamepadPlayer();
             }
         }
-        // Game set to/defaults to one player
+        // Game set to one player
         else
         {
             SpawnKeyboardPlayer();
@@ -179,7 +180,7 @@ public class GameManager : MonoBehaviour
         // Give player one full screen if they are the only one playing
         if (SettingsManager.instance.GetIsGameOnePlayer())
         {
-            Rect rect = new Rect(0, 0, 1, 1);
+            Rect rect = new (0, 0, 1, 1);
             newPawn.camera.rect = rect;
         }
     }
@@ -255,6 +256,14 @@ public class GameManager : MonoBehaviour
             newAIController.pawn = newAIPawn;
 
             newAIController.GetComponent<AIController>().target = newPawnObject;
+
+            // Gives difficulty manager tank's current stats
+            DifficultyManager.instance.GenerateAITankStats(newAIPawn.GetComponent<AIHealth>().maxHealth, newAIPawn.shotsPerSecond,
+                newAIPawn.GetComponent<PointGiver>().pointsOnDeath);
+            // Gives tank new stats based on difficulty selected and number of waves spawned
+            newAIPawn.GetComponent<AIHealth>().maxHealth = DifficultyManager.instance.GetNewMaxHealth();
+            newAIPawn.shotsPerSecond = DifficultyManager.instance.GetNewShotsPerSecond();
+            newAIPawn.GetComponent<PointGiver>().pointsOnDeath = DifficultyManager.instance.GetNewPointsGiven();
         }
     }
 
@@ -279,6 +288,14 @@ public class GameManager : MonoBehaviour
             newAIController.pawn = newAIPawn;
 
             newAIController.GetComponent<AIController>().target = newPawnObject;
+
+            // Gives difficulty manager tank's current stats
+            DifficultyManager.instance.GenerateAITankStats(newAIPawn.GetComponent<AIHealth>().maxHealth, newAIPawn.shotsPerSecond,
+                newAIPawn.GetComponent<PointGiver>().pointsOnDeath);
+            // Gives tank new stats based on difficulty selected and number of waves spawned
+            newAIPawn.GetComponent<AIHealth>().maxHealth = DifficultyManager.instance.GetNewMaxHealth();
+            newAIPawn.shotsPerSecond = DifficultyManager.instance.GetNewShotsPerSecond();
+            newAIPawn.GetComponent<PointGiver>().pointsOnDeath = DifficultyManager.instance.GetNewPointsGiven();
         }
     }
 
@@ -328,6 +345,14 @@ public class GameManager : MonoBehaviour
                 //Debug.Log("WaypointPattern.waypoints[i]: " + waypointPattern.waypoints[i]);
                 newAIController.GetComponent<AIController>().waypoints.Add(waypointPattern.waypoints[i]);
             }
+
+            // Gives difficulty manager tank's current stats
+            DifficultyManager.instance.GenerateAITankStats(newAIPawn.GetComponent<AIHealth>().maxHealth, newAIPawn.shotsPerSecond,
+                newAIPawn.GetComponent<PointGiver>().pointsOnDeath);
+            // Gives tank new stats based on difficulty selected and number of waves spawned
+            newAIPawn.GetComponent<AIHealth>().maxHealth = DifficultyManager.instance.GetNewMaxHealth();
+            newAIPawn.shotsPerSecond = DifficultyManager.instance.GetNewShotsPerSecond();
+            newAIPawn.GetComponent<PointGiver>().pointsOnDeath = DifficultyManager.instance.GetNewPointsGiven();
         }
     }
 
@@ -352,6 +377,14 @@ public class GameManager : MonoBehaviour
             newAIController.pawn = newAIPawn;
 
             newAIController.GetComponent<AIController>().target = newPawnObject;
+
+            // Gives difficulty manager tank's current stats
+            DifficultyManager.instance.GenerateAITankStats(newAIPawn.GetComponent<AIHealth>().maxHealth, newAIPawn.shotsPerSecond,
+                newAIPawn.GetComponent<PointGiver>().pointsOnDeath);
+            // Gives tank new stats based on difficulty selected and number of waves spawned
+            newAIPawn.GetComponent<AIHealth>().maxHealth = DifficultyManager.instance.GetNewMaxHealth();
+            newAIPawn.shotsPerSecond = DifficultyManager.instance.GetNewShotsPerSecond();
+            newAIPawn.GetComponent<PointGiver>().pointsOnDeath = DifficultyManager.instance.GetNewPointsGiven();
         }
     }
 
@@ -367,13 +400,22 @@ public class GameManager : MonoBehaviour
                 int randPickup = GetRandomNumberInRange(0, pickupSpawners.Count);
 
                 // Creates a random pickup spawner in a random pickup spawner spawn point
-                GameObject newPickupSpawnerObject = Instantiate(pickupSpawners[randPickup],
+                Instantiate(pickupSpawners[randPickup],
                     remainingPickupSpawnerSpawnPoints[randNum].transform.position,
                     remainingPickupSpawnerSpawnPoints[randNum].transform.rotation);
 
                 remainingPickupSpawnerSpawnPoints.Remove(remainingPickupSpawnerSpawnPoints[randNum]);
             }
         }
+    }
+
+    public void SpawnNewAIWave()
+    {
+        DifficultyManager.instance.CheckForDifficultyBump();
+
+        ResetAvailableAISpawnPoints();
+
+        StartCoroutine(AIRespawnTimer());
     }
 
     public void ResetAvailableAISpawnPoints()
@@ -429,17 +471,7 @@ public class GameManager : MonoBehaviour
     public void RespawnPlayer()
     {
         //Debug.Log("Waiting to respawn player.");
-        StartCoroutine(RespawnTimer());
-    }
-
-    private IEnumerator RespawnTimer()
-    {
-        yield return new WaitForSeconds(4f);
-
-        SpawnPlayer();
-
-        yield return new WaitForEndOfFrame();
-        SetAITargetToPlayerOne();
+        StartCoroutine(PlayerRespawnTimer());
     }
 
     public void DestoryGameManager()
@@ -450,5 +482,22 @@ public class GameManager : MonoBehaviour
     public void OnDestroy()
     {
         StopAllCoroutines();
+    }
+
+    private IEnumerator PlayerRespawnTimer()
+    {
+        yield return new WaitForSeconds(4f);
+
+        SpawnPlayer();
+
+        yield return new WaitForEndOfFrame();
+        SetAITargetToPlayerOne();
+    }
+
+    private IEnumerator AIRespawnTimer()
+    {
+        yield return new WaitForSeconds(4f);
+
+        SpawnAI();
     }
 }
