@@ -8,7 +8,7 @@ public class MenuManager : MonoBehaviour
 {
     public static MenuManager instance;
 
-    // For in game menus
+    // For in game menu
     public GameObject inGameSettingsMenu;
     public Slider inGameMasterVolumeLevel;
     public Slider inGameMusicVolumeLevel;
@@ -20,19 +20,22 @@ public class MenuManager : MonoBehaviour
     public Text highScoreText;
     public Text highScoreNumber;
 
-    // For start screen menus
+    // For start screen menu
     public GameObject startScreenBackground;
     public GameObject redTankImage;
     public GameObject gameNameText;
     public GameObject blueTankImage;
+    public Text highScoreSplashText;
     public GameObject mainMenu;
     public Slider startScreenMasterVolumeLevel;
     public Slider startScreenMusicVolumeLevel;
     public Slider startScreenSFXVolumeLevel;
     public Text toggleOneOrTwoPlayersButton;
     public Text useDailyMapButton;
+    public Text difficultySelectButton;
 
     private bool isSettingsMenuActive;
+    private bool isFontSizeIncreasing;
 
     private void Awake()
     {
@@ -62,6 +65,13 @@ public class MenuManager : MonoBehaviour
         else if (instance.startScreenBackground.activeInHierarchy == false)
         {
             PlayBackgroundMusic();
+        }
+
+        highScoreSplashText.text = "High Score: " + ScoreManager.instance.GetHighScore();
+
+        if (startScreenBackground.activeInHierarchy == true)
+        {
+            StartCoroutine(AnimateFontSize());
         }
     }
 
@@ -121,6 +131,7 @@ public class MenuManager : MonoBehaviour
     {
         UpdateAllAudioSliderValues();
 
+        // Makes sure daily map button displays the right text
         if (SettingsManager.instance.GetIsDailyMapSelected())
         {
             useDailyMapButton.text = "Yes";
@@ -130,6 +141,7 @@ public class MenuManager : MonoBehaviour
             useDailyMapButton.text = "No";
         }
 
+        // Makes sure player count button displays the right text
         if (SettingsManager.instance.GetIsGameOnePlayer())
         {
             toggleOneOrTwoPlayersButton.text = "One";
@@ -137,6 +149,20 @@ public class MenuManager : MonoBehaviour
         else if (!SettingsManager.instance.GetIsGameOnePlayer())
         {
             toggleOneOrTwoPlayersButton.text = "Two";
+        }
+
+        // Makes sure difficulty button displays the right text
+        if (SettingsManager.instance.GetCurrentDifficulty() == 1)
+        {
+            difficultySelectButton.text = "Easy";
+        }
+        else if (SettingsManager.instance.GetCurrentDifficulty() == 2)
+        {
+            difficultySelectButton.text = "Normal";
+        }
+        else if (SettingsManager.instance.GetCurrentDifficulty() == 3)
+        {
+            difficultySelectButton.text = "Hard";
         }
     }
 
@@ -183,6 +209,15 @@ public class MenuManager : MonoBehaviour
         gameNameText.SetActive(true);
         blueTankImage.SetActive(true);
         mainMenu.SetActive(true);
+
+        highScoreSplashText.text = "High Score: " + ScoreManager.instance.GetHighScore();
+
+        if (startScreenBackground.activeInHierarchy == true)
+        {
+            StartCoroutine(AnimateFontSize());
+        }
+
+        ShowCursor();
     }
 
     public void ShowDeathScreen()
@@ -226,6 +261,8 @@ public class MenuManager : MonoBehaviour
     public void HideDeathScreen()
     {
         deathScreen.SetActive(false);
+
+        highScoreSplashText.text = "High Score: " + ScoreManager.instance.GetHighScore();
     }
 
     public void PlayButtonPressedSound()
@@ -238,20 +275,6 @@ public class MenuManager : MonoBehaviour
     public void PlayButtonReleasedSound()
     {
         AudioManager.instance.PlaySound("All Button Released", gameObject.transform);
-    }
-
-    private IEnumerator WaitToReleaseButton()
-    {
-        yield return new WaitForSeconds(0.2f);
-
-        PlayButtonReleasedSound();
-    }
-
-    private IEnumerator WaitToGoBackToMainMenu()
-    {
-        yield return new WaitForEndOfFrame();
-
-        NowGoBackToMainMenu();
     }
 
     public void PlayMainMenuMusic()
@@ -330,11 +353,84 @@ public class MenuManager : MonoBehaviour
         }
     }
 
+    public void ToggleDifficultyButtonText()
+    {
+        // Treat it like an array that loops back from 3 -> 1
+        if (SettingsManager.instance.GetCurrentDifficulty() == 1)
+        {
+            SettingsManager.instance.SetAIToNormal();
+            difficultySelectButton.text = "Normal";
+        }
+        else if (SettingsManager.instance.GetCurrentDifficulty() == 2)
+        {
+            SettingsManager.instance.SetAIToHard();
+            difficultySelectButton.text = "Hard";
+        }
+        else if (SettingsManager.instance.GetCurrentDifficulty() == 3)
+        {
+            SettingsManager.instance.SetAIToEasy();
+            difficultySelectButton.text = "Easy";
+        }
+    }
+
     public void DestroyGameManager()
     {
         if (GameManager.instance != null)
         {
             GameManager.instance.DestoryGameManager();
+        }
+    }
+
+    public void IncreaseFontSize()
+    {
+        highScoreSplashText.fontSize += 1;
+
+        if (highScoreSplashText.fontSize >= 25)
+        {
+            isFontSizeIncreasing = false;
+        }
+    }
+
+    public void DecreaseFontSize()
+    {
+        highScoreSplashText.fontSize -= 1;
+
+        if (highScoreSplashText.fontSize <= 15)
+        {
+            isFontSizeIncreasing = true;
+        }
+    }
+
+    private IEnumerator WaitToReleaseButton()
+    {
+        yield return new WaitForSeconds(0.2f);
+
+        PlayButtonReleasedSound();
+    }
+
+    private IEnumerator WaitToGoBackToMainMenu()
+    {
+        yield return new WaitForEndOfFrame();
+
+        NowGoBackToMainMenu();
+    }
+
+    private IEnumerator AnimateFontSize()
+    {
+        yield return new WaitForSeconds(.09f);
+
+        if (isFontSizeIncreasing)
+        {
+            IncreaseFontSize();
+        }
+        else
+        {
+            DecreaseFontSize();
+        }
+
+        if (startScreenBackground.activeInHierarchy == true)
+        {
+            StartCoroutine(AnimateFontSize());
         }
     }
 }

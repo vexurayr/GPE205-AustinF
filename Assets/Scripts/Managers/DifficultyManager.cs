@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DifficultyManager : MonoBehaviour, IDataPersistence
+public class DifficultyManager : MonoBehaviour
 {
     public static DifficultyManager instance { get; private set; }
 
@@ -10,21 +10,21 @@ public class DifficultyManager : MonoBehaviour, IDataPersistence
     [Range(0.1f, 2f)] public float easyMultiplier;
     [Range(0.1f, 2f)] public float normalMultiplier;
     [Range(0.1f, 2f)] public float hardMultiplier;
-    [SerializeField] private int currentDifficulty;
+    private int currentDifficulty;
 
     // Values that will be used when each AI tank is instantiated
-    [SerializeField] private float currentAIMaxHealth;
-    [SerializeField] private float currentAIShotsPerSecond;
-    [SerializeField] private int currentPointsGiven;
+    private float currentAIMaxHealth;
+    private float currentAIShotsPerSecond;
+    private int currentPointsGiven;
 
     // Waves track the number of times new AI spawn, every 2 waves is a bump in AI stats
     [Range(0.1f, 10f)] public float waveAIMaxHealthInc;
     [Range(0.1f, 1f)] public float waveAIShotsPerSecondInc;
     [Range(1, 5)] public int wavePointInc;
-    [SerializeField] private float waveAIMaxHealth;
-    [SerializeField] private float waveAIShotsPerSecond;
-    [SerializeField] private int wavePoint;
-    [SerializeField] private int wave;
+    private float waveAIMaxHealth;
+    private float waveAIShotsPerSecond;
+    private int wavePoint;
+    private int wave;
 
     private void Awake()
     {
@@ -46,25 +46,10 @@ public class DifficultyManager : MonoBehaviour, IDataPersistence
         waveAIMaxHealth = 0f;
         waveAIShotsPerSecond = 0f;
         wavePoint = 0;
-        wave = 0;
+        wave = 1;
         currentAIMaxHealth = 0f;
         currentAIShotsPerSecond = 0f;
         currentPointsGiven = 0;
-    }
-
-    public void SetAIToEasy()
-    {
-        currentDifficulty = 1;
-    }
-
-    public void SetAIToNormal()
-    {
-        currentDifficulty = 2;
-    }
-
-    public void SetAIToHard()
-    {
-        currentDifficulty = 3;
     }
 
     public void CheckForDifficultyBump()
@@ -72,7 +57,7 @@ public class DifficultyManager : MonoBehaviour, IDataPersistence
         wave++;
 
         // Wave is an even number: 2, 4, 6, 8
-        if (wave % 2 == 0 && wave != 0)
+        if (wave % 2 == 0)
         {
             IncreaseDifficulty();
         }
@@ -90,6 +75,8 @@ public class DifficultyManager : MonoBehaviour, IDataPersistence
         currentAIMaxHealth = maxHealth;
         currentAIShotsPerSecond = shotsPerSecond;
         currentPointsGiven = pointsGiven;
+
+        currentDifficulty = SettingsManager.instance.GetCurrentDifficulty();
 
         switch (currentDifficulty)
         {
@@ -134,19 +121,9 @@ public class DifficultyManager : MonoBehaviour, IDataPersistence
         waveAIMaxHealth = 0f;
         waveAIShotsPerSecond = 0f;
         wavePoint = 0;
-        wave = 0;
+        wave = 1;
         currentAIMaxHealth = 0f;
         currentAIShotsPerSecond = 0f;
         currentPointsGiven = 0;
-    }
-
-    public void LoadData(GameData data)
-    {
-        this.currentDifficulty = data.currentDifficulty;
-    }
-
-    public void SaveData(GameData data)
-    {
-        data.currentDifficulty = this.currentDifficulty;
     }
 }

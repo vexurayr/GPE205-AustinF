@@ -9,6 +9,7 @@ public class SettingsManager : MonoBehaviour, IDataPersistence
 
     public bool isGameOnePlayer;
     public bool isDailyMapSelected;
+    public int currentDifficulty;
     public float masterVolumeLevel;
     public float musicVolumeLevel;
     public float sFXVolumeLevel;
@@ -51,6 +52,26 @@ public class SettingsManager : MonoBehaviour, IDataPersistence
     public bool GetIsGameOnePlayer()
     {
         return isGameOnePlayer;
+    }
+
+    public void SetAIToEasy()
+    {
+        currentDifficulty = 1;
+    }
+
+    public void SetAIToNormal()
+    {
+        currentDifficulty = 2;
+    }
+
+    public void SetAIToHard()
+    {
+        currentDifficulty = 3;
+    }
+
+    public int GetCurrentDifficulty()
+    {
+        return currentDifficulty;
     }
 
     // Allows these functions to work with both versions of the sliders
@@ -135,6 +156,7 @@ public class SettingsManager : MonoBehaviour, IDataPersistence
     {
         this.isGameOnePlayer = data.isGameOnePlayer;
         this.isDailyMapSelected = data.isDailyMapSelected;
+        this.currentDifficulty = data.currentDifficulty;
         this.masterVolumeLevel = data.masterVolumeLevel;
         this.musicVolumeLevel = data.musicVolumeLevel;
         this.sFXVolumeLevel = data.sFXVolumeLevel;
@@ -147,6 +169,7 @@ public class SettingsManager : MonoBehaviour, IDataPersistence
     {
         data.isGameOnePlayer = this.isGameOnePlayer;
         data.isDailyMapSelected = this.isDailyMapSelected;
+        data.currentDifficulty = this.currentDifficulty;
         data.masterVolumeLevel = this.masterVolumeLevel;
         data.musicVolumeLevel = this.musicVolumeLevel;
         data.sFXVolumeLevel = this.sFXVolumeLevel;

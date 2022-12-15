@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 9873fbde6fe03504a9da2612241c5d71, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.34595454, g: 0.5081604, b: 0.6467421, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -669,11 +669,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3989865550411695110, guid: 8af61a209ad88284790f2ea23ba31837, type: 3}
       propertyPath: mapRows
-      value: 2
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3989865550411695110, guid: 8af61a209ad88284790f2ea23ba31837, type: 3}
       propertyPath: mapColumns
-      value: 2
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3989865550411695110, guid: 8af61a209ad88284790f2ea23ba31837, type: 3}
       propertyPath: isUsingDailySeed
@@ -1039,7 +1039,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1969198719701753014, guid: ca7707da22283104c8e111a020a26aff, type: 3}
       propertyPath: fileName
-      value: GPE205_SaveData
+      value: GPE205_SaveData.txt
       objectReference: {fileID: 0}
     - target: {fileID: 5406813617158365597, guid: ca7707da22283104c8e111a020a26aff, type: 3}
       propertyPath: m_Name
@@ -1122,6 +1122,14 @@ PrefabInstance:
     - target: {fileID: 4413511105039017903, guid: e39c3b43f7ad80a48b69a87db7370887, type: 3}
       propertyPath: m_Name
       value: GameManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 4413511105039017904, guid: e39c3b43f7ad80a48b69a87db7370887, type: 3}
+      propertyPath: maxAISpawned
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4413511105039017904, guid: e39c3b43f7ad80a48b69a87db7370887, type: 3}
+      propertyPath: maxPickupsSpawned
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 4413511105039017905, guid: e39c3b43f7ad80a48b69a87db7370887, type: 3}
       propertyPath: m_RootOrder

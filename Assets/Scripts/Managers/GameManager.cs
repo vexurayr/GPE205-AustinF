@@ -110,7 +110,17 @@ public class GameManager : MonoBehaviour
 
         DifficultyManager.instance.ResetVariables();
         ScoreManager.instance.ResetCurrentScore();
-        LivesManager.instance.ResetLives();
+        if (SettingsManager.instance.GetIsGameOnePlayer())
+        {
+            // Set player's lives to 3
+            LivesManager.instance.SetStartingLivesTo3();
+        }
+        else
+        {
+            // Set player's lives to 1
+            LivesManager.instance.SetStartingLivesTo1();
+        }
+
         SpawnEverythingByPlayerCount();
     }
 
@@ -177,11 +187,31 @@ public class GameManager : MonoBehaviour
         // Sets the controller's pawn variable to the player
         newController.pawn = newPawn;
 
-        // Give player one full screen if they are the only one playing
         if (SettingsManager.instance.GetIsGameOnePlayer())
         {
+            // Give player the full screen
             Rect rect = new (0, 0, 1, 1);
             newPawn.camera.rect = rect;
+
+            // Show points UI
+            newPawn.GetComponent<UIManager>().score.gameObject.SetActive(true);
+
+            // Show lives UI
+            if (LivesManager.instance.lives == 1)
+            {
+                newPawn.GetComponent<UIManager>().ductTape1.gameObject.SetActive(true);
+            }
+            else if (LivesManager.instance.lives == 2)
+            {
+                newPawn.GetComponent<UIManager>().ductTape1.gameObject.SetActive(true);
+                newPawn.GetComponent<UIManager>().ductTape2.gameObject.SetActive(true);
+            }
+            else if (LivesManager.instance.lives == 3)
+            {
+                newPawn.GetComponent<UIManager>().ductTape1.gameObject.SetActive(true);
+                newPawn.GetComponent<UIManager>().ductTape2.gameObject.SetActive(true);
+                newPawn.GetComponent<UIManager>().ductTape3.gameObject.SetActive(true);
+            }
         }
     }
 

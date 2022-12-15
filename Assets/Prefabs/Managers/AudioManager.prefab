@@ -101,7 +101,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: 5a23fbbef6d0b00428360d89e3447124, type: 3}
     audioName: AI Tank Idle
-    isAudioMuted: 0
+    isAudioMuted: 1
     volume: 20
     pitch: 1
     spacialBlend: 1
@@ -173,7 +173,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: 5a23fbbef6d0b00428360d89e3447124, type: 3}
     audioName: AI Tank Idle High
-    isAudioMuted: 0
+    isAudioMuted: 1
     volume: 20
     pitch: 1.5
     spacialBlend: 1

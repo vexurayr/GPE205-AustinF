@@ -35,6 +35,9 @@ public abstract class Pawn : MonoBehaviour
     // For disabling controls if the game is paused
     protected bool isGamePaused = false;
 
+    // Particles
+    public GameObject explosion;
+
     // Start is called before the first frame update
     // Virtual means child classes can override this method
     // Protected keyword is necessary because no access keyword defaults to private
@@ -149,7 +152,7 @@ public abstract class Pawn : MonoBehaviour
         {
             return;
         }
-
+        
         if (timeUntilNextEvent <= 0)
         {
             // Calls a function in Shooter using the reference in Pawn and gives the data saved in Pawn

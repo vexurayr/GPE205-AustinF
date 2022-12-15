@@ -32,13 +32,34 @@ public class UIManager : MonoBehaviour
     // Points from destroying tanks and buildings increases the score
     [SerializeField] public Text score;
 
+    // For AI UI
+    public AITankPawn aIPawn;
+    public Canvas aICanvas;
+    public Image aIHealth;
+
     private float startMaxHealth;
     private float startHealthWidth;
 
     public void Start()
     {
-        startMaxHealth = pawn.GetComponent<Health>().maxHealth;
-        startHealthWidth = health.rectTransform.rect.width;
+        if (aIPawn != null)
+        {
+            startMaxHealth = aIPawn.GetComponent<AIHealth>().maxHealth;
+            startHealthWidth = aIHealth.rectTransform.rect.width;
+        }
+        else if (pawn != null)
+        {
+            startMaxHealth = pawn.GetComponent<Health>().maxHealth;
+            startHealthWidth = health.rectTransform.rect.width;
+        }
+    }
+
+    public void Update()
+    {
+        if (aIPawn != null && GameManager.instance.players.Count > 0)
+        {
+            MakeAICanvasFacePlayerCamera();
+        }
     }
 
     public void UpdateHealthUI()
@@ -137,5 +158,32 @@ public class UIManager : MonoBehaviour
             ductTape2.enabled = true;
             ductTape3.enabled = true;
         }
+    }
+
+    // Only for AI tanks, health bar will not change size when max health increases
+    public void UpdateAIHealthUI()
+    {
+        // Bail if there is no health component
+        if (aIPawn.GetComponent<AIHealth>() == null)
+        {
+            return;
+        }
+
+        float currentHealth = aIPawn.GetComponent<AIHealth>().GetHealth();
+        float maxHealth = aIPawn.GetComponent<AIHealth>().maxHealth;
+
+        // Calculate the scale of the health bar
+        float healthScaleX = currentHealth / maxHealth;
+
+        // Set health bar scale
+        aIHealth.GetComponent<RectTransform>().localScale = new Vector3(healthScaleX, 1, 1);
+    }
+
+    public void MakeAICanvasFacePlayerCamera()
+    {
+        aICanvas.transform.rotation = new Quaternion(GameManager.instance.players[0].pawn.camera.transform.rotation.x,
+            GameManager.instance.players[0].pawn.camera.transform.rotation.y,
+            GameManager.instance.players[0].pawn.camera.transform.rotation.z,
+            GameManager.instance.players[0].pawn.camera.transform.rotation.w);
     }
 }

@@ -47,14 +47,6 @@ MonoBehaviour:
   easyMultiplier: 0.5
   normalMultiplier: 1
   hardMultiplier: 1.5
-  currentDifficulty: 0
-  currentAIMaxHealth: 0
-  currentAIShotsPerSecond: 0
-  currentPointsGiven: 0
-  waveAIMaxHealthInc: 4
-  waveAIShotsPerSecondInc: 0.1
-  wavePointInc: 2
-  waveAIMaxHealth: 0
-  waveAIShotsPerSecond: 0
-  wavePoint: 0
-  wave: 0
+  waveAIMaxHealthInc: 5
+  waveAIShotsPerSecondInc: 0.2
+  wavePointInc: 4

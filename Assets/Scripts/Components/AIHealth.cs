@@ -12,6 +12,60 @@ public class AIHealth : Health
         base.Start();
     }
 
+    public override void Heal(float amount)
+    {
+        currentHealth = currentHealth + amount;
+
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+
+        if (gameObject.GetComponent<UIManager>() != null)
+        {
+            gameObject.GetComponent<UIManager>().UpdateAIHealthUI();
+        }
+    }
+
+    public override void IncreaseMaxHealth(float amount)
+    {
+        maxHealth = maxHealth + amount;
+
+        if (gameObject.GetComponent<UIManager>() != null)
+        {
+            gameObject.GetComponent<UIManager>().UpdateAIHealthUI();
+        }
+    }
+
+    public override void TakeDamage(float amount, Pawn source)
+    {
+        currentHealth = currentHealth - amount;
+
+        // Makes sure first value stays somewhere between the second and third value
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        //Debug.Log(source.name + " did " + amount + " damage to " + gameObject.name);
+
+        if (gameObject.GetComponent<UIManager>() != null)
+        {
+            gameObject.GetComponent<UIManager>().UpdateAIHealthUI();
+        }
+
+        if (currentHealth <= 0)
+        {
+            // Gives points to the player that dealt this object the final blow
+            foreach (PlayerController controller in ScoreManager.instance.players)
+            {
+                if (controller.pawn == source && gameObject.GetComponent<PointGiver>() != null)
+                {
+                    controller.pawn.AddPoints(gameObject.GetComponent<PointGiver>().pointsOnDeath);
+
+                    controller.pawn.GetComponent<UIManager>().UpdateScoreUI();
+
+                    ScoreManager.instance.UpdateCurrentScore();
+                }
+            }
+
+            Die();
+        }
+    }
+
     public override void Die()
     {
         if (gameObject.GetComponent<AITankPawn>() != null)

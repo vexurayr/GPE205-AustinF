@@ -22,6 +22,7 @@ public class GameData
     // From Settings Manager
     public bool isGameOnePlayer;
     public bool isDailyMapSelected;
+    public int currentDifficulty;
     public float masterVolumeLevel;
     public float musicVolumeLevel;
     public float sFXVolumeLevel;
@@ -29,21 +30,18 @@ public class GameData
     public float musicSliderValue;
     public float sFXSliderValue;
 
-    // From Difficulty Manager
-    public int currentDifficulty;
-
     // The values in the constructor are the default values assigned on creating a new game with no previous data
     public GameData()
     {
         this.highScore = 0;
         this.isGameOnePlayer = true;
         this.isDailyMapSelected = false;
+        this.currentDifficulty = 2;
         this.masterVolumeLevel = 0f;
         this.musicVolumeLevel = 0f;
         this.sFXVolumeLevel = 0f;
         this.masterSliderValue = 1f;
         this.musicSliderValue = 1f;
         this.sFXSliderValue = 1f;
-        this.currentDifficulty = 2;
     }
 }
